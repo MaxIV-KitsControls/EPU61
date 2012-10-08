@@ -1,0 +1,1765 @@
+'************************************************************************
+'*												*
+'*				  Microcode generique V2.4				*
+'*												*
+'************************************************************************
+'*	Microcode Generique :		Version :	2.4.0.1			*
+'*						Date :	12-11-2010			*
+'*						Auteur :	Benjamin Gombert		*
+'*		Dernieres modifications :						*
+'*		=======================							*
+'* 2.4.0.1	- Ajout du forcage de la vitesse mini a 32cnt/s (SpMini)	*
+'*		  sur les commandes de Jog (Forward - Backward).		*
+'* 2.4.0.0	- Ajout du support de la property AxisInitSpeed via		*
+'*		  IniSpeed[] pour definir la vitesse de prise d'origine.	*
+'* 2.3.0.7	- Modification de la syntaxe de la routine #LIMSWI,		*
+'*		  reduction du nombre de IF empiles.				*
+'* 2.3.0.6	- Correction des lenteurs microcode lorsqu'une erreur de	*
+'*		  poursuite est excessive sur un servomoteur (cf. #POSERR).	*
+'* 2.3.0.5	- Ajout de la fonctionnalite "Correction de l'erreur		*
+'*		  statique de position des moteurs pas-a-pas".			*
+'* 2.3.0.4	- Ajout de la fonctionnalite "Commande Groupee"			*
+'*		- Autorisation de la commande Stop meme si le mouvement est	*
+'*		  interdit au Device (Stat[]_bit6).					*
+'* 2.3.0.3	- Ajout de la fonction SettlingTime : remplacement de la	*
+'*		  variable TempStab par le tableau StabTime[].			*
+'*		- Amelioration des arrondis sur les DefinePosition et		*
+'*		  consignes de Position (ajout de @RND).				*
+'* 2.3.0.2	- Modification de la routine #POSCHK et de la tache #PECORR	*
+'*		  pour eviter qu'un positionnement stoppe a bas niveau 	*
+'*		  (terminal) ne soit relance.						*
+'*		- Modification de la commande de STOP pour stopper une	*
+'*		  eventuelle correction d'erreur de poursuite.			*
+'* 2.3.0.1	- Modification de la routine #CMDERR pour le traiter les	*
+'*		  erreurs des threads specifiques (amelioration de		*
+'*		  l'integration des microcodes specifiques).			*
+'*		- Utilisation de la variable "LastAxis" pour pointer les	*
+'*		  axes mis en mouvement par les threads specifiques.		*
+'* 2.3.0.0	- Ajout de la possibilite de stopper les moteurs en erreur	*
+'*		  de poursuite dans le mode Maintenance position sans faire	*
+'*		  de correction (conditionne par le bit CpMp[]_bit4).		*
+'*		- Ajout de la redefinition de position en debut de JOG pour	*
+'*		  les steppers avec codeur.						*
+'*		- Desactivation de la fonction "Maintenance position" en	*
+'*		  mode Remote.								*
+'* 2.2.0.9	- Modification de la routine CMDERR pour interdire l'acti-	*
+'*		  vation du mode gearing sur un axe qui est OFF ou en butee	*
+'* 2.2.0.8	- Correction de la sauvegarde de la vitesse en mode gearing	*
+'*		  pour des mises a jour repetees sur un meme axe esclave	*
+'*		  (bug Mantis 6984)							*
+'* 2.2.0.7	- Definition de Jogs nulls sur les axes esclaves et		*
+'*		  restauration de la vitesse apres mise hors synchro		*
+'*		  (bug Mantis 6413)							*
+'* 2.2.0.6	- Mise a jour des bits maitre (Stat[]_bit15) et esclave	*
+'*		  (Stat[]_bit14) apres avoir rencontre une butee		*
+'*		- Suppression des commentaires sur les lignes de Label	*
+'*		- Ajout des declarations de variables non initialisees	*
+'*		  (nbBl, nbFl, nbFh et nbFi)						*
+'* 2.2.0.5	- Correction des tests de backlash Bck[]				*
+'*		- Ajout des attributs Percent[] et NbRetry[], modification	*
+'*		  du comptage du nombre de reessais par reessais divergents	*
+'*		  (bug Mantis 4489)							*
+'*		- Modification des bits de CpMp[] (Remote & Maintenance)	*
+'*		- Correction de l'etat "Moving" des axes lors du reset Cbox	*
+'*		  et lors de la sortie du mode slit (bug Mantis 4455)		*
+'*		- Redefinition de la position moteur en fonction du codeur	*
+'*		  pour un Stepper avec Codeur avant un positionnement		*
+'************************************************************************
+'*	Microcode Specifique :		Version :	-				*
+'*						Date :	-				*
+'*						Auteur :	-				*
+'**************************** Commentaires ******************************
+'* -les variables de type "~x" sont des pointeurs d'axe			*
+'*  "~x" peut prendre les valeurs 0 a 7 pour designer les axes A a H	*
+'*	~a - pointeur d'axe de la boucle principale				*
+'*	~b - pointeur d'axe de la tache de prise d'origine			*
+'*	~c - pointeur d'axe de la routine automatique #POSERR			*
+'*	~d - pointeur d'axe de la routine automatique #LIMSWI			*
+'*	~e - pointeur d'axe de la tache de correction d'erreur		*
+'*	~f - pointeur d'axe de la routine de commande groupee			*
+'*	~g - disponnible									*
+'*	~h - disponnible									*
+'* -les variables de type "iXX" sont des pointeurs de tableaux		*
+'******************************* Taches *********************************
+'* 0- Tache principale executee automatiquement a la mise sous tension	*
+'* 1- Tache dediee aux prises d'origines						*
+'* 2- Tache dediee a la correction d'erreur de position			*
+'* 3- Tache reservee au microcode generique					*
+'* 4- Tache reservee aux microcodes specifiques					*
+'* 5- Tache reservee aux microcodes specifiques					*
+'* 6- Tache reservee aux microcodes specifiques					*
+'* 7- Tache reservee aux microcodes specifiques					*
+'************************************************************************
+'
+#AUTO
+'
+'XQ#COLLDET,4;' Start Collision Detection thread
+'
+
+
+McRevGen=$02040001;'	Version Microcode Generique
+'
+McRevSpe=$00000000;'	Version Microcode Specifique
+'
+DA*[];'		Desallocation des tableaux en memoire
+'			Declaration des tableaux :
+DM Stat[8];'	Etat de l'axe
+DM Cmd[8];'		Commande a executer
+DM IniTyp[8];'	Type d'initialisation
+DM IniPos[8];'	Valeur de la position initialisee
+DM IniSpeed[8];'	Valeur de la vitesse d'initialisation
+DM Pos[16];'	Position a atteindre
+'			(0  a 7  : Position a atteindre			)
+'			(8  a 15 : Derniere erreur de positionnement	)
+DM Dbw[8];'		Dead BandWidth = precision du positionnement
+DM Bck[8];'		Backlash
+DM PosStat[16];'	(0  a 7  : Etat du positionnement				)
+'			(8  a 15 : Prise d'origine sur une butee en cours	)
+DM NbRetry[24];'	Compteur nombre reessais de positionnement
+'			(0  a 7  : reessais Statiques )
+'			(8  a 15 : reessais Dynamiques)
+'			(16 a 23 : reessais Statiques )
+DM Percent[8];'	Coefficient de positionnement par approches successives
+DM StabTime[16];'	Parametres d'attende de stabilisation du positionnement
+'			(0  a 7  : Duree de stabilisation en ms )
+'			(8  a 15 : Timer de stabilisation)
+DM SpBackup[24];'	Vitesses memorisees
+'			(0  a 7  : correction d'erreur de position et mode Gearing	)
+'			(8  a 15 : vitesse en mode JOG					)
+'			(16 a 23 : vitesse en mode REMOTE					)
+DM GrAxis[8];'	Axe maitre en mode gearing
+DM GrRatio[8];'	Ratio maitre/esclave en mode gearing
+DM GrTemp[24];'	Variable de traitement du mode Gearing
+'			(0  a 7  : Variable temporaire de traitement du mode Gearing)
+'			(8  a 15 : Axe maitre actif						)
+'			(16 a 23 : Gear ratio applique					)
+DM CpMp[16];'	Presence Codeur et Maintenance de la Position
+'			(0 a 7  : Valeurs actuelles de CpMp[])
+'			(8 a 15 : Anciennes valeurs de CpMp[])
+DM EnRem[16];'	Enable Remote
+'			(0 a 7  : Activation/Desactivation du mode Remote)
+'			(8 a 15 : Etat des axes en remote (ON/OFF)	 )
+DM GrpAx[4];'	Pointeur d'axes pour commande groupee (ASCII)
+'
+' Constantes de parametrage du fonctionnement :
+SpMini=32;'		Vitesse de rotation minimum
+DcLimSwi=1024000;'Deceleration minimum lors de l'activation d'une butee
+GrpCmd=0;'		Commande groupee : pas de commande en cours
+GrpAxes=0;'		Pointeur d'axes pour commande groupee (8 bits)
+OldGrpAx=-1;'	Valeur memorisee du pointeur d'axes pour commande groupee
+nbAxes=4;'		Parametrage du nombre d'axe dun controleur (1 a 8)
+Debug=0;'		Mode DEBUG desactive par defaut
+
+'##############################################################################
+'#########################START EPU61 MODIFICATION#############################
+'##############################################################################
+
+'#### Global configuration #####
+DM Offsets[4]		;' Calibration offsets for each undulator motor on the DMC.
+SegLimit = 8000000 	;' Constant representing the maximum segment size for linear interpolation segments, themselves limited to 2^23.
+
+
+'#### Flags #####
+IlockAct = 0	;' Flag indicating whether interlock condition has been activated. 
+				;' Further motion is to be prohibited on all axes until the condition is cleared.
+StopRq = 0 	 	;' Flag indicating whether “Stop All” was requested from the user.
+				;' Further motion is to be prohibited on all axes until the flag is cleared.
+AlwMvmt = 1  	;' Flag specifying whether movement is allowed on any axis. 
+				;' It is affected by “Stop All” and interlock conditions.
+
+'#### Gap Movement Configuration #####
+EncRatio = 0.196618168	;' Conversion ratio between rotary and linear encoders. 
+						;' EncRatio=RotEncoderCts/LinEncoderCts
+GapThold=10 			;' Threshold in counts over which gap movement is initiated.
+TprThold=5				;' Threshold in counts over which a procedure to eliminate taper before gap positioning is invoked.
+GapSpd = 1000  			;' Taper movement speed in counts per second. 
+						;' Available as parameter attribute on Tango level.
+GapAcc = 1024 			;' Gap acceleration in counts per second square. 
+						;' Available as parameter attribute on Tango level.
+TprSpd = 100 			;' Taper movement speed in counts per second. 
+						;' Available as parameter attribute on Tango level.					
+TprAcc = 1024 			;' Taper movement acceleration in counts per second square. 
+						;' Available as parameter attribute on Tango level.
+GapToler = 50 			;' Tolerance in counts for gap compensation routine. 
+						;' The routine uses the linear encoder feedback to correct errors 
+						;' in the position loops closed with the rotary encoders. 
+
+'#### Gap Movement Variables #####
+GapOfst = 0		;' Desired center offset for Gap movement. In counts.
+Gap = 0			;' Desired gap for Gap movement. In counts.
+Taper = 0		;' Desired taper for Gap movement. In counts.
+GapOfstPr = 0 	;' Current center offset. Used as temporary variable in Gap movement.
+DM GapTmp[4] 	;' Incremental movement needed for achieving new Gap position. 
+				;' Used as temporary variable in Gap movement.
+
+XQ#STATETH,4 ;' Start state checking thread
+
+'##############################################################################
+'###########################END EPU61 MODIFICATION#############################
+'##############################################################################
+
+JS#INIT;'		Appel de la routine d'initialisation
+JS#INITSPE;'	Appel de la routine d'init des variables specifiques
+i=0;i8=8;i16=16;iBit=1;~a=0;'			Initialisation pointeurs d'axes
+iPom=0;iPom8=8;iRem=0;iPE=0;iPE8=8;'	Initialisation des differents index
+'
+'============================== Boucle principale =============================
+#MLOOP
+'
+	JS#CPMP,(CpMp[i]<>CpMp[i8]);'		Si CpMp modifie, appel de la routine CpMp
+'	JS#SPE_SEQ;'				Appel sequentiel de la routine specifique
+	JS#GRP_CMD,GrpCmd>0;'			Appel de la routine d'execution des commandes groupees
+	JS#CMD,Cmd[i]<>0;'			Appel de la routine d'execution des commandes
+	JS#POSCHK,(PosStat[i]>0)&(_BG~a=0);'Si positionnement termine, controle
+	JS#MOVCHK,(_SC~a=0)&(Stat[i]&$200C=4);'Controle de l'erreur de poursuite (SPM)
+	JS#REMOTE,(CpMp[i]&$8>0);'		Si mode Remote autorise, execution de la routine
+          i=i+1;i8=i8+1;i16=i16+1;iBit=iBit*2;~a=i;'Increment pointeurs d'axes
+'
+JP#MLOOP,i<nbAxes
+i=0;i8=8;i16=16;iBit=1;~a=0;'		Reinitialisation des variables de boucle
+'
+JP#MLOOP
+EN
+'============================ Fin Boucle principale ===========================
+'
+'===== Initialisation des variables =====
+#INIT
+i=0;i8=8;i16=16;~a=0;'		Initialisation pointeur de tableau et pointeur d'axe
+#ILOOP
+'
+'*** Parametres microcode ***
+Pos[i]=0;'			Position a atteindre
+Pos[i8]=$7FFFFFFF;'	Derniere erreur de positionnement
+Dbw[i]=10;'			Dead BandWidth = precision du positionnement
+Bck[i]=0;'			Backlash nul par defaut
+PosStat[i]=0;'		Pas de mouvement en cours au demarrage
+PosStat[i8]=0;'		Pas de Prise d'origine sur une butee en cours
+NbRetry[i]=5;'		Nombre de reessais maximum de positionnement
+NbRetry[i8]=0;'		Compteur nombre reessais de positionnement (Dynamique)
+NbRetry[i16]=0;'		Compteur nombre reessais de positionnement (Statique)
+Percent[i]=1;'		Coefficient de positionnement par approches successives
+StabTime[i]=100;'		Valeur de l'attente de stabilisation du positionnement (ms)
+SpBackup[i]=_SP~a;'	Vitesse memorisee pour correction d'erreur de position
+SpBackup[i8]=0;'		Parametre memorise du mode jog
+SpBackup[i16]=_SP~a;'	Vitesse memorise pour mode remote
+Stat[i]=$E0;'		Etat par defaut :
+'				OnOff_autorise_au_device = 1		($20)
+'				Mouvement_autorise_au_device = 1	($40)
+'				Positionnement_termine = 1		($80)
+Cmd[i]=0;'			Commandes : pas de commande en cours
+IniTyp[i]=0;'		Prise de ref par defaut, faite sur Define Position DP
+IniPos[i]=0;'		Valeur de la position utilisee lors de la prise de ref
+GrAxis[i]=-1;'          Pas d'axe maitre en mode gearing au demarrage
+GrRatio[i]=0;'          Ratio maitre/esclave en mode gearing nul
+GrTemp[i8]=-1;'		Pas d'axe actif en mode gearing au demarrage
+GrTemp[i16]=0;'		Gear ratio nul au demarrage
+EnRem[i]=1;'		Mote remote autorise par le Microcode
+'
+Stat[i]=(Stat[i]&@COM[$1])|(@ABS[_MT~a]=1);' MaJ du type de moteur dans Stat
+CpMp[i]=0;' 		CpMp : pas de codeur, pas de maintenance position, pas de remote
+CpMp[i8]=-1;' 		Forcage de la mise a jour des parametres associes a CpMp
+'
+i=i+1;i8=i8+1;i16=i16+1;~a=i;'	Increment pointeur de tableau et pointeur d'axe
+JP#ILOOP,(i<nbAxes)
+EN
+'
+'===== Execution des commandes =====
+#CMD
+IF((Cmd[i]&1)<>0);JS#CMDST;'								Stop
+ELSE;IF((Cmd[i]&2)<>0);JgDir= 1;JS#CMDJG,(Stat[i]&$40)<>0;'			Jog +
+ELSE;IF((Cmd[i]&4)<>0);JgDir=-1;JS#CMDJG,(Stat[i]&$40)<>0;'			Jog -
+ELSE;IF((Cmd[i]&$108)<>0);JS#CMDPOS,(Stat[i]&$40)<>0;'			Positionnement
+ELSE;IF((Cmd[i]&$10)<>0);JS#CMDPOM,(Stat[i]&$40)<>0;'				Prise d'Origine Axe
+ELSE;IF(((Cmd[i]&$20)<>0)&((Stat[i]&$20)<>0));SH~a;'				Motor On
+ELSE;IF(((Cmd[i]&$40)<>0)&((Stat[i]&$20)<>0));MO~a;'				Motor Off
+ELSE;IF((Cmd[i]&$80)<>0);JS#CMDGEAR;'						Mise a jour Gearing
+ENDIF;ENDIF;ENDIF;ENDIF;ENDIF;ENDIF;ENDIF;ENDIF
+Cmd[i]=0;'											Commande traitee
+EN
+'
+'=========== Commande Stop ===========
+#CMDST
+IF((_XQ1>=0)&(i=iPom));'		Si la tache de prise de ref est executee,
+	HX1;'						Arret de la tache de prise de ref
+	Stat[i]=((Stat[i]|$880)&@COM[$300])
+'							MAJ bit Positionnement_termine = 1	($80)
+'							MAJ bit Pos_termine_sur_erreur = 0	($100)
+'							MAJ bit Prise_Ref_en_cours = 0	($200)
+'							MAJ bit Echec_Prise_Ref = 1		($800)
+	PosStat[i8]=0;'				Pas de Prise d'origine sur butee en cours
+ENDIF
+IF(_XQ2>=0);'				Si la tache de correction d'erreur est executee,
+	Stat[i]=Stat[i]&@COM[$1000];'		MAJ bit Attente_de_correction = 0	($1000)
+	IF(i=iCO);'					Si l'axe est en cours de correction,
+		HX2;'						Arret de la correction,
+		XQ#CORCHK,2;'				Controle des autres axes en erreur de correction,
+	ENDIF
+	NbRetry[i8]=NbRetry[i];'		Arret des reessais dynamiques
+	SP~a=spSave;'				Restauration de la vitesse avant correction
+ENDIF
+ST~a;'					Arret de l'axe
+SpBackup[i8]=0;'				Mode JOG off
+PosStat[i]=0;'				Pas de positionnement en cours
+Stat[i]=(Stat[i]|$80)&@COM[$21100];'MAJ bit Positionnement_termine = 1	($80)
+'						MAJ bit Pos_termine_sur_erreur = 0	($100)
+'						MAJ bit Attente_de_correction = 0	($1000)
+'						MAJ bit Mode_lock_position_actif =0	($20000)
+EN
+'
+'============ Commande Jog ============
+#CMDJG
+IF((@ABS[_MT~a]<>1)&(Stat[i]&$2>0));'	Si STEPPER avec CODEUR,
+	DP~a=@RND[(_TP~a/_YC~a)*_YA~a*_YB~a];'	Definition position moteur selon codeur
+ENDIF
+IF(_SP~a<SpMini);SP~a=SpMini;ENDIF;'Verification des vitesses trop faibles
+SpBackup[i8]=JgDir*_SP~a;'		Definition de la vitesse signee du Jog
+JG~a=SpBackup[i8];'			Commande du mouvement
+Stat[i]=(Stat[i]&@COM[$22180]);'	MAJ bit Positionnement_termine = 0	($80)
+'						MAJ bit Pos_termine_sur_erreur = 0	($100)
+'						MAJ bit Erreur_de_poursuite = 0	($2000)
+'						MAJ bit Mode_lock_position_actif =0	($20000)
+NbRetry[i8]=0;'				Initialisation du nombre de reessais dynamiques
+BG~a;'					Execution du mouvement
+EN
+'
+'===== Commande de positionnement =====
+#CMDPOS
+IF((@ABS[_MT~a]<>1)&(Stat[i]&$2>0));'	Si STEPPER avec CODEUR,
+	DP~a=@RND[(_TP~a/_YC~a)*_YA~a*_YB~a];'	Definition position moteur selon codeur
+ENDIF
+ActualPa=_PA~a;'				Recuperation de la position moteur
+IF(@ABS[Pos[i]-ActualPa]<=Dbw[i]);'	Si position actuelle dans la plage cible
+	Stat[i]=((Stat[i]|$80)&@COM[$2100]);' On ne bouge pas
+'							MAJ bit Positionnement_termine = 1	($80)
+'							MAJ bit Pos_termine_sur_erreur = 0	($100)
+'							MAJ bit Erreur_de_poursuite = 0	($2000)
+ELSE;'					Si position actuelle hors de la plage cible
+	Stat[i]=(Stat[i]&@COM[$2180]);'	MAJ bit Positionnement_termine = 0	($80)
+'							MAJ bit Pos_termine_sur_erreur = 0	($100)
+'							MAJ bit Erreur_de_poursuite = 0	($2000)
+	IF(_SP~a<SpMini);SP~a=SpMini;ENDIF;'Verification des vitesses trop faibles
+	SpBackup[i]=_SP~a;'			Mise en memoire de la vitesse
+	' Gestion du Backlash
+	' Si (Pd-Pa+Bck) est du signe de Bck,
+	IF(((Bck[i]/@ABS[Bck[i]])*(ActualPa-Pos[i]))>0)
+		PosStat[i]=3;'			Declaration: positionnement avec backlash en cours
+		PA~a=(Pos[i]-Bck[i]);BG~a;'	Positionnement avec Backlash 
+	ELSE;'					Si (Pd-Pa+Bck) n'est pas du signe de Bck,
+		PosStat[i]=2;'			Declaration: positionnement sans backlash en cours
+		PA~a=@RND[(@RND[Pos[i]]-ActualPa)*Percent[i]]+ActualPa;BG~a;' Positionnement
+	ENDIF
+	Pos[i8]=$7FFFFFFF;'			Initialisation de la derniere erreur de positionnement
+	NbRetry[i8]=0;'				Initialisation du nombre de reessais dynamiques
+	NbRetry[i16]=0;'				Initialisation nombre de reessais statiques
+	SpBackup[i8]=0;'				Mode JOG off
+ENDIF
+'MAJ bit Mode_lock_position_actif	($20000)
+Stat[i]=(Stat[i]&@COM[$20000])|((Cmd[i]&$100)*$200)'
+
+EN
+'
+'===== Execution de la tache de Prise de Reference =====
+#CMDPOM
+IF(_XQ1<0);'			Si la tache de prise de ref n'est pas executee,
+	iPom=i;iPom8=i+8;~b=i;'	Mise en memoire des pointeurs de l'axe de prise de ref
+	XQ#POM,1;'			Execution de la tache de prise de ref
+ENDIF
+EN
+'
+'======= Tache de Prise d'Origine Axe =======
+#POM
+Stat[iPom]=((Stat[iPom]|$200)&@COM[$22D86])
+'								MAJ bit Presence_Codeur = 0		($2)
+'								MAJ bit Maintenance_Position = 0	($4)
+'								MAJ bit Positionnement_termine = 0	($80)
+'								MAJ bit Pos_termine_sur_erreur = 0	($100)
+'								MAJ bit Prise_Ref_en_cours= 1		($200)
+'								MAJ bit Prise_Ref_Faite = 0		($400)
+'								MAJ bit Echec_Prise_Ref = 0		($800)
+'								MAJ bit Erreur_de_poursuite = 0	($2000)
+'								MAJ bit Mode_lock_position_actif =0	($20000)
+ST~b;AM~b;'							Arret de l'axe
+PosStat[iPom]=0;'						Pas de positionnement en cours
+IF(@ABS[_MT~b]<>1);YS~b=0;ENDIF;'			Desactivation Maintenance Position
+SpBackup[iPom8]=0;'					Mode JOG off
+PosStat[iPom8]=0;'					Init pas de Prise d'origine sur butee en cours
+PomSpBck=_SP~b;'						Memorisation de la vitesse avant prise d'origine
+PomSpeed=_SP~b;'						Memorisation de la vitesse de prise d'origine
+IF(IniSpeed[iPom]>SpMini);PomSpeed=IniSpeed[iPom];ENDIF;'Property AxisInitSpeed
+nbBl=(IniTyp[iPom]&$F000)/$1000;'			Nombre de recherches de la Back Limit
+nbFl=(IniTyp[iPom]&$0F00)/$100;'			Nombre de recherches de la Fwd Limit
+nbFh=(IniTyp[iPom]&$0070)/$10;'			Nombre de recherches du capteur Home
+nbFi=(IniTyp[iPom]&$0007);'				Nombre de recherches de l'Index
+IF((IniTyp[iPom]&$F000)<>0);JS#POMBL;'		Prise d'origine sur Back Limit
+ELSE;IF((IniTyp[iPom]&$0F00)<>0);JS#POMFL;'	Prise d'origine sur Fwd Limit
+ENDIF;ENDIF
+IF((IniTyp[iPom]&$0070)<>0);JS#POMFH;ENDIF;'	Prise d'origine sur Find Home
+IF((IniTyp[iPom]&$0007)<>0);JS#POMFI;ENDIF;'	Prise d'origine sur Find Index
+IF(@ABS[_MT~b]<>1);'					Si moteur STEPPER
+	IF((CpMp[iPom]&1)>0);'					Si codeur INCREMENTAL
+		DP~b=IniPos[iPom];'					Init Position Principale
+		DE~b=@RND[(IniPos[iPom]/(_YA~b*_YB~b))*_YC~b];'	Init Position Auxiliaire
+	ELSE;IF((CpMp[iPom]&2)>0);'				Si codeur ABSOLU
+		DP~b=@RND[(_TP~b/_YC~b)*_YA~b*_YB~b];'		Init Position Principale
+	ELSE;'							Si PAS de codeur
+		DP~b=IniPos[iPom];'					Init Position Principale
+	ENDIF;ENDIF
+ELSE;'							Si moteur SERVO ou PIEZO
+	DP~b=IniPos[iPom];'					Init Position Principale
+	DE~b=0;'							Init Position Auxiliaire
+ENDIF
+Stat[iPom]=((Stat[iPom]&@COM[$206])|$480)|(((CpMp[iPom]&3)>0)*2)|(CpMp[iPom]&4)
+'								MAJ bit Codeur_Present			($2)
+'								MAJ bit Maintenance_Position		($4)
+'								MAJ bit Positionnement_termine = 1	($80)
+'								MAJ bit Prise_Ref_en_cours= 0		($200)
+'								MAJ bit Prise_Ref_Faite = 1		($400)
+CpMp[iPom8]=CpMp[iPom];'				Mise en memoire de CpMp[iPom]
+EN
+'========= Fin Prise d'Origine Axe ==========
+'
+'** POM sur Backward Limit **
+#POMBL
+spBl=_SP~b;'				Mise en memoire de la vitesse
+iBl=0;'					Index de la boucle BL (iterations)
+IF(IniSpeed[iPom]>SpMini);SP~b=IniSpeed[iPom];ENDIF;'		Property AxisInitSpeed
+#BLLOOP
+	PosStat[iPom8]=-1;'			Prise d'origine sur la butee - en cours
+	IF(_SP~b<SpMini);SP~b=SpMini;ENDIF;'Verification des vitesses trop faibles
+	lrStat=_LR~b;'				Mise en memoire de l'etat de la butee
+	IF(_LR~b);JG~b=-_SP~b;BG~b;'		Limite inactive : recherche de la butee
+	ELSE;JG~b=_SP~b;BG~b;ENDIF;'		Limite active : degagement de la butee
+	#BLWAIT;JP#BLWAIT,lrStat=_LR~b;'	Attente du changement d'etat de la butee
+	ST~b;AM~b;'					Arret de l'axe apres front sur la butee
+	PomSpeed=_SP~b;'				Memorisation de la derniere vitesse de prise d'origine
+	SP~b=_SP~b/5;'				Reduction de la vitesse a chaque iteration
+	iBl=iBl+1;'					Increment de l'index de boucle BL
+JP#BLLOOP,iBl<nbBl;'			Iteration suivante
+SP~b=spBl;'					Restauration de la vitesse
+WT StabTime[iPom];'			Attente de stabilisation
+PosStat[iPom8]=0;'			Pas de Prise d'origine sur butee en cours
+EN
+'** POM sur Forward Limit ***
+#POMFL
+spFl=_SP~b;'				Mise en memoire de la vitesse
+iFl=0;'					Index de la boucle FL (iterations)
+IF(IniSpeed[iPom]>SpMini);SP~b=IniSpeed[iPom];ENDIF;'		Property AxisInitSpeed
+#FLLOOP
+	PosStat[iPom8]=1;'			Prise d'origine sur la butee + en cours
+	IF(_SP~b<SpMini);SP~b=SpMini;ENDIF;'Verification des vitesses trop faibles
+	lfStat=_LF~b;'				Mise en memoire de l'etat de la butee
+	IF(_LF~b);JG~b=_SP~b;BG~b;'		Limite inactive : recherche de la butee
+	ELSE;JG~b=-_SP~b;BG~b;ENDIF;'		Limite active : degagement de la butee
+	#FLWAIT;JP#FLWAIT,lfStat=_LF~b;'	Attente du changement d'etat de la butee
+	ST~b;AM~b;'					Arret de l'axe apres front sur la butee
+	PomSpeed=_SP~b;'				Memorisation de la derniere vitesse de prise d'origine
+	SP~b=_SP~b/5;'				Reduction de la vitesse a chaque iteration
+	iFl=iFl+1;'					Increment de l'index de boucle FL
+JP#FLLOOP,iFl<nbFl;'			Iteration suivante
+SP~b=spFl;'					Restauration de la vitesse
+WT StabTime[iPom];'			Attente de stabilisation
+PosStat[iPom8]=0;'			Pas de Prise d'origine sur butee en cours
+EN
+'**** POM sur Find Home *****
+#POMFH
+sgnFh=(IniTyp[iPom]&$0080)/$80;'	Sens de rotation pour la recherche
+spFh=_SP~b;dirFh=sgnFh;'		Mise en memoire de la vitesse et du signe
+iFh=0;'					Index de la boucle FH (iterations)
+IF(IniSpeed[iPom]>SpMini);SP~b=IniSpeed[iPom];ENDIF;'		Property AxisInitSpeed
+#FHLOOP
+	IF(_SP~b<SpMini);SP~b=SpMini;ENDIF;'Verification des vitesses trop faibles
+	hmStat=_HM~b;'				Mise en memoire de l'etat du capteur Home
+	IF(dirFh=0);JG~b=_SP~b;BG~b;'		Bit de signe positif : rotation +
+	ELSE;JG~b=-_SP~b;BG~b;ENDIF;'		Bit de signe negatif : rotation -
+	#FHWAIT;JP#FHWAIT,(hmStat=_HM~b);'	Front sur HM ou butee
+	ST~b;AM~b;'					Arret de l'axe apres front sur HM
+	PomSpeed=_SP~b;'				Memorisation de la derniere vitesse de prise d'origine
+	SP~b=_SP~b/5;'				Reduction de la vitesse a chaque iteration
+	dirFh=(dirFh=0);'				Changement de direction (complement)
+	iFh=iFh+1;'					Increment de l'index de boucle FH
+JP#FHLOOP,iFh<nbFh;'			Iteration suivante
+SP~b=spFh;'					Restauration de la vitesse
+EN
+'**** POM sur Find Index ****
+#POMFI
+sgnFi=(IniTyp[iPom]&$0008)/$8;'	Sens de rotation pour la recherche
+spFi=_SP~b;dirFi=sgnFi;'		Mise en memoire de la vitesse et du signe
+SP~b=PomSpeed;'				Utilisation de la derniere vitesse de prise d'origine
+iFi=0;'					Index de la boucle FI (iterations)
+#FILOOP
+	IF(_SP~b<SpMini);SP~b=SpMini;ENDIF;'Verification des vitesses trop faibles
+	IF(dirFi=0);JG~b=_SP~b;'		Bit de signe positif : rotation +
+	ELSE;JG~b=-_SP~b;ENDIF;'		Bit de signe negatif : rotation -
+	FI~b;BG~b;'					Lancement de la recherche d'index
+	AM~b;'					Attente index trouve
+	SP~b=_SP~b/5;'				Reduction de la vitesse a chaque iteration
+	dirFi=(dirFi=0);'				Changement de direction (complement)
+	iFi=iFi+1;'					Increment de l'index de boucle FI
+JP#FILOOP,iFi<nbFi;'			Iteration suivante
+SP~b=spFi;'					Restauration de la vitesse
+EN
+'===== Fin Prise d'Origine Axe =====
+'
+'===== Commande de Mise a Jour du mode Gearing =====
+#CMDGEAR
+IF((0<=GrAxis[i])&(GrAxis[i]<=7)&(GrAxis[i]<>i))
+	IF(GrAxis[i]=0);GA~a=A;ENDIF;'	Codeur Principal A Maitre
+	IF(GrAxis[i]=1);GA~a=B;ENDIF;'	Codeur Principal B Maitre
+	IF(GrAxis[i]=2);GA~a=C;ENDIF;'	Codeur Principal C Maitre
+	IF(GrAxis[i]=3);GA~a=D;ENDIF;'	Codeur Principal D Maitre
+	IF(GrAxis[i]=4);GA~a=E;ENDIF;'	Codeur Principal E Maitre
+	IF(GrAxis[i]=5);GA~a=F;ENDIF;'	Codeur Principal F Maitre
+	IF(GrAxis[i]=6);GA~a=G;ENDIF;'	Codeur Principal G Maitre
+	IF(GrAxis[i]=7);GA~a=H;ENDIF;'	Codeur Principal H Maitre
+	GR~a=GrRatio[i];'				Definition du Gear Ratio
+	GrTemp[i8]=GrAxis[i];'			Memorisation des axes maitres actifs
+	GrTemp[i16]=GrRatio[i];'		Memorisation du gear ratio applique
+	IF(Stat[i]&$4000=0);'			Si l'axe n'etait pas deja esclave
+		SpBackup[i]=_SP~a;'		Mise en memoire de la vitesse de l'axe esclave
+	ENDIF
+	Stat[i]=(Stat[i]|$4000)&@COM[$1E0]
+'							MaJ bit Axe_Esclave = 1 		($4000)
+'							MaJ bit OnOff_Autorise = 0		($20)
+'							MaJ bit Mvmt_Autorise = 0		($40)
+'							MAJ bit Positionnement_termine = 0	($80)
+'							MAJ bit Pos_termine_sur_erreur = 0	($100)
+	JG~a=0; BG~a;'				Definition d'un Jog nul sur l'axe esclave
+ELSE;IF(GrAxis[i]=8)
+	GA~a=N;'					Axe Virtuel N Maitre
+	GR~a=GrRatio[i];'				Definition du Gear Ratio
+	GrTemp[i8]=GrAxis[i];'			Memorisation des axes maitres actifs
+	GrTemp[i16]=GrRatio[i];'		Memorisation du gear ratio applique
+	IF(Stat[i]&$4000=0);'			Si l'axe n'etait pas deja esclave
+		SpBackup[i]=_SP~a;'		Mise en memoire de la vitesse de l'axe esclave
+	ENDIF
+	Stat[i]=(Stat[i]|$4000)&@COM[$1E0]
+'							MaJ bit Axe_Esclave = 1 		($4000)
+'							MaJ bit OnOff_Autorise = 0		($20)
+'							MaJ bit Mvmt_Autorise = 0		($40)
+'							MAJ bit Positionnement_termine = 0	($80)
+'							MAJ bit Pos_termine_sur_erreur = 0	($100)
+	JG~a=0; BG~a;'				Definition d'un Jog nul sur l'axe esclave
+ELSE;IF((10<=GrAxis[i])&(GrAxis[i]<=17)&(GrAxis[i]-10<>i))
+	IF(GrAxis[i]=10);GA~a=CA;ENDIF;'	Position Commandee CA Maitre
+	IF(GrAxis[i]=11);GA~a=CB;ENDIF;'	Position Commandee CB Maitre
+	IF(GrAxis[i]=12);GA~a=CC;ENDIF;'	Position Commandee CC Maitre
+	IF(GrAxis[i]=13);GA~a=CD;ENDIF;'	Position Commandee CD Maitre
+	IF(GrAxis[i]=14);GA~a=CE;ENDIF;'	Position Commandee CE Maitre
+	IF(GrAxis[i]=15);GA~a=CF;ENDIF;'	Position Commandee CF Maitre
+	IF(GrAxis[i]=16);GA~a=CG;ENDIF;'	Position Commandee CG Maitre
+	IF(GrAxis[i]=17);GA~a=CH;ENDIF;'	Position Commandee CH Maitre
+	GR~a=GrRatio[i];'				Definition du Gear Ratio
+	GrTemp[i8]=GrAxis[i]-10;'		Memorisation des axes maitres actifs
+	GrTemp[i16]=GrRatio[i];'		Memorisation du gear ratio applique
+	IF(Stat[i]&$4000=0);'			Si l'axe n'etait pas deja esclave
+		SpBackup[i]=_SP~a;'		Mise en memoire de la vitesse de l'axe esclave
+	ENDIF
+	Stat[i]=(Stat[i]|$4000)&@COM[$1E0]
+'							MaJ bit Axe_Esclave = 1 		($4000)
+'							MaJ bit OnOff_Autorise = 0		($20)
+'							MaJ bit Mvmt_Autorise = 0		($40)
+'							MAJ bit Positionnement_termine = 0	($80)
+'							MAJ bit Pos_termine_sur_erreur = 0	($100)
+	JG~a=0; BG~a;'				Definition d'un Jog nul sur l'axe esclave
+ELSE;IF((20<=GrAxis[i])&(GrAxis[i]<=27)&(GrAxis[i]-20<>i))
+	IF(GrAxis[i]=20);GA~a=DA;ENDIF;'	Codeur Auxiliaire DA Maitre
+	IF(GrAxis[i]=21);GA~a=DB;ENDIF;'	Codeur Auxiliaire DB Maitre
+	IF(GrAxis[i]=22);GA~a=DC;ENDIF;'	Codeur Auxiliaire DC Maitre
+	IF(GrAxis[i]=23);GA~a=DD;ENDIF;'	Codeur Auxiliaire DD Maitre
+	IF(GrAxis[i]=24);GA~a=DE;ENDIF;'	Codeur Auxiliaire DE Maitre
+	IF(GrAxis[i]=25);GA~a=DF;ENDIF;'	Codeur Auxiliaire DF Maitre
+	IF(GrAxis[i]=26);GA~a=DG;ENDIF;'	Codeur Auxiliaire DG Maitre
+	IF(GrAxis[i]=27);GA~a=DH;ENDIF;'	Codeur Auxiliaire DH Maitre
+	GR~a=GrRatio[i];'				Definition du Gear Ratio
+	GrTemp[i8]=GrAxis[i]-20;'		Memorisation des axes maitres actifs
+	GrTemp[i16]=GrRatio[i];'		Memorisation du gear ratio applique
+	IF(Stat[i]&$4000=0);'			Si l'axe n'etait pas deja esclave
+		SpBackup[i]=_SP~a;'		Mise en memoire de la vitesse de l'axe esclave
+	ENDIF
+	Stat[i]=(Stat[i]|$4000)&@COM[$1E0]
+'							MaJ bit Axe_Esclave = 1 		($4000)
+'							MaJ bit OnOff_Autorise = 0		($20)
+'							MaJ bit Mvmt_Autorise = 0		($40)
+'							MAJ bit Positionnement_termine = 0	($80)
+'							MAJ bit Pos_termine_sur_erreur = 0	($100)
+	JG~a=0; BG~a;'				Definition d'un Jog nul sur l'axe esclave
+ELSE
+	GR~a=0;'					Gear Ratio Nul (Pas d'axe Maitre)
+	ST~a;'					Arret du Jog nul de l'axe esclave
+	SP~a=SpBackup[i];'			Restauration de la vitesse de l'axe esclave
+	Stat[i]=(Stat[i]|$E0)&@COM[$4100]
+'							MaJ bit Axe_Esclave = 0 		($4000)
+'							MaJ bit OnOff_Autorise = 1		($20)
+'							MaJ bit Mvmt_Autorise = 1		($40)
+'							MAJ bit Positionnement_termine = 1	($80)
+'							MAJ bit Pos_termine_sur_erreur = 0	($100)
+	GrTemp[i8]=-1;'				Memorisation: pas d'axe maitre
+	GrTemp[i16]=0;'				Memorisation: gear ratio nul
+ENDIF;ENDIF;ENDIF;ENDIF
+'
+' Boucle de mise a jour du bit Axe_Maitre_Mode_Gearing
+#MAJ_GR
+iGr=0;iGr8=8;'					Index de la boucle GR (pointeur d'esclaves)
+#GRLOOP1
+	GrTemp[iGr]=0;iGr=iGr+1;iGr8=iGr8+1
+JP#GRLOOP1,iGr<nbAxes;'				Iteration suivante
+'
+iGr=0;iGr8=8;'					Index de la boucle GR (pointeur d'esclaves)
+#GRLOOP2
+	GrMaster=GrTemp[iGr8]
+	IF((0<=GrMaster)&(GrMaster<=7));'	Si iGr est esclave
+		GrTemp[GrMaster]=$8000
+	ENDIF
+	iGr=iGr+1;iGr8=iGr8+1
+JP#GRLOOP2,iGr<nbAxes;'				Iteration suivante
+'
+iGr=0;iGr8=8;'					Index de la boucle GR (pointeur d'esclaves)
+#GRLOOP3
+	Stat[iGr]=(Stat[iGr]&@COM[$8000])|GrTemp[iGr]
+	iGr=iGr+1;iGr8=iGr8+1
+JP#GRLOOP3,iGr<nbAxes;'				Iteration suivante
+EN
+'
+'=============== Execution des commandes Groupees ===============
+#GRP_CMD
+'
+JS#GETAXES,(GrpAxes<>OldGrpAx)
+JP#GRP_END,(gAx1<0);'			Sortie sur erreur
+'Si Mouvement autorise au device
+IF((Stat[gAx1]&$40)&(Stat[gAx2]&$40)&(Stat[gAx3]&$40)&(Stat[gAx4]&$40))
+	JP#GRPCMST,(GrpCmd&1)
+	JP#GRPCMJG,(GrpCmd&6)
+	JP#GRPCMPA,(GrpCmd&8)
+ENDIF
+'Si On/Off autorise au device
+IF((Stat[gAx1]&$20)&(Stat[gAx2]&$20)&(Stat[gAx3]&$20)&(Stat[gAx4]&$20))
+	IF(GrpCmd&32);SH gStr;ENDIF
+	IF(GrpCmd&64);MO gStr;ENDIF
+ENDIF
+#GRP_END
+GrpCmd=0
+EN
+'
+'=========== Commande Groupee de Stop ===========
+#GRPCMST
+IF(_XQ1>0);'				Si la tache de prise de ref est executee,
+	IF((gAx1=iPom)|(gAx2=iPom)|(gAx3=iPom)|(gAx4=iPom))
+		HX1;'					Arret tache de prise de ref
+		Stat[iPom]=((Stat[iPom]|$880)&@COM[$300])
+'							MAJ bit Positionnement_termine = 1	($80)
+'							MAJ bit Pos_termine_sur_erreur = 0	($100)
+'							MAJ bit Prise_Ref_en_cours = 0	($200)
+'							MAJ bit Echec_Prise_Ref = 1		($800)
+		PosStat[iPom8]=0;'		Pas de Prise d'origine sur butee en cours
+	ENDIF
+ENDIF
+IF(_XQ2>0);'				Si la tache de correction d'erreur est executee,
+	Stat[gAx1]=Stat[gAx1]&@COM[$1000];'	MAJ bit Attente_de_correction = 0	($1000)
+	Stat[gAx2]=Stat[gAx2]&@COM[$1000]
+	Stat[gAx3]=Stat[gAx3]&@COM[$1000]
+	Stat[gAx4]=Stat[gAx4]&@COM[$1000]
+	IF((gAx1=iCO)|(gAx2=iCO)|(gAx3=iCO)|(gAx4=iCO));'Si axe en cours de correction,
+		HX2;'						Arret de la correction,
+		XQ#CORCHK,2;'				Controle des autres axes en erreur de correction,
+	ENDIF
+	NbRetry[gAx18]=NbRetry[gAx1];NbRetry[gAx28]=NbRetry[gAx2];'	Arret reessais dyn
+	NbRetry[gAx38]=NbRetry[gAx3];NbRetry[gAx48]=NbRetry[gAx4]
+	SP~e=spSave;'				Restauration de la vitesse avant correction
+ENDIF
+ST gStr;'						Arret des axes
+SpBackup[gAx18]=0;SpBackup[gAx28]=0;'	Mode JOG off
+SpBackup[gAx38]=0;SpBackup[gAx48]=0
+PosStat[gAx1]=0;PosStat[gAx2]=0;'		Pas de positionnement en cours
+PosStat[gAx3]=0;PosStat[gAx4]=0
+Stat[gAx1]=(Stat[gAx1]|$80)&@COM[$1100];Stat[gAx2]=(Stat[gAx2]|$80)&@COM[$1100]
+Stat[gAx3]=(Stat[gAx3]|$80)&@COM[$1100];Stat[gAx4]=(Stat[gAx4]|$80)&@COM[$1100]
+'							MAJ bit Positionnement_termine=1	($80)
+'							MAJ bit Pos_termine_sur_erreur = 0	($100)
+'							MAJ bit Attente_de_correction = 0	($1000)
+JP#GRP_END
+EN
+'
+'============ Commande Groupee de Jog ============
+#GRPCMJG
+JgSign=(GrpCmd&2>0)-(GrpCmd&4>0);'		Calcul du signe du Jog
+'
+~f=gAx1;SpBackup[gAx18]=_SP~f*JgSign;JG~f=SpBackup[gAx18];'	Commande mouvement
+' Si STEPPER avec CODEUR, definition position moteur selon codeur
+IF((@ABS[_MT~f]<>1)&(Stat[gAx1]&$2>0));DP~f=@RND[_TP~f/_YC~f*_YA~f*_YB~f];ENDIF
+'
+~f=gAx2;SpBackup[gAx28]=_SP~f*JgSign;JG~f=SpBackup[gAx28];'	Commande mouvement
+' Si STEPPER avec CODEUR, definition position moteur selon codeur
+IF((@ABS[_MT~f]<>1)&(Stat[gAx2]&$2>0));DP~f=@RND[_TP~f/_YC~f*_YA~f*_YB~f];ENDIF
+'
+~f=gAx3;SpBackup[gAx38]=_SP~f*JgSign;JG~f=SpBackup[gAx38];'	Commande mouvement
+' Si STEPPER avec CODEUR, definition position moteur selon codeur
+IF((@ABS[_MT~f]<>1)&(Stat[gAx3]&$2>0));DP~f=@RND[_TP~f/_YC~f*_YA~f*_YB~f];ENDIF
+'
+~f=gAx4;SpBackup[gAx48]=_SP~f*JgSign;JG~f=SpBackup[gAx48];'	Commande mouvement
+' Si STEPPER avec CODEUR, definition position moteur selon codeur
+IF((@ABS[_MT~f]<>1)&(Stat[gAx4]&$2>0));DP~f=@RND[_TP~f/_YC~f*_YA~f*_YB~f];ENDIF
+'
+Stat[gAx1]=(Stat[gAx1]&@COM[$2180]);Stat[gAx2]=(Stat[gAx2]&@COM[$2180])
+Stat[gAx3]=(Stat[gAx3]&@COM[$2180]);Stat[gAx4]=(Stat[gAx4]&@COM[$2180])
+'							MAJ bit Positionnement_termine = 0	($80)
+'							MAJ bit Pos_termine_sur_erreur = 0	($100)
+'							MAJ bit Erreur_de_poursuite = 0	($2000)
+NbRetry[gAx18]=0;NbRetry[gAx28]=0;'		Initialisation nombre reessais dynamiques
+NbRetry[gAx38]=0;NbRetry[gAx48]=0
+BG gStr;'						Execution du mouvement groupe
+JP#GRP_END
+EN
+'
+'===== Commande Groupee de Positionnement =====
+#GRPCMPA
+Stat[gAx1]=(Stat[gAx1]&@COM[$2180]);Stat[gAx2]=(Stat[gAx2]&@COM[$2180])
+Stat[gAx3]=(Stat[gAx3]&@COM[$2180]);Stat[gAx4]=(Stat[gAx4]&@COM[$2180])
+'								MAJ bit Positionnement_termine = 0	($80)
+'								MAJ bit Pos_termine_sur_erreur = 0	($100)
+'								MAJ bit Erreur_de_poursuite = 0	($2000)
+iGrp=gAx1;JS#GRP_PA;'					Definition du positionnement Axe 1
+iGrp=gAx2;JS#GRP_PA,(gAx2>gAx1);'			Definition du positionnement Axe 2
+iGrp=gAx3;JS#GRP_PA,(gAx3>gAx1);'			Definition du positionnement Axe 3
+iGrp=gAx4;JS#GRP_PA,(gAx4>gAx1);'			Definition du positionnement Axe 4
+'
+BG gStr;'							Execution du mouvement groupe
+Pos[gAx18]=$7FFFFFFF;Pos[gAx28]=$7FFFFFFF;'	Init derniere erreur de position
+Pos[gAx38]=$7FFFFFFF;Pos[gAx48]=$7FFFFFFF
+NbRetry[gAx18]=0;NbRetry[gAx28]=0;'			Init nombre reessais dynamiques
+NbRetry[gAx38]=0;NbRetry[gAx48]=0
+NbRetry[gAx116]=0;NbRetry[gAx216]=0;'		Init nombre de reessais statiques
+NbRetry[gAx316]=0;NbRetry[gAx416]=0
+SpBackup[gAx18]=0;SpBackup[gAx28]=0;'		Mode JOG off
+SpBackup[gAx38]=0;SpBackup[gAx48]=0
+JP#GRP_END
+EN
+'
+'Definition du positionnement de chaque axe
+#GRP_PA
+~f=iGrp
+' Si STEPPER avec CODEUR, definition position moteur selon codeur
+IF((@ABS[_MT~f]<>1)&(Stat[iGrp]&$2>0));DP~f=@RND[_TP~f/_YC~f*_YA~f*_YB~f];ENDIF
+IF(_SP~f<SpMini);SP~f=SpMini;ENDIF;'		Verification des vitesses trop faibles
+ActualPa=_PA~f;SpBackup[iGrp]=_SP~f;'		Recuperation de la position et vitesse
+'Gestion du Backlash
+IF(((Bck[iGrp]/@ABS[Bck[iGrp]])*(ActualPa-Pos[iGrp]))>0)
+	PosStat[iGrp]=3;PA~f=(Pos[iGrp]-Bck[iGrp]);'	Positionnement avec Backlash
+ELSE;'								Positionnement sans Backlash
+	PosStat[iGrp]=2;PA~f=@RND[(@RND[Pos[iGrp]]-ActualPa)*Percent[iGrp]]+ActualPa
+ENDIF
+EN
+'
+'===== Routine de conversion du pointeur d'axes binaire en pointeur ASCII =====
+#GETAXES
+iGrp=0;jGrp=0;bitGrp=1
+GrpAx[0]=0;GrpAx[1]=0;GrpAx[2]=0;GrpAx[3]=0;'	Initialisation pointeurs ASCII
+#GETAXL
+	JP#GETAXO1,(jGrp>3);'				Sortie sur saturation string (4 char)
+	JP#GETAXO2,(iGrp>7);'				Sortie sur dernier axe
+	IF(bitGrp&GrpAxes)
+		GrpAx[jGrp]=iGrp+65;jGrp=jGrp+1;'		MaJ pointeur ASCII
+	ENDIF
+	iGrp=iGrp+1;bitGrp=bitGrp*2
+JP#GETAXL
+#GETAXO2
+	GrpAx[jGrp]=GrpAx[0];jGrp=jGrp+1
+JP#GETAXO2,(jGrp<4)
+#GETAXO1
+'
+'Mise en forme de la chaine de caractere de pointage du Groupe
+IF(GrpAx[0])
+	gStr=GrpAx[0]*$100+GrpAx[1]*$100+GrpAx[2]*$100+GrpAx[3]
+	gAx1=GrpAx[0]-65;gAx2=GrpAx[1]-65;gAx3=GrpAx[2]-65;gAx4=GrpAx[3]-65
+	gAx18=gAx1+8;gAx28=gAx2+8;gAx38=gAx3+8;gAx48=gAx4+8
+	gAx116=gAx1+16;gAx216=gAx2+16;gAx316=gAx3+16;gAx416=gAx4+16
+ELSE
+	gStr=$4E000000;gAx1=-1;gAx2=-1;gAx3=-1;gAx4=-1;'	Pointeur par defaut : axe N
+ENDIF
+OldGrpAx=GrpAxes
+EN
+'
+'===== Controle du Positionnement Termine =====
+#POSCHK
+IF(PosStat[i]>1);'		Positionnement termine, debut stabilisation
+	StabTime[i8]=TIME+StabTime[i];'	Recuperation du temps fin de stabilisation
+	PosStat[i]=1;'				Declaration: Positionnement en stabilisation
+ELSE;'				Positionnement termine, stabilise
+	IF(StabTime[i8]<=TIME);'		Si temporisation de stabilisation ecoulee,
+		IF((@ABS[_MT~a]<>1)&(Stat[i]&$2>0));'	Si STEPPER avec CODEUR,
+			DP~a=@RND[(_TP~a/_YC~a)*_YA~a*_YB~a];'	Definition position moteur selon codeur
+		ENDIF
+		ActuPaCh=_PA~a;'					Recuperation de la position moteur
+		JP#POS_OK,(@ABS[Pos[i]-ActuPaCh]<=Dbw[i]);'	Si position dans la plage cible
+'		Si position actuelle hors de la plage cible
+		IF(Debug=1);'											!! DEBUG !!
+			CFS;MG"PosErr Axis",~a," SC",_SC~a," RtrS",NbRetry[i16]," RtrD",NbRetry[i8]
+		ENDIF
+		JP#POSSTOP,(_SC~a=4);'				Si le dernier mouvement a ete arrete par un Stop
+		JP#POS_LS,(_SC~a=2)|(_SC~a=3);'		Si dernier mouvement arrete par une butee
+		IF(@ABS[Pos[i]-ActuPaCh]>=Pos[i8]);'	Si l'erreur de position diverge
+			NbRetry[i16]=NbRetry[i16]+1;'		Increment du nombre de reessais statiques
+			Stat[i]=Stat[i]|$2000;'			MAJ bit Erreur_de_poursuite = 1	($2000)
+		ELSE;'					Si l'erreur de position converge vers 0
+			Stat[i]=Stat[i]|&@COM[$2000];'	MAJ bit Erreur_de_poursuite = 0	($2000)
+		ENDIF
+		Pos[i8]=@ABS[Pos[i]-ActuPaCh];'	Mise en memoire de l'erreur de position
+		JP#POSRTRY,(NbRetry[i16]<NbRetry[i]);'	Si nombre essais statique pas excessif
+		JP#POSLAST,(NbRetry[i16]=NbRetry[i]);'	Si c'est le dernier essai
+'		Si le nombre de reessais est excessif
+		PosStat[i]=0;'				Declaration: Pas de positionnement en cours
+		Stat[i]=Stat[i]|$2180;'			MAJ bit Positionnement_termine = 1	($80)
+'								MAJ bit Pos_termine_sur_erreur = 1	($100)
+'								MAJ bit Erreur_de_poursuite = 1	($2000)
+		SP~a=SpBackup[i];'			Restauration de la vitesse
+	ENDIF
+ENDIF
+'
+EN
+'
+'Si position dans la plage cible
+#POS_OK
+	PosStat[i]=0;'				Declaration: Pas de positionnement en cours
+	Stat[i]=((Stat[i]|$80)&@COM[$2100]);' On ne bouge pas
+'							MAJ bit Positionnement_termine = 1	($80)
+'							MAJ bit Pos_termine_sur_erreur = 0	($100)
+'							MAJ bit Erreur_de_poursuite = 0	($2000)
+	SP~a=SpBackup[i];'			Restauration de la vitesse
+EN
+'
+'Si le dernier mouvement a ete arrete par un Stop
+#POSSTOP
+	PosStat[i]=0;'				Declaration: Pas de positionnement en cours
+	Stat[i]=Stat[i]|$80;'			MAJ bit Positionnement_termine = 1	($80)
+	SP~a=SpBackup[i];'			Restauration de la vitesse
+EN
+'
+'Si le dernier mouvement a ete arrete par une butee de fin de course
+#POS_LS
+	PosStat[i]=0;'				Declaration: Pas de positionnement en cours
+	Stat[i]=(Stat[i]|$180);' 		MAJ bit Positionnement_termine = 1	($80)
+'							MAJ bit Pos_termine_sur_erreur = 1	($100)
+	SP~a=SpBackup[i];'			Restauration de la vitesse
+EN
+'
+'Si le nombre de reessais statiques n'est pas excessif
+#POSRTRY
+	IF(_SP~a<SpMini);SP~a=SpMini;ENDIF;'Verification des vitesses trop faibles
+	IF(((Bck[i]/@ABS[Bck[i]])*(ActuPaCh-Pos[i]))>0)
+		PosStat[i]=3;'				Declaration: positionnement avec backlash en cours
+		PA~a=(Pos[i]-Bck[i]);BG~a;'		Positionnement avec Backlash
+	ELSE;'					Si (Pd-Pa+Bck) n'est pas du signe de Bck,
+		PosStat[i]=2;'				Declaration: positionnement sans backlash en cours
+		PA~a=@RND[(@RND[Pos[i]]-ActuPaCh)*Percent[i]]+ActuPaCh;' Positionnement simple
+		BG~a;
+	ENDIF
+EN
+'
+'Si c'est le dernier essai
+#POSLAST
+'	Abandon si un Backlash est necessaire car le prochain essai sera divergent
+	IF(((Bck[i]/@ABS[Bck[i]])*(ActuPaCh-Pos[i]))>0)
+		PosStat[i]=0;'				Declaration: Pas de positionnement en cours
+		Stat[i]=Stat[i]|$2180;'			MAJ bit Positionnement_termine = 1	($80)
+'								MAJ bit Pos_termine_sur_erreur = 1	($100)
+'								MAJ bit Erreur_de_poursuite = 1	($2000)
+		SP~a=SpBackup[i];'			Restauration de la vitesse
+	ELSE;'					Si dernier essai en positionnement normal
+		IF(_SP~a<SpMini);SP~a=SpMini;ENDIF;'Verification des vitesses trop faibles
+		PosStat[i]=2;'				Declaration: positionnement sans backlash en cours
+		PA~a=@RND[(@RND[Pos[i]]-ActuPaCh)*Percent[i]]+ActuPaCh;BG~a;' Positionnement
+	ENDIF
+EN
+'
+'===== Controle d'erreur de poursuite, mode Stepper Maintenance Position =====
+#MOVCHK
+IF(@ABS[(_TP~a/_YC~a)*_YA~a*_YB~a-_TD~a]>_ER~a);'	Si erreur de poursuite,
+'
+	IF(Stat[i]&$200>0);'	Si Prise d'Origine en cours,
+		HX1;'				Arret de la tache de POM sur erreur
+		Stat[i]=(Stat[i]|$2980)&@COM[$200]
+'						MAJ bit Positionnement_termine = 1	($80)
+'						MAJ bit Pos_termine_sur_erreur = 1	($100)
+'						MAJ bit Echec_Prise_Ref = 1		($800)
+'						MAJ bit Erreur_de_poursuite = 1	($2000)
+'						MAJ bit Prise_Ref_en_cours = 0	($200)
+		ST~a;'			Arret de l'axe
+		SpBackup[i]=0;'		Mode JOG off
+		PosStat[i]=0;'		Pas de positionnement en cours
+		PosStat[i8]=0;'		Pas de Prise d'origine sur butee en cours
+		SP~a=PomSpBck;'		Restauration de la vitesse avant prise d'origine
+	ELSE;'			Si pas de Prise d'Origine en cours,
+		PosStat[i]=0;'		Declaration: pas de positionnement en cours
+'		Si MaintenancePos actif avec Correction active et ni Remote, ni Slit,
+		IF((Stat[i]&$C00C)=4)&((CpMp[i]&16)<>0)
+			IF(_XQ2<0);'		Si la tache de correction d'erreur n'est pas executee,
+				iCO=i;iCO8=i+8;iCO16=i+16;~e=~a;'Definition des pointeur pour la correction
+				XQ#PECORR,2;'		Execution de la tache de correction d'erreur
+			ELSE;'			Si la tache de correction d'erreur est executee,
+				ST~a;'			Arret de l'axe en erreur
+				Stat[i]=Stat[i]|$3000;'	MAJ bit Attente_de_correction = 1	($1000)
+'								MAJ bit Erreur_de_poursuite = 1	($2000)
+			ENDIF
+		ELSE;'			Si MaintenancePos inactif ou Remote ou Slit,
+			IF(GrTemp[i8]>=0);'		Si l'axe i est esclave, arret du maitre
+				valTildA=~a;'			Mise en memoire de l'axe pointe par ~a
+				IF(GrTemp[i8]=8);'		Si N est l'axe maitre (axe virtuel),
+					~a=10;'				pointeur de l'axe virtuel
+				ELSE
+					moMaster=(GrTemp[i8]&$0F);'	recherche du maitre de l'axe i
+					moMaste8=moMaster+8
+					~a=moMaster;'				pointeur de l'axe maitre
+					SpBackup[moMaste8]=0;'			Mode JOG off
+					PosStat[moMaster]=0;'			Pas de positionnement en cours
+					Stat[moMaster]=(Stat[moMaster]|$180);'MAJ Positionnement_termine=1	($80)
+'											  MAJ Pos_termine_sur_erreur=1	($100)
+				ENDIF
+				ST~a;'				Arret de l'axe maitre
+				~a=valTildA;'			Restauration de l'axe pointe par ~a (esclave)
+'				Arret de la synchronisation maitre-esclave et MAJ des bits
+				GR~a=0;'					Gear Ratio Nul (Pas d'axe Maitre)
+				ST~a;'					Arret du Jog nul de l'axe esclave
+				SP~a=SpBackup[i];'			Restauration de la vitesse de l'axe esclave
+				Stat[i]=(Stat[i]|$1E0)&@COM[$4000]
+'										MaJ bit Axe_Esclave = 0 		($4000)
+'										MaJ bit OnOff_Autorise = 1		($20)
+'										MaJ bit Mvmt_Autorise = 1		($40)
+'										MAJ bit Positionnement_termine = 1	($80)
+'										MAJ bit Pos_termine_sur_erreur = 1	($100)
+				GrTemp[i8]=-1;'				Memorisation: pas d'axe maitre
+				GrTemp[i16]=0;'				Memorisation: gear ratio nul
+				JS#MAJ_GR;'					MAJ des bits de Gearing
+			ENDIF
+			ST~a;'				Arret de l'axe
+			Stat[i]=(Stat[i]|$2180)&@COM[$1000]
+'								MAJ bit Positionnement_termine = 1	($80)
+'								MAJ bit Pos_termine_sur_erreur = 1	($100)
+'								MAJ bit Attente_de_correction = 0	($1000)
+'								MAJ bit Erreur_de_poursuite = 1	($2000)
+		ENDIF
+	ENDIF
+'
+ENDIF
+'
+EN
+'
+'===== Controle de CpMp - Presence Codeur et Maintenance Position =====
+#CPMP
+' Si demande de desactivation du mode Remote et si telecommande active
+JS#STOPMV,(((CpMp[i]&$8)=0)&(EnRem[i]=1));'	Appel de routine d'arret
+'MAJ bits Codeur_Present ($2) et Maintenance_Position ($4)
+Stat[i]=(Stat[i]&@COM[$6])|(((CpMp[i]&$3)>0)*2)|(CpMp[i]&$4)
+'MAJ bit Attributs initialises (si les bits 15 ou 31 sont a 1) ($10000)
+IF((CpMp[i]&$FFFF8000)<>0);Stat[i]=Stat[i]|$10000;ENDIF
+CpMp[i8]=CpMp[i];'					Mise en memoire de CpMp[i]
+EN
+'
+'===== Routine Remote - Pilotage des motorisations avec une telecommande =====
+#REMOTE
+IF(i>3); iRem=i+5; ELSE; iRem=i+1; ENDIF;'Decalage de l'index des INPUTS
+'
+IF(@IN[iRem]=1);'		Si l'entree iRem est a 1, telecommande innactive
+	JS#STOPMV,(EnRem[i8]=1);'		Appel de routine d'arret si axe en mouvement
+ELSE;'			Si l'entree iRem est a 0, telecommande active
+	Stat[i]=(Stat[i]|$8)&@COM[$1E0];'	MaJ bit Telecommande Active = 1 	($8)
+'							MaJ bit OnOff_Autorise = 0		($20)
+'							MaJ bit Mvmt_Autorise = 0		($40)
+'							MAJ bit Positionnement_termine = 0	($80)
+'							MAJ bit Pos_termine_sur_erreur = 0	($100)
+	IF(EnRem[i8]=0);'	Si l'axe est a l'arret
+		JS#STARTMV;'	Appel de la routine de demarrage de l'axe
+	ELSE;'			Si l'axe est en mouvement
+		JS#MOVE;'		Appel de la routine de mise a jour de la vitesse de l'axe
+	ENDIF
+ENDIF
+OB(2*i+1),(_LR~a=0)|(_LF~a=0);'	Affichage de l'etat des fins de course
+EN
+' ***** Start Move *****
+#STARTMV
+ST~a;'			Arret de l'axe
+SpBackup[i8]=0;'		Mode JOG off
+PosStat[i]=0;'		Pas de positionnement en cours
+IF(_MO~a);SH~a;ENDIF;'	Demarrage de l'axe s'il ne l'est pas
+SpBackup[i16]=_SP~a;'	Recuperation de la valeur de la vitesse
+JG~a=0; BG~a;'		Initialisation d'un mouvement a vitesse nulle
+EnRem[i8]=1;'		Declaration de l'etat de l'axe : Ready
+SB(2*i+2);'			Led Ready : axe ON
+EN
+' ******** Move ********
+#MOVE
+ana=@AN[i+1];'		Memorisation de l'entree Analogique de l'axe i+1
+'Lancement du Jog en fonction de la consigne analogique
+JP#NEG_LOW,((ana>2)&(ana<3.5));'		Vitesse Lente,  sens Negatif
+JP#NEG_HIG,((ana>4)&(ana<5.5));'		Vitesse Rapide, sens Negatif
+JP#POS_LOW,((ana>6)&(ana<7.5));'		Vitesse Lente,  sens Positif
+JP#POS_HIG,((ana>8)&(ana<9.7));'		Vitesse Rapide, sens Positif
+JG~a=0;'						Vitesse nulle
+'Redemarrage de l'axe s'il est arrete et si l'etat des butees le permet
+IF((_TS~a&$A8)=$8);BG~a;ENDIF
+EN
+'Vitesse Lente, sens Negatif
+#NEG_LOW
+JG~a=-SpBackup[i16]/5
+IF((_TS~a&$A4)=$4);BG~a;ENDIF
+EN
+'Vitesse Rapide, sens Negatif
+#NEG_HIG
+JG~a=-SpBackup[i16]
+IF((_TS~a&$A4)=$4);BG~a;ENDIF
+EN
+'Vitesse Lente, sens Positif
+#POS_LOW
+JG~a=SpBackup[i16]/5
+IF((_TS~a&$A8)=$8);BG~a;ENDIF
+EN
+'Vitesse Rapide, sens Positif
+#POS_HIG
+JG~a=SpBackup[i16]
+IF((_TS~a&$A8)=$8);BG~a;ENDIF
+EN
+' ****** Stop Move *****
+#STOPMV
+ST~a;'			Arret de l'axe
+IF(EnRem[i8]);'		Si telecommande active,
+	SP~a=SpBackup[i16];'	Restauration de la valeur de la vitesse
+ENDIF
+EnRem[i8]=0;'		Declaration de l'etat de l'axe : OFF
+CB(2*i+2);'			Led Ready : axe OFF
+Stat[i]=(Stat[i]|$E0)&@COM[$108];'	MaJ bit Telecommande Active = 0 	($8)
+'						MaJ bit OnOff_Autorise = 1		($20)
+'						MaJ bit Mvmt_Autorise = 1		($40)
+'						MAJ bit Positionnement_termine = 1	($80)
+'						MAJ bit Pos_termine_sur_erreur = 0	($100)
+EN
+'
+'======= Routine de traitement des Fins de courses =======
+#LIMSWI
+iLS=0;iLS8=8;iLS16=16;~d=0;'	Initialisation pointeur de tableau et d'axe
+'
+' Boucle de detection des axes iLS en Butee
+#LSLOOP
+	JP#LS_NEXT,(((_SC~d=2)|(_SC~d=3))=0);'	Si butee inactive, passage a la suivante
+	JS#LSDEBUG,(Debug=1);'				DEBUG
+	JP#LSINPOM,(Stat[iLS]&$200>0);'		Si Prise d'Origine en cours
+	JP#LS_STD;'						Traitement des butees classiques
+'
+#LS_NEXT
+'	Increment des pointeurs de tableau et d'axe
+	iLS=iLS+1;iLS8=iLS8+1;iLS16=iLS16+1;~d=iLS
+JP#LSLOOP,(iLS<nbAxes);'	Controle des 8 axes
+'
+RE0;'				Retour d'interruption #LIMSWI
+'
+' Traitement des butees classiques
+#LS_STD
+	DcLimBck=_DC~d;'				Mise en memoire de la deceleration
+	ST~d;'					Arret de l'axe
+	IF(_DC~d<DcLimSwi);DC~d=DcLimSwi;ENDIF;'	Augmentation des decels trop lentes
+	IF(GrTemp[iLS8]>=0);'			Si l'axe iLS est esclave,
+		valTildD=~d;'				Mise en memoire de l'axe pointe par ~d
+		IF(GrTemp[iLS8]=8);'			Si N est l'axe maitre (axe virtuel),
+			~d=10;'					pointeur de l'axe virtuel
+		ELSE
+			lsMaster=(GrTemp[iLS8]&$0F);'		recherche du maitre de l'axe iLS
+			lsMaste8=lsMaster+8
+			~d=lsMaster;'				pointeur de l'axe maitre
+			SpBackup[lsMaste8]=0;'			Mode JOG off
+			PosStat[lsMaster]=0;'			Pas de positionnement en cours
+			Stat[lsMaster]=(Stat[lsMaster]|$180);'MAJ bit Positionnement_termine=1	($80)
+'									  MAJ bit Pos_termine_sur_erreur=1	($100)
+		ENDIF
+		ST~d;'					Arret de l'axe maitre
+		~d=valTildD;'				Restauration de l'axe pointe par ~d
+'		Arret de la synchronisation maitre-esclave et MAJ des bits
+		GR~d=0;'					Gear Ratio Nul (Pas d'axe Maitre)
+		ST~d;'					Arret du Jog nul de l'axe esclave
+		SP~d=SpBackup[iLS];'			Restauration de la vitesse de l'axe esclave
+		Stat[iLS]=(Stat[iLS]|$1E0)&@COM[$4000]
+'								MaJ bit Axe_Esclave = 0 		($4000)
+'								MaJ bit OnOff_Autorise = 1		($20)
+'								MaJ bit Mvmt_Autorise = 1		($40)
+'								MAJ bit Positionnement_termine = 1	($80)
+'								MAJ bit Pos_termine_sur_erreur = 1	($100)
+		GrTemp[iLS8]=-1;'				Memorisation: pas d'axe maitre
+		GrTemp[iLS16]=0;'				Memorisation: gear ratio nul
+		JS#MAJ_GR;'					MAJ des bits de Gearing
+	ENDIF
+	IF(_XQ2>=0);'			Si la tache de correction d'erreur est executee,
+		IF(iLS=iCO)
+			NbRetry[iLS8]=NbRetry[iLS];'		Plus de reessais possibles
+			SP~d=spSave;'				Restauration de la vitesse avant correction
+		ENDIF
+	ENDIF
+	Stat[iLS]=Stat[iLS]|$180;'	MAJ bit Positionnement_termine = 1	($80)
+'						MAJ bit Pos_termine_sur_erreur = 1	($100)
+	SpBackup[iLS8]=0;'		Mode JOG off
+	PosStat[iLS]=0;'			Pas de positionnement en cours
+	DC~d=DcLimBck;'			Restauration de la deceleration
+JP#LS_NEXT
+EN
+'
+' Traitement des butees actives en cours de prise d'origine
+#LSINPOM
+	IF(PosStat[iLS8]=0);'			Si prise d'origine sur home ou index
+		DcLimBck=_DC~d;'				Mise en memoire de la deceleration
+		IF(_DC~d<DcLimSwi);DC~d=DcLimSwi;ENDIF;'	Augmentation des decels trop lentes
+		HX1;'						Arret de la tache de POM sur erreur
+		ST~d;'					Arret de l'axe
+		Stat[iLS]=((Stat[iLS]&@COM[$606])|$980)|(((CpMp[iLS]&3)>0)*2)|(CpMp[iLS]&4)
+'								MAJ bit Codeur_Present			($2)
+'								MAJ bit Maintenance_Position		($4)
+'								MAJ bit Positionnement_termine = 1	($80)
+'								MAJ bit Pos_termine_sur_erreur = 1	($100)
+'								MAJ bit Prise_Ref_en_cours= 0		($200)
+'								MAJ bit Prise_Ref_Faite = 0		($400)
+'								MAJ bit Echec_Prise_Ref = 1		($800)
+		CpMp[iLS8]=CpMp[iLS];'			Mise en memoire de CpMp[iLS]
+		iFh=nbFh;iFi=nbFi;'			Arret des recherches de home et d'index
+		SpBackup[iLS8]=0;'			Mode JOG off
+		PosStat[iLS]=0;'				Pas de positionnement en cours
+		DC~d=DcLimBck;'				Restauration de la deceleration
+		SP~d=PomSpBck;'				Restauration de la vitesse avant prise d'origine
+	ENDIF;'					Pas d'erreur si prise d'origine sur butee + ou -,
+JP#LS_NEXT
+EN
+'
+#LSDEBUG
+CFS;MG"LimSw Axis",~d," LineT0",_XQ0," LineT1",_XQ1;'!! DEBUG !!
+EN
+'=========================================================
+'
+'========== Gestion_des_commandes_erronnees ==========
+#CMDERR
+'
+IF(Debug=1);
+	CFS;MG"CMD Error",_TC," Line",_ED2," Thread",_ED1;'!! SEULEMENT POUR DEBUG !!
+ENDIF
+'
+JP#CMDTR0,(_ED1=0);'	Si le thread 0 est en erreur
+JP#CMDTR1,(_ED1=1);'	Si le thread 1 "Prise d'origine" est en erreur
+JP#CMDTR2,(_ED1=2);'	Si le thread 2 "Correction d'erreur" est en erreur
+JP#CMDTRN;'			Si un autre thread est en erreur
+EN
+'
+#CMDTR0
+IF((_TC=20)|(_TC=21)|(_TC=22));'	SI "Begin_not_valid_with_motor_off" (20)
+'						OU "Begin_not_valid_while_running" (21)
+'						OU "Begin_not_possible_due_to_Limit_Switch" (22)
+	IF(((_LR~a&_LF~a)=0)|(_MO~a));'	Si une butee est active ou le moteur est Off
+		Stat[i]=(Stat[i]|$180);'		MAJ bit Positionnement_termine=1	($80)
+'								MAJ bit Pos_termine_sur_erreur=1	($100)
+		PosStat[i]=0;'				Pas de positionnement en cours
+		IF(GrTemp[i8]>=0);'		Si l'axe i est esclave, arret du maitre
+			valTildA=~a;'			Mise en memoire de l'axe pointe par ~a
+			IF(GrTemp[i8]=8);'		Si N est l'axe maitre (axe virtuel),
+				~a=10;'				pointeur de l'axe virtuel
+			ELSE
+				erMaster=(GrTemp[i8]&$0F);'	recherche du maitre de l'axe i
+				erMaste8=erMaster+8
+				~a=erMaster;'				pointeur de l'axe maitre
+				SpBackup[erMaste8]=0;'			Mode JOG off
+				PosStat[erMaster]=0;'			Pas de positionnement en cours
+				Stat[erMaster]=(Stat[erMaster]|$180);'MAJ Positionnement_termine=1	($80)
+'										  MAJ Pos_termine_sur_erreur=1	($100)
+			ENDIF
+			ST~a;'				Arret de l'axe maitre
+			~a=valTildA;'			Restauration de l'axe pointe par ~a (esclave)
+'			Arret de la synchronisation maitre-esclave et MAJ des bits
+			GR~a=0;'					Gear Ratio Nul (Pas d'axe Maitre)
+			ST~a;'					Arret du Jog nul de l'axe esclave
+			SP~a=SpBackup[i];'			Restauration de la vitesse de l'axe esclave
+			Stat[i]=(Stat[i]|$1E0)&@COM[$4000]
+'									MaJ bit Axe_Esclave = 0 		($4000)
+'									MaJ bit OnOff_Autorise = 1		($20)
+'									MaJ bit Mvmt_Autorise = 1		($40)
+'									MAJ bit Positionnement_termine = 1	($80)
+'									MAJ bit Pos_termine_sur_erreur = 1	($100)
+			GrTemp[i8]=-1;'				Memorisation: pas d'axe maitre
+			GrTemp[i16]=0;'				Memorisation: gear ratio nul
+			JS#MAJ_GR;'					MAJ des bits de Gearing
+		ENDIF
+	ENDIF
+	IF(_XQ_ED1<0);'	Si le thread de l'erreur n'est plus execute
+		XQ_ED3,_ED1,1;'	Execute commande suivante dans le thread de l'erreur
+	ENDIF
+ENDIF
+EN
+'
+#CMDTR1
+Stat[iPom]=((Stat[iPom]&@COM[$606])|$880)|(((CpMp[iPom]&3)>0)*2)|(CpMp[iPom]&4)
+'					MAJ bit Codeur_Present			($2)
+'					MAJ bit Maintenance_Position		($4)
+'					MAJ bit Positionnement_termine = 1	($80)
+'					MAJ bit Prise_Ref_en_cours= 0		($200)
+'					MAJ bit Prise_Ref_Faite = 0		($400)
+'					MAJ bit Echec_Prise_Ref = 1		($800)
+CpMp[iPom8]=CpMp[iPom];'	Mise en memoire de CpMp[iPom]
+ST~b;'				Arret de l'axe
+SpBackup[iPom8]=0;'		Mode JOG off
+PosStat[iPom]=0;'			Pas de positionnement en cours
+PosStat[iPom8]=0;'		Pas de Prise d'origine sur butee en cours
+SP~b=PomSpBck;'			Restauration de la vitesse avant prise d'origine
+EN
+'
+#CMDTR2
+Stat[iCO]=(Stat[iCO]|$180)
+'					MAJ bit Positionnement_termine=1	($80)
+'					MAJ bit Pos_termine_sur_erreur=1	($100)
+ST~e;'				Arret de l'axe en erreur
+EN
+'
+#CMDTRN
+IF((_TC=20)|(_TC=21)|(_TC=22));'	SI "Begin_not_valid_with_motor_off" (20)
+'						OU "Begin_not_valid_while_running" (21)
+'						OU "Begin_not_possible_due_to_Limit_Switch" (22)
+'	Si une butee est active ou le moteur est Off
+'	MAJ bit Positionnement_termine=1	($80)
+'	MAJ bit Pos_termine_sur_erreur=1	($100)
+'	et declaration : pas de positionnement en cours
+	IF((LastAxis=0)&((_LRA&_LFA=0)|_MOA));Stat[0]=Stat[0]|$180;PosStat[0]=0;ENDIF
+	IF((LastAxis=1)&((_LRB&_LFB=0)|_MOB));Stat[1]=Stat[1]|$180;PosStat[1]=0;ENDIF
+	IF((LastAxis=2)&((_LRC&_LFC=0)|_MOC));Stat[2]=Stat[2]|$180;PosStat[2]=0;ENDIF
+	IF((LastAxis=3)&((_LRD&_LFD=0)|_MOD));Stat[3]=Stat[3]|$180;PosStat[3]=0;ENDIF
+	IF((LastAxis=4)&((_LRE&_LFE=0)|_MOE));Stat[4]=Stat[4]|$180;PosStat[4]=0;ENDIF
+	IF((LastAxis=5)&((_LRF&_LFF=0)|_MOF));Stat[5]=Stat[5]|$180;PosStat[5]=0;ENDIF
+	IF((LastAxis=6)&((_LRG&_LFG=0)|_MOG));Stat[6]=Stat[6]|$180;PosStat[6]=0;ENDIF
+	IF((LastAxis=7)&((_LRH&_LFH=0)|_MOH));Stat[7]=Stat[7]|$180;PosStat[7]=0;ENDIF
+'
+	XQ_ED3,_ED1,1;'	Execute commande suivante dans le thread de l'erreur
+ENDIF
+EN
+'
+'===== Routine de traitement des erreurs de position =====
+#POSERR
+iPE=0;iPE8=8;iPE16=16;~c=0;'		Initialisation pointeurs de tableau et d'axe
+'
+' Boucle de detection des axes iPE en Erreur de Position
+#PELOOP
+'
+IF(_TS~c&64>0);'	Si l'axe ~c est en erreur de position,
+'
+	IF(Stat[iPE]&$200>0);'		Si Prise d'Origine en cours,
+		HX1;'						Arret de la tache de POM sur erreur
+		Stat[iPE]=((Stat[iPE]&@COM[$606])|$2980)|(((CpMp[iPE]&3)>0)*2)|(CpMp[iPE]&4)
+'							MAJ bit Codeur_Present			($2)
+'							MAJ bit Maintenance_Position		($4)
+'							MAJ bit Positionnement_termine = 1	($80)
+'							MAJ bit Pos_termine_sur_erreur = 1	($100)
+'							MAJ bit Prise_Ref_en_cours= 0		($200)
+'							MAJ bit Prise_Ref_Faite = 0		($400)
+'							MAJ bit Echec_Prise_Ref = 1		($800)
+'							MAJ bit Erreur_de_poursuite = 1	($2000)
+		CpMp[iPE8]=CpMp[iPE];'	Mise en memoire de CpMp[iPE]
+		ST~c;'				Arret de l'axe
+		SpBackup[iPE8]=0;'		Mode JOG off
+		PosStat[iPE]=0;'			Pas de positionnement en cours
+		PosStat[iPE8]=0;'			Pas de Prise d'origine sur butee en cours
+		SP~c=PomSpBck;'			Restauration de la vitesse avant prise d'origine
+'
+	ELSE;'				Si pas de Prise d'Origine en cours,
+		PosStat[iPE]=0;'			Declaration: pas de positionnement en cours
+		IF((Stat[iPE]&$C004)=4);'	Si MaintenancePos actif et ni Remote ni Slit,
+			IF(NbRetry[iPE8]<NbRetry[iPE])
+				IF(_XQ2<0);'			Si la tache de correction d'erreur n'est pas executee,
+					iCO=iPE;iCO8=iPE8;iCO16=iPE16;~e=~c;'Definition des pointeur de correction
+					XQ#PECORR,2;'		Execution de la tache de correction d'erreur
+				ELSE;'				Si la tache de correction d'erreur est executee,
+					ST~c;'				Arret de l'axe en erreur
+					Stat[iPE]=Stat[iPE]|$3000;'	MAJ bit Attente_de_correction = 1	($1000)
+'										MAJ bit Erreur_de_poursuite = 1	($2000)
+				ENDIF
+			ENDIF
+		ELSE;'				Si MaintenancePos inactif ou Remote ou Slit,
+			IF(GrTemp[iPE8]>=0);'		Si l'axe iPE est esclave, arret du maitre
+				valTildC=~c;'				Mise en memoire de l'axe pointe par ~c
+				IF(GrTemp[iPE8]=8);'			Si N est l'axe maitre (axe virtuel),
+					~c=10;'					pointeur de l'axe virtuel
+				ELSE
+					PeMaster=(GrTemp[iPE8]&$0F);'		recherche du maitre de l'axe iPE
+					PeMaste8=PeMaster+8
+					~c=PeMaster;'				pointeur de l'axe maitre
+					SpBackup[PeMaste8]=0;'			Mode JOG off
+					PosStat[PeMaster]=0;'			Pas de positionnement en cours
+					Stat[PeMaster]=(Stat[PeMaster]|$180);'MAJ bit Positionnement_termine=1	($80)
+'											  MAJ bit Pos_termine_sur_erreur=1	($100)
+				ENDIF
+				ST~c;'					Arret de l'axe maitre
+				~c=valTildC;'				Restauration de l'axe pointe par ~c
+'				Arret de la synchronisation maitre-esclave et MAJ des bits
+				GR~c=0;'					Gear Ratio Nul (Pas d'axe Maitre)
+				ST~c;'					Arret du Jog nul de l'axe esclave
+				SP~c=SpBackup[iPE];'			Restauration de la vitesse de l'axe esclave
+				Stat[iPE]=(Stat[iPE]|$1E0)&@COM[$4000]
+'										MaJ bit Axe_Esclave = 0 		($4000)
+'										MaJ bit OnOff_Autorise = 1		($20)
+'										MaJ bit Mvmt_Autorise = 1		($40)
+'										MAJ bit Positionnement_termine = 1	($80)
+'										MAJ bit Pos_termine_sur_erreur = 1	($100)
+				GrTemp[iPE8]=-1;'				Memorisation: pas d'axe maitre
+				GrTemp[iPE16]=0;'				Memorisation: gear ratio nul
+				JS#MAJ_GR;'					MAJ des bits de Gearing
+			ENDIF
+			Stat[iPE]=Stat[iPE]|$2180;'	MAJ bit Positionnement_termine = 1	($80)
+'								MAJ bit Pos_termine_sur_erreur = 1	($100)
+'								MAJ bit Erreur_de_poursuite = 1	($2000)
+		ENDIF
+	ENDIF
+'	Si SERVO en erreur de position, etat Off et vitesse reduite,
+	IF((@ABS[_MT~c]=1)&(@ABS[_TE~c]>=_ER~c)&(_MO~c)&(@ABS[_TV~c]<100))
+		DP~c=_TP~c;'			Definition position commandee selon codeur (RAZ de l'erreur)
+		Stat[iPE]=Stat[iPE]|$2000;'	MAJ bit Erreur_de_poursuite = 1	($2000)
+	ENDIF
+ENDIF
+'Increment pointeur de tableau et pointeur d'axe
+iPE=iPE+1;iPE8=iPE8+1;iPE16=iPE16+1;~c=iPE
+JP#PELOOP,(iPE<nbAxes);'		Controle des 8 axes
+RE0;'					Retour d'interruption #POSERR
+'
+'=========== Tache de correction de l'erreur de position ============
+'
+#PECORR
+Stat[iCO]=Stat[iCO]|$2000;'	MAJ bit Erreur_de_poursuite = 1	($2000)
+spSave=_SP~e;'			Sauvegarde de la vitesse actuelle
+SP~e=spSave/10;'			Vitesse de correction reduite
+IF(_SP~e<SpMini);SP~e=SpMini;ENDIF;'Verification des vitesses trop faibles
+ST~e;MC~e;YR~e=0;'		Arret de l'axe en erreur
+#CORREC
+	IF(NbRetry[iCO8]<NbRetry[iCO])
+		YR~e=_TD~e-@RND[(_TP~e/_YC~e)*_YA~e*_YB~e];'	Correction d'erreur de position
+		MC~e;'				Attente de la fin du mouvement
+		WT StabTime[iCO];'		Attente de stabilisation
+	ENDIF
+	NbRetry[iCO8]=NbRetry[iCO8]+1;'On incremente le nombre de reessais dynamiques
+	ErrPos=@RND[(_TP~e/_YC~e)*_YA~e*_YB~e-_TD~e];'	Calcul de l'erreur de position
+	IF(Debug=1);
+		CFS;MG "Correction",ErrPos," axe",iCO," essai",NbRetry[iCO8];'!!! DEBUG !!!
+	ENDIF
+	'Reessai si erreur excessive, nb essais dans tolerance et pas d'arret sur stop
+JP#CORREC,(@ABS[ErrPos]>_ER~e)&(NbRetry[iCO8]<NbRetry[iCO])&(_SC~e<>4)
+SP~e=spSave;'			Restauration de la vitesse sauvegardee
+JP#CORSTOP,(_SC~e=4);'		Si mouvement arrete par commande Stop
+JP#CORFAIL,((@ABS[ErrPos]>_ER~e)|(NbRetry[iCO8]>NbRetry[iCO]));'	Si tjrs erreur
+'Si l'erreur est corrigee
+IF(SpBackup[iCO8]=0);'			Si le mode JOG est off,
+'	on relance le positionnement
+	IF((@ABS[_MT~e]<>1)&(Stat[iCO]&$2>0));'	Si STEPPER avec CODEUR,
+		DP~e=@RND[(_TP~e/_YC~e)*_YA~e*_YB~e];'	Definition position moteur selon codeur
+	ENDIF
+	ActuPaCo=_PA~e;'				Recuperation de la position moteur
+	IF(@ABS[Pos[iCO]-ActuPaCo]<=Dbw[iCO]);'	Si position actuelle dans plage cible
+		Stat[iCO]=((Stat[iCO]|$80)&@COM[$2100]);' On ne bouge pas
+'							MAJ bit Positionnement_termine = 1	($80)
+'							MAJ bit Pos_termine_sur_erreur = 0	($100)
+'							MAJ bit Erreur_de_poursuite = 0	($2000)
+	ELSE
+		Stat[iCO]=(Stat[iCO]&@COM[$2180]);'	MAJ bit Positionnement_termine = 0	($80)
+'								MAJ bit Pos_termine_sur_erreur = 0	($100)
+'								MAJ bit Erreur_de_poursuite = 0	($2000)
+		' Gestion du Backlash
+		' (Pd-Pa+Bck) du signe de Bck ?
+		IF(((Bck[iCO]/@ABS[Bck[iCO]])*(ActuPaCo-Pos[iCO]))>0)
+			PosStat[iCO]=3;'			Declaration: positionnement avec backlash en cours
+			PA~e=(Pos[iCO]-Bck[iCO]);BG~e;'	Positionnement avec Backlash 
+		ELSE;'					Si (Pd-Pa+Bck) n'est pas du signe de Bck,
+			PosStat[iCO]=2;'			Declaration: positionnement sans backlash en cours
+			PA~e=@RND[(@RND[Pos[iCO]]-ActuPaCo)*Percent[iCO]]+ActuPaCo;BG~e;'Positionnement
+		ENDIF
+		NbRetry[iCO16]=0;'			Initialisation nombre de reessais statiques nul
+		SpBackup[iCO8]=0;'			Mode JOG off
+	ENDIF
+ELSE;'				Si le mode JOG est on,
+'	on relance le jog
+	JG~e=SpBackup[iCO8];'			Commande du mouvement
+	Stat[iCO]=(Stat[iCO]&@COM[$2180]);'	MAJ bit Positionnement_termine = 0	($80)
+'							MAJ bit Pos_termine_sur_erreur = 0	($100)
+'							MAJ bit Erreur_de_poursuite = 0	($2000)
+	BG~e;'					Execution du mouvement
+ENDIF
+Stat[iCO]=(Stat[iCO]&@COM[$3000]);'	MAJ bit Erreur_de_poursuite = 0	($2000)
+'						MAJ bit Attente_de_correction = 0	($1000)
+JP#CORCHK
+'
+'Si mouvement arrete par commande Stop
+#CORSTOP
+	Stat[iCO]=(Stat[iCO]|$80)&@COM[$1000]
+'						MAJ bit Positionnement_termine = 1	($80)
+'						MAJ bit Attente_de_correction = 0	($1000)
+JP#CORCHK
+'
+'Si l'axe est toujours en erreur
+#CORFAIL
+	Stat[iCO]=(Stat[iCO]|$2180)&@COM[$1000]
+'						MAJ bit Positionnement_termine = 1	($80)
+'						MAJ bit Pos_termine_sur_erreur = 1	($100)
+'						MAJ bit Attente_de_correction = 0	($1000)
+'						MAJ bit Erreur_de_poursuite = 1	($2000)
+#CORCHK
+' Boucle de traitement des axes en attente de correction
+iCO=0;iCO8=8;iCO16=16;~e=0;'		Initialisation pointeur de tableau et d'axe
+#CORLOOP
+JP#PECORR,(Stat[iCO]&$1000)>0;'	Si Attente_de_correction, correction	($1000)
+iCO=iCO+1;iCO8=iCO8+1;iCO16=iCO16+1;~e=iCO;'	Increment pointeur tableau et axe
+JP#CORLOOP,(iCO<nbAxes);'			Controle des 8 axes
+' Sortie de la tache lorsque l'erreur a ete traitee sur tous les axes
+EN
+'
+'######################### FIN DU MICROCODE GENERIQUE #########################
+
+'##############################################################################
+'#########################START EPU61 MODIFICATION#############################
+'##############################################################################
+
+'######################### GAP MOVEMENT CODE ##################################
+
+#GAP
+MG "GAP movement begining"
+LM ABCD
+
+' If gearing is enabled on any slave.
+IF ((GrAxis[1]<>-1) | (GrAxis[3]<>-1))
+  'Disable gearing.
+  GrAxis[1]=-1
+  Cmd[1]=$80
+  GrAxis[3]=-1
+  Cmd[3]=$80
+  WT 100 ;' Wait for commands to be processed.
+ENDIF
+
+'Check if all is set to move
+JS#CHALL ;' Check motor moving permission.
+
+IF(_JS = 0) ;' If something is worng.
+EN ;' Stop the thread.
+ENDIF
+
+'Set current motor positions
+JS#SETCMP
+
+' Calculate taper.
+tapUp=mZ1+Offsets[0] ;' First part of upper taper
+tapUp = tapUp - (mZ2+Offsets[1]) ;' Final taper for upper grider
+tapDown=mZ3+Offsets[2] ;' First part of lower taper
+tapDown = tapDown - (mZ4+Offsets[3]) ;' Final taper for lower grider
+
+' Too small diference we don't care. 
+IF((@ABS[tapUp]+@ABS[tapDown]) < TprThold) 
+  JP#GAPMOVE
+ENDIF
+
+' Move each motor half way to adjust the taper to 0
+LI -tapUp/2,tapUp/2,-tapDown/2,tapDown/2 
+LE
+VS TprSpd ;' Taper speed from configuration.
+VA TprAcc
+VD TprAcc
+MG "Taper to 0 BG"
+BG S
+MC ABCD
+
+#GAPMOVE
+
+'Calculate current gap
+cGap = (_TDA*EncRatio + Offsets[0]-Offsets[2])+(_TDB*EncRatio +Offsets[1]-Offsets[3])
+cGap = cGap/2
+
+'Set current motor positions
+JS#SETCMP
+
+'Calculate center = Lower girder + gap/2
+GapOfstPr = (mZ3 + mZ4)/2 + (cGap/2)
+
+deltaG = (Gap-cGap)/2
+deltaC = (GapOfst - GapOfstPr)
+
+'Calculate final desired positions
+finalG[0] = mZ1 + Offsets[0] + deltaG + deltaC - (Taper/4)
+finalG[1] = mZ2 + Offsets[1] + deltaG + deltaC + (Taper/4)
+finalG[2] = mZ3 + Offsets[2] - deltaG + deltaC + (Taper/4)
+finalG[3] = mZ4 + Offsets[3] - deltaG + deltaC - (Taper/4)
+
+'Too small difference. Center didn't change.
+IF ((@ABS[deltaG]<GapThold) & (GapOfst = GapOfstPr))  
+  JP#CORTAP
+ENDIF
+
+'Calculate movement needed for desired gap
+GapTmp[0] = deltaG  + deltaC  ;'Upper grider 
+GapTmp[1] = GapTmp[0]  ;'Upper grider 
+GapTmp[2] = -deltaG  + deltaC ;' Lower grider 
+GapTmp[3] = GapTmp[2] ;' Lower grider 
+
+' Prepare to move.
+
+' Segment LI
+JS#LINSEG("GapTmp")
+LE
+VS GapSpd
+VA GapAcc
+VD GapAcc
+MG "Move to gap BG"
+BGS
+MC ABCD
+
+' Adjusting the taper.
+#CORTAP
+
+IF(@ABS[Taper] < TprThold) ;' Too small difference.
+  JP#GAPEND
+ENDIF
+
+aTaper = Taper/4 ;' 1/4 of taper for each motor.
+
+'Prepare to adjust taper.
+
+LI -aTaper,aTaper,aTaper,-aTaper
+LE
+VS TprSpd
+VA TprAcc
+VD TprAcc
+MG "Taper BG"
+BGS
+MC
+
+'END
+#GAPEND
+' Apply correction before we finish
+JS#CORGAP
+
+MG "GAP movement end"
+EN
+'######################### END OF GAP MOVEMENT ################################
+
+'######################### LINEAR SEGMENTATION ################################
+#LINSEG
+' a = array with positions - function parameter
+' b = loop counter
+' c = max value 
+' d = ratio
+' e,f,g,h remains for last segment
+
+'Find max value from 4 positions
+^c = @ABS[^a[0]]
+^b = 1
+
+#LOOPMAX
+IF (^c < @ABS[^a[^b]])
+  ^c = @ABS[^a[^b]]
+ENDIF
+' Counter ++
+^b = ^b + 1
+
+JP#LOOPMAX, (^b < 4) ;' Check all 4 distances
+
+' Calculate ratio
+^d = @ABS[^c] / SegLimit 
+^d = @INT[^d] + 1
+
+' Calculate remains
+^e = @INT[^a[0]%^d]
+^f = @INT[^a[1]%^d]
+^g = @INT[^a[2]%^d]
+^h = @INT[^a[3]%^d]
+
+'Start scaling
+^a[0] = @INT[^a[0]/^d]
+^a[1] = @INT[^a[1]/^d]
+^a[2] = @INT[^a[2]/^d]
+^a[3] = @INT[^a[3]/^d]
+
+' Reset counter
+^b = 0
+
+#SCALE
+' Add segment and increase counter
+LI ^a[0],^a[1],^a[2],^a[3]
+^b = ^b + 1
+
+JP#SCALE, (^b < ^d) ;' Until we add all segments
+
+'If we have remains we add them to last segment
+IF(@ABS[^e]+@ABS[^f]+@ABS[^g]+@ABS[^h] > 0)
+  LI ^e,^f,^g,^h 
+ENDIF
+
+EN
+
+'######################### END OF LINEAR SEGMENTATION #########################
+
+'######################### CORRECT GAP THREAD #################################
+#CORGAP
+MG “Correct gap subrutine.”
+
+#LOOPCG
+' Recalculate current motor positions
+JS#SETCMP
+
+' Get error in final positioning
+err1 = finalG[0]-(mZ1+Offsets[0])
+err2 = finalG[1]-(mZ2+Offsets[1])
+err3 = finalG[2]-(mZ3+Offsets[2])
+err4 = finalG[3]-(mZ4+Offsets[3])
+
+' Apply correction if needed
+IF( (@ABS[err1]+@ABS[err2]+@ABS[err3]+@ABS[err4]) > GapToler )
+  LI err1,err2,err3,err4
+  LE
+  BGS
+  MC ABCD
+  JP#LOOPCG
+ENDIF
+
+EN
+
+
+'######################### END OF CORRECT GAP THREAD ##########################
+
+'######################### STATE CHECKING THREAD ##############################
+#STATETH
+
+'Check for interlock
+IF (@IN[5])  
+  JS#INTSTS, (IlockAct = 0) ;' Set interlock state
+ELSE 
+  JS#INTSTE, (IlockAct = 1) ;' Undo interlock state
+ENDIF
+
+'Check for stopall state
+IF(StopRq = 1)  
+  JS#DISMOVE, (AlwMvmt = 1)
+ENDIF
+
+WT 1000
+
+'Enable movement if it's disabled and no interlock and stopall
+JS#ENAMOVE, (@IN[5] = 0) & (StopRq = 0) & (AlwMvmt = 0)
+
+JP#STATETH  ;' Run thread forever
+EN
+'######################### END OF STATE CHECKING THREAD #######################
+
+'######################### INTERLOCK STATE  ###################################
+#INTSTS
+IlockAct = 1
+JS#DISMOVE, (AlwMvmt = 1)
+EN
+'##################### END OF INTERLOCK STATE #################################
+
+'##################### UNDO INTERLOCK STATE  ##################################
+#INTSTE
+'Do some other stuff when out of interlock
+IlockAct = 0
+EN
+'##################### END OF UNDO INTERLOCK STATE ############################
+
+'##################### TEST COILS  ##################################
+#COILS
+' Get position for each axis
+posA = (_TDC*EncRatio) + (_TDA*EncRatio) + Offsets[0]
+posB = (_TDD*EncRatio) + (_TDB*EncRatio) + Offsets[1]
+posC = (_TDC*EncRatio) + Offsets[2]
+posD = (_TDD*EncRatio) + Offsets[3]
+
+'Calculate current gap
+tempG = (_TDA*EncRatio + Offsets[0]-Offsets[2])+(_TDB*EncRatio +Offsets[1]-Offsets[3])
+coilG = tempG/2
+
+'Calculate taper
+coilT = (posB-posA) + (posC- posD) ;' Upper + lower taper
+
+'Calculate center = Lower girder + gap/2
+coilC = (posC + posD)/2 + (coilG/2)
+
+JP#COILS
+EN
+'##################### END OF TEST COILS ############################
+
+'##################### CAN MOVE ###############################
+
+#CHALL
+^b = 0 ;' Counter to zero
+#LPCHALL
+~g = ^b ;' Assign motor
+' Axis move permission check + motor off check
+IF( ((Stat[^b]&$40) = 0) | (_MO~g = 1 ) ) 
+MG "PERMISSION DENIED"
+EN,,0 ;' Stop thread.
+ENDIF
+
+^b = ^b + 1
+JP#LPCHALL, (^b < 4) ;' Check all motors. (should be 4)
+
+
+EN,,1 ;' Everything is ready to go
+
+'##################### END OFF CAN MOVE ###############################
+
+'####################### ALLOW/RESTRIC MOVEMENT #######################
+#DISMOVE
+HX 7
+AB 1
+Stat[0] = Stat[0] & @COM[$40]
+Stat[1] = Stat[1] & @COM[$40]
+Stat[2] = Stat[2] & @COM[$40]
+Stat[3] = Stat[3] & @COM[$40]
+AlwMvmt = 0
+EN
+
+#ENAMOVE
+Stat[0] = Stat[0] | $40
+Stat[1] = Stat[1] | $40 
+Stat[2] = Stat[2] | $40
+Stat[3] = Stat[3] | $40 
+AlwMvmt = 1
+EN
+
+'####################### END OF ALLOW/RESTRICT MOVEMENT ##################
+
+'################## SET CURRENT MOTOR POSITIONS FROM LINEAR ENCODERS #####
+#SETCMP
+
+'Current positions from linear encoder
+mZ1 = (_TDC*EncRatio) + (_TDA*EncRatio) 
+mZ2 = (_TDD*EncRatio) + (_TDB*EncRatio) 
+mZ3 = _TDC*EncRatio
+mZ4 = _TDD*EncRatio
+
+DP mZ1, mZ2, mZ3, mZ4 
+
+
+EN
+'################# END OF SET CURRENT MOTOR POSITIONS #####################
+
+'##############################################################################
+'###########################END EPU61 MODIFICATION#############################
+'##############################################################################
+
+'===== Routine d'initialisation et declaration des variables specifiques =====
+#INITSPE;'	!!! ne pas supprimer !!!
+'declaration des tableaux du microcode specifique
+' ...
+'initialisation des variables et des tableaux specifiques
+' ...
+	LastAxis=-1;'	Pointeur du dernier axe sur lequel un mouvement a ete commande
+'
+'Les tableaux sont indexes pas la variable iSPE (comprise entre 0 et 7)
+'-ici le microcode specifique peut etre declare comme etant actif :
+'   sur l'axe iSPE :   Stat[iSPE]=(Stat[iSPE]|$10)
+'-ici peut etre interdit le MotorOn/Off au device :
+'   pour l'axe iSPE :  Stat[iSPE]=(Stat[iSPE]&@COM[$20])
+'-ici peuvent etre interdits les mouvements au device :
+'   pour l'axe iSPE :  Stat[iSPE]=(Stat[iSPE]&@COM[$40])
+'-ici peut etre desactive le mode remote pour l'axe iSPE condidere :
+'	EnRem[iSPE]=0;'	Mote remote interdit par le Microcode
+'-ici peut figurer une commande d'execution d'une tache specifique du type :
+'   XQ#SPE_TSK,7
+'
+EN;'		!!! ne pas supprimer !!!
+'
+'================= Tache Specifique executee par #INITSPE ===================
+'#SPE_TSK
+' ...
+'EN
+'
+'=== Routine Specifique appelee sequentiellement par la boucle principale ===
+'#SPE_SEQ
+' ...
+'EN

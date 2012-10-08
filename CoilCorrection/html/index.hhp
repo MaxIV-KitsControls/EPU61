@@ -1,0 +1,74 @@
+[OPTIONS]
+Compatibility=1.1
+Full-text search=Yes
+Contents file=index.hhc
+Default Window=main
+Default topic=index.html
+Index file=index.hhk
+Language=0x409 English (United States)
+Title=EPU-61 Undulator Control System
+
+[WINDOWS]
+main="EPU-61 Undulator Control System","index.hhc","index.hhk","index.html","index.html",,,,,0x23520,,0x10387e,,,,,,,,0
+
+[FILES]
+_coil_correction_8h_source.html
+_coil_correction_class_8h_source.html
+_data_item_8h_source.html
+_poller_thread_8h_source.html
+_power_supply_8h_source.html
+struct_data_item.html
+struct_data_item-members.html
+class_power_supply.html
+class_power_supply-members.html
+namespace_coil_correction__ns.html
+class_coil_correction__ns_1_1_coil_correction.html
+class_coil_correction__ns_1_1_coil_correction-members.html
+class_coil_correction__ns_1_1_coil1_readback_attrib.html
+class_coil_correction__ns_1_1_coil1_readback_attrib-members.html
+class_coil_correction__ns_1_1_coil2_readback_attrib.html
+class_coil_correction__ns_1_1_coil2_readback_attrib-members.html
+class_coil_correction__ns_1_1_coil3_readback_attrib.html
+class_coil_correction__ns_1_1_coil3_readback_attrib-members.html
+class_coil_correction__ns_1_1_coil4_readback_attrib.html
+class_coil_correction__ns_1_1_coil4_readback_attrib-members.html
+class_coil_correction__ns_1_1_coil1_setpoint_attrib.html
+class_coil_correction__ns_1_1_coil1_setpoint_attrib-members.html
+class_coil_correction__ns_1_1_coil2_setpoint_attrib.html
+class_coil_correction__ns_1_1_coil2_setpoint_attrib-members.html
+class_coil_correction__ns_1_1_coil3_setpoint_attrib.html
+class_coil_correction__ns_1_1_coil3_setpoint_attrib-members.html
+class_coil_correction__ns_1_1_coil4_setpoint_attrib.html
+class_coil_correction__ns_1_1_coil4_setpoint_attrib-members.html
+class_coil_correction__ns_1_1_on_class.html
+class_coil_correction__ns_1_1_on_class-members.html
+class_coil_correction__ns_1_1_off_class.html
+class_coil_correction__ns_1_1_off_class-members.html
+class_coil_correction__ns_1_1_load_class.html
+class_coil_correction__ns_1_1_load_class-members.html
+class_coil_correction__ns_1_1_run_class.html
+class_coil_correction__ns_1_1_run_class-members.html
+class_coil_correction__ns_1_1_coil_correction_class.html
+class_coil_correction__ns_1_1_coil_correction_class-members.html
+class_coil_correction__ns_1_1_poller_thread.html
+class_coil_correction__ns_1_1_poller_thread-members.html
+index.html
+namespaces.html
+annotated.html
+classes.html
+functions.html
+functions_func.html
+functions_enum.html
+functions_eval.html
+functions_rela.html
+files.html
+tab_a.png
+tab_b.png
+tab_h.png
+tab_s.png
+nav_h.png
+nav_f.png
+bc_s.png
+doxygen.png
+closed.png
+open.png

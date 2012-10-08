@@ -1,0 +1,542 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML><HEAD></HEAD><BODY>
+<OBJECT type="text/site properties">
+<param name="FrameName" value="right">
+</OBJECT>
+<UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#a6fd8af8442ab72a5fc4359826e374f98"><param name="Name" value="_instance"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_updater_thread.html#a6d9f2e4ef6116f4c6a45a5b3409e19da"><param name="Name" value="abort"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a0ca443d1560992f4f0a103d999c10bcb"><param name="Name" value="add_dynamic_attributes"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a7e2ab0db2f9ee6e32a0a8d7e43ebd656"><param name="Name" value="always_executed_hook"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#a7c649ac687e05b9037b4f1c2d46fcd28"><param name="Name" value="attribute_factory"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a72ccda7c0090baed1404e7c48d6aee81"><param name="Name" value="calibrate_gap"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a272b156cd2e5645fc49bca848dc8ffb6"><param name="Name" value="calibrate_phase"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_calibrate_gap_class.html#a86408316b1a161174c062c154499a0f9"><param name="Name" value="CalibrateGapClass"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_calibrate_phase_class.html#ab181f4cbc6a02f57de0733e4ff2d9c5e"><param name="Name" value="CalibratePhaseClass"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_updater_thread.html#a46acef849a200c51fc65747a9ef2335a"><param name="Name" value="check_axes_state"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#acc749111608e99d6037b658ae88a46d5"><param name="Name" value="cl_def_prop"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#a4e21d1c8e824d282ed6670760c28f524"><param name="Name" value="cl_prop"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#a1dab312109e4b23a8bad00b0b33f2c66"><param name="Name" value="command_factory"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#abd797117056b2b5fddd5b4c9fd1e381a"><param name="Name" value="controlBoxGapLink"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#afa031a7d41e0a4cc0e51d0cdebc793be"><param name="Name" value="controlBoxPhaseLink"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#afdaa8d36faf058b51fdfad5dd3b4d50c"><param name="Name" value="delete_device"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#aac77d0d6c1b0c11fb054e2b2f6973f50"><param name="Name" value="dev_def_prop"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a7e5a4add4d2280b7e67855fd0572c9e8"><param name="Name" value="deviceLock"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a495f9fe59b1b1dd251172dae8c3fb3b9"><param name="Name" value="disable_limits"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_disable_limits_class.html#aba8dccc114a2b0fef80480614699f96d"><param name="Name" value="DisableLimitsClass"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_updater_thread.html#a6fda0614cb8a39ebd9d23282a61fa05e"><param name="Name" value="display_axes_status"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_calibrate_gap_class.html#a096f2ef326924e28abcf645e469741c6"><param name="Name" value="execute"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_calibrate_gap_class.html#a096f2ef326924e28abcf645e469741c6"><param name="Name" value="Undulator_ns::CalibrateGapClass"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_calibrate_phase_class.html#a8758972b3a7a01427d33c8b9f0b1d69f"><param name="Name" value="Undulator_ns::CalibratePhaseClass"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_disable_limits_class.html#a2d1d01dd35a99774f2b0771729352d56"><param name="Name" value="Undulator_ns::DisableLimitsClass"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_stop_gap_class.html#aa0f5a501ac7fed2a6263b1d45f49e27e"><param name="Name" value="Undulator_ns::StopGapClass"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_stop_phase_class.html#ad6bda8917ae2434ba5184eb73a7c92c1"><param name="Name" value="Undulator_ns::StopPhaseClass"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_toggle_stop_all_class.html#a66dd277e5092d2b881ef60f0bf392544"><param name="Name" value="Undulator_ns::ToggleStopAllClass"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a99998dac6271ce137bcc6db0c81e53ff"><param name="Name" value="gapAxes"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#ac3a8d0fd9b96bdb789e12488f0386439"><param name="Name" value="gearedAxes"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#ab5ab15d3426c88502957843948fc59ed"><param name="Name" value="get_class_property"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#aec6bdf818bf8be4c682e6cefc49fb303"><param name="Name" value="get_cvsroot"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#aa883e1b80b9f58aa31dcee752f8fa162"><param name="Name" value="get_cvstag"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#a5777dce1a5607d9f80ae51588ebdba49"><param name="Name" value="get_default_class_property"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#a0faa4a356192df33cb3dfa31dc46dc38"><param name="Name" value="get_default_device_property"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a92d944b331afaace7868ba5b0b739143"><param name="Name" value="get_device_property"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_updater_thread.html#af0cd4eeba1419ed3fe219f5b56a704a3"><param name="Name" value="go"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#a57712e9887f52c5280a7e78f7a25a66e"><param name="Name" value="init"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#ae435bb0dce4d4fb55b9f7445185feed3"><param name="Name" value="init_device"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#acd966e0c1f4155ba2844af30f16c6ce9"><param name="Name" value="instance"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_calibrate_gap_class.html#af41d3bee8580f3eab2c47de7d8585f54"><param name="Name" value="is_allowed"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_calibrate_gap_class.html#af41d3bee8580f3eab2c47de7d8585f54"><param name="Name" value="Undulator_ns::CalibrateGapClass"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_calibrate_phase_class.html#ac55c4327143aade4112ec63b2720c6da"><param name="Name" value="Undulator_ns::CalibratePhaseClass"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_disable_limits_class.html#a136ab12828ba0b6d13fdfa6e1e97c3ec"><param name="Name" value="Undulator_ns::DisableLimitsClass"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_gap_acceleration_attrib.html#a88127e347e9853cbd8215af18a13e823"><param name="Name" value="Undulator_ns::EngineeringGapAccelerationAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_gap_speed_attrib.html#a5f82baf00c5da964cff06fe3d55a6833"><param name="Name" value="Undulator_ns::EngineeringGapSpeedAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_lock_attrib.html#af2e7e1356e6bcd649f7bf408395a40bb"><param name="Name" value="Undulator_ns::EngineeringLockAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_phase_acceleration_attrib.html#a537e13154fa5ef5897cb9cd38c72a641"><param name="Name" value="Undulator_ns::EngineeringPhaseAccelerationAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_phase_speed_attrib.html#aa314c17ace53a9083ede340c3754facc"><param name="Name" value="Undulator_ns::EngineeringPhaseSpeedAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_gap_acceleration_attrib.html#acb33bd707f5a33d723a03ce1feb320f6"><param name="Name" value="Undulator_ns::GapAccelerationAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_gap_moving_attrib.html#ab278025628389aaf92f4ee8cb72987fb"><param name="Name" value="Undulator_ns::GapMovingAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_gap_readback_attrib.html#ac0b4cd5e2d01bf8d3351ceb8717fb61c"><param name="Name" value="Undulator_ns::GapReadbackAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_gap_setpoint_attrib.html#a4d2c100b73bd04ca51f7bd424a380720"><param name="Name" value="Undulator_ns::GapSetpointAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_gap_speed_attrib.html#a19f88542a411ab9524814a9d7d66bd66"><param name="Name" value="Undulator_ns::GapSpeedAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_interlock_attrib.html#ae498401b6f50d550edde093a1521bae3"><param name="Name" value="Undulator_ns::InterlockAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_limits_disabled_attrib.html#af9629914c7bff4bf7de013d60a07559f"><param name="Name" value="Undulator_ns::LimitsDisabledAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_offset_readback_attrib.html#abd60cad8be82935283e12c55592ea8d9"><param name="Name" value="Undulator_ns::OffsetReadbackAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_offset_setpoint_attrib.html#a5be5c962beb0fc2109b093552fbf485d"><param name="Name" value="Undulator_ns::OffsetSetpointAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_acceleration_attrib.html#a8c35b284a274247d039d02860c3202fe"><param name="Name" value="Undulator_ns::PhaseAccelerationAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_mode_readback_attrib.html#a9cac9bbbff4b5a80d0266a2e954c2985"><param name="Name" value="Undulator_ns::PhaseModeReadbackAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_mode_setpoint_attrib.html#a5b18ef040b16d39ed877c811fb426ead"><param name="Name" value="Undulator_ns::PhaseModeSetpointAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_moving_attrib.html#a0b806af5aa81170831ddcce25b1c6d2e"><param name="Name" value="Undulator_ns::PhaseMovingAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_readback_attrib.html#a439fb20b3f458ec42b6ee5fa83e8d2d9"><param name="Name" value="Undulator_ns::PhaseReadbackAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_setpoint_attrib.html#a8bbb7156e3b89e79f46d73af8e3ee5f3"><param name="Name" value="Undulator_ns::PhaseSetpointAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_speed_attrib.html#a57ea1d8e9015146068d4474da310a35c"><param name="Name" value="Undulator_ns::PhaseSpeedAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_stop_all_attrib.html#a71cf3d88add5420df902cea27a319ce0"><param name="Name" value="Undulator_ns::StopAllAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_stop_gap_class.html#a14bd1c854a5ef86f0295b0d4cdb70f2c"><param name="Name" value="Undulator_ns::StopGapClass"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_stop_phase_class.html#aa2bfbcc9494ebfde571f9968401e851d"><param name="Name" value="Undulator_ns::StopPhaseClass"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_taper_acceleration_attrib.html#a4fbfb1f9225f61f3358b1687dac0ad86"><param name="Name" value="Undulator_ns::TaperAccelerationAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_taper_readback_attrib.html#a660ece71eeca24311ec741ac5d0e7696"><param name="Name" value="Undulator_ns::TaperReadbackAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_taper_setpoint_attrib.html#a2634bde4e9af47ec49cb5dd603f1367e"><param name="Name" value="Undulator_ns::TaperSetpointAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_taper_speed_attrib.html#ade81ace5e483c3b68151e5816fb5e4e2"><param name="Name" value="Undulator_ns::TaperSpeedAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_toggle_stop_all_class.html#a1c6b78d6092da17b391423d879a7b71d"><param name="Name" value="Undulator_ns::ToggleStopAllClass"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#abbe34168a6ef738e0cf6c0ea709d2a7d"><param name="Name" value="is_CalibrateGap_allowed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a5257f2be071ca56dc7645b8d8b57afca"><param name="Name" value="is_CalibratePhase_allowed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a1c798567e5c7ef03eb73da9b858700db"><param name="Name" value="is_DisableLimits_allowed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#ac810e36b8ba1d5d2209ae67b92ef3dc0"><param name="Name" value="is_EngineeringGapAcceleration_allowed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a07fa291732244fa27bc4ce12830c3b37"><param name="Name" value="is_EngineeringGapSpeed_allowed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a3ab5965e1e80805afcb7ad2cdf04325f"><param name="Name" value="is_EngineeringLock_allowed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#afa6edb7c1be462e7909d8e3f7fc26c1a"><param name="Name" value="is_EngineeringPhaseAcceleration_allowed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#ace0c275293da2e0f245f446560a3e597"><param name="Name" value="is_EngineeringPhaseSpeed_allowed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a25f8c065dccf059eade920ac08ee3c77"><param name="Name" value="is_GapAcceleration_allowed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a5f50e03d697552cf8e5496227c3e9748"><param name="Name" value="is_GapMoving_allowed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#af0d23479b86b7130c27c9555e6d20c41"><param name="Name" value="is_GapReadback_allowed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a421d4ced0756dd6774354135ae3dd246"><param name="Name" value="is_GapSetpoint_allowed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a12493f052b88aad2359149f6916546f5"><param name="Name" value="is_GapSpeed_allowed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a032ca118210cdd6276e770fb6e8c642b"><param name="Name" value="is_Interlock_allowed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a7133344653a07ce1aea45e9e6413b243"><param name="Name" value="is_LimitsDisabled_allowed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a8d615fde5cb0cd9a278969cfa3ce9059"><param name="Name" value="is_OffsetReadback_allowed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a63a40574fad7cc9f89fd4e31593c7f3d"><param name="Name" value="is_OffsetSetpoint_allowed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#ab98816cff4a9117b9108204143272963"><param name="Name" value="is_PhaseAcceleration_allowed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a09f638104877fe88c08805c90d8b0f55"><param name="Name" value="is_PhaseModeReadback_allowed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a35730864d600bfa9470665fe2f7e909f"><param name="Name" value="is_PhaseModeSetpoint_allowed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#aa2a51ce1329ad5887604c5f6a9ef78ef"><param name="Name" value="is_PhaseMoving_allowed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a1b9dfe66a7e33582d882565f87eabc2d"><param name="Name" value="is_PhaseReadback_allowed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a4c22a4749247cac6482f9b27a1a9f9d0"><param name="Name" value="is_PhaseSetpoint_allowed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a53c5825ffd411679910e3592530c149b"><param name="Name" value="is_PhaseSpeed_allowed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a3f22fa11e992823113c825d4b880312a"><param name="Name" value="is_StopAll_allowed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a000da737612fe67801fdcecab7b66de5"><param name="Name" value="is_StopGap_allowed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a285ba1b7430bff4035c5a89108590d13"><param name="Name" value="is_StopPhase_allowed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#ae97b0f5df9e297d3bf2e66384d75eccf"><param name="Name" value="is_TaperAcceleration_allowed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#ad81e6a4197bda51efcd3dcb65c17d122"><param name="Name" value="is_TaperReadback_allowed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#aad945b62cae4f6b545a5bfb96191a381"><param name="Name" value="is_TaperSetpoint_allowed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a63b345156996e31d7461084245c718e1"><param name="Name" value="is_TaperSpeed_allowed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a8bbd3c03fa1ecbb3244efe9e7f27c96d"><param name="Name" value="is_ToggleStopAll_allowed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a7c56f1e1c64682beb5d06109f950d84c"><param name="Name" value="phaseAxes"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_gap_acceleration_attrib.html#a91e04213bdce8cce8bda2b852ebc64ce"><param name="Name" value="read"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_gap_acceleration_attrib.html#a91e04213bdce8cce8bda2b852ebc64ce"><param name="Name" value="Undulator_ns::EngineeringGapAccelerationAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_gap_speed_attrib.html#a079e67bf6b3e4f914e8bc622ad0af3db"><param name="Name" value="Undulator_ns::EngineeringGapSpeedAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_lock_attrib.html#a344c64eb7a9bf0f3fc1ac68537cf28d5"><param name="Name" value="Undulator_ns::EngineeringLockAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_phase_acceleration_attrib.html#a3155c0b3c90c87de9c6d75e331cd1dc5"><param name="Name" value="Undulator_ns::EngineeringPhaseAccelerationAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_phase_speed_attrib.html#a56f8842754ac6aa17b7b98aa566b483f"><param name="Name" value="Undulator_ns::EngineeringPhaseSpeedAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_gap_acceleration_attrib.html#a98ebed53198f793d162f3e36e9e138cb"><param name="Name" value="Undulator_ns::GapAccelerationAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_gap_moving_attrib.html#a30b1c9e51c5dd9c99b979ab317429897"><param name="Name" value="Undulator_ns::GapMovingAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_gap_readback_attrib.html#a059bad3d451110720ca378675aa8dc1f"><param name="Name" value="Undulator_ns::GapReadbackAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_gap_setpoint_attrib.html#af2dfb01357a3a754a47d6231e5158fda"><param name="Name" value="Undulator_ns::GapSetpointAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_gap_speed_attrib.html#aad51481fda6814bd8e7c05337a4f9990"><param name="Name" value="Undulator_ns::GapSpeedAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_interlock_attrib.html#a851daf7d0dfc24967d57de5df1a2a181"><param name="Name" value="Undulator_ns::InterlockAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_limits_disabled_attrib.html#aca4f4a82ecf5cec86616b769429cb523"><param name="Name" value="Undulator_ns::LimitsDisabledAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_offset_readback_attrib.html#a9a9c5b8bdeb8483acf5ffefe6e27c511"><param name="Name" value="Undulator_ns::OffsetReadbackAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_offset_setpoint_attrib.html#ab3e3f7fab78a2cc63f9e13ef748bde30"><param name="Name" value="Undulator_ns::OffsetSetpointAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_acceleration_attrib.html#ab1a738d10db58041e82a450fba4b5dcf"><param name="Name" value="Undulator_ns::PhaseAccelerationAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_mode_readback_attrib.html#a4c219d04603f99d3bdbae5020aa2546c"><param name="Name" value="Undulator_ns::PhaseModeReadbackAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_mode_setpoint_attrib.html#ae346609f97beee56a9c8618cf6dabf3e"><param name="Name" value="Undulator_ns::PhaseModeSetpointAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_moving_attrib.html#a8c6841d8f3e36b7b2caf7aa33d5d2cec"><param name="Name" value="Undulator_ns::PhaseMovingAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_readback_attrib.html#a645d402a3d0d8d665e076199f79ea58a"><param name="Name" value="Undulator_ns::PhaseReadbackAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_setpoint_attrib.html#a65ace161de275b02d33fa7d854d03fd8"><param name="Name" value="Undulator_ns::PhaseSetpointAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_speed_attrib.html#a938182554beece4bcf68bb2366b8d055"><param name="Name" value="Undulator_ns::PhaseSpeedAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_stop_all_attrib.html#abc13fc53665448843c2e7000075f709b"><param name="Name" value="Undulator_ns::StopAllAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_taper_acceleration_attrib.html#a193801b3571107cb70234796a7d0f624"><param name="Name" value="Undulator_ns::TaperAccelerationAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_taper_readback_attrib.html#ac4acf531fa6eaa7a98dff855a32074bf"><param name="Name" value="Undulator_ns::TaperReadbackAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_taper_setpoint_attrib.html#a8484da66820198c0d10e93ba52e1b8ec"><param name="Name" value="Undulator_ns::TaperSetpointAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_taper_speed_attrib.html#ad6dd8f8db63adf02b2d05c239a9cd067"><param name="Name" value="Undulator_ns::TaperSpeedAttrib"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a84a2ca9c1460dfc1a9d6e9a9191331d1"><param name="Name" value="read_attr_hardware"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a30a8d30b1927ecb89165a23c54db7406"><param name="Name" value="read_EngineeringGapAcceleration"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a9e10a2ef9b28c09aaa96529e69e354f3"><param name="Name" value="read_EngineeringGapSpeed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a8fdb2ce8dbe04470caf6fa6032e8bdeb"><param name="Name" value="read_EngineeringLock"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a28dcd86ec66fbfa81e6e0d2812da9ccd"><param name="Name" value="read_EngineeringPhaseAcceleration"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a3a76732d1123ee21df6a8469bd5f79f5"><param name="Name" value="read_EngineeringPhaseSpeed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a5787d80ff20765f6a319ae9b930ef170"><param name="Name" value="read_GapAcceleration"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a5563443793dcf34903d3f7babc4d32a3"><param name="Name" value="read_GapMoving"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a101d321283fd8c3f99a1426fcae26980"><param name="Name" value="read_GapReadback"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#aa38ad554029a323660d55a3391030bbf"><param name="Name" value="read_GapSetpoint"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#ada8e92e6fafde523e60ee2ec1183726d"><param name="Name" value="read_GapSpeed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a6f831a1f49076d3124936c5b2b0eee4e"><param name="Name" value="read_Interlock"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#afc6f3d3c385912e6fa482b3bfc6de89b"><param name="Name" value="read_LimitsDisabled"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_updater_thread.html#af3b76323948325a3c9db4ad59e6c9a61"><param name="Name" value="read_motor_pos"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a6524104a9c3f8fdb957d349e2beedd80"><param name="Name" value="read_OffsetReadback"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#aa2901307c763d9993bad36c0597a5c94"><param name="Name" value="read_OffsetSetpoint"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a45b32c88d7a83eb74e1378fc49777380"><param name="Name" value="read_PhaseAcceleration"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a0e2c101bfe4ce011c67197dc47c6ceb7"><param name="Name" value="read_PhaseModeReadback"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a53250d659f7a300ff3461f292bd3a822"><param name="Name" value="read_PhaseModeSetpoint"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a04e12c35f39372a9c85190663d7ad462"><param name="Name" value="read_PhaseMoving"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a87b2d98352336a912d06a41f6b7219a7"><param name="Name" value="read_PhaseReadback"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a47796fb2a075c59d7e8a99ef79b8cda0"><param name="Name" value="read_PhaseSetpoint"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a78f18a9fc079d3bf031a8b39e341f171"><param name="Name" value="read_PhaseSpeed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a44ca1b0a413ef6e73bc02dd19499ebcf"><param name="Name" value="read_StopAll"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a41482ff33b7135b895380151df1994c3"><param name="Name" value="read_TaperAcceleration"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#afeef29d23f7223fbb94e2b97fcce56a8"><param name="Name" value="read_TaperReadback"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#adb37ff23762cd38dc23fca8d1e36ab4f"><param name="Name" value="read_TaperSetpoint"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a185809df84d035d4a69a43469c9b9d0d"><param name="Name" value="read_TaperSpeed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_updater_thread.html#aecded24740e90d1761b23191e6f34920"><param name="Name" value="run_undetached"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#a7cec82b21b7e7ef63c65dcf007c42953"><param name="Name" value="set_default_property"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a9a4d93752d21cccbe7c75f2ade6b5e1e"><param name="Name" value="stop_gap"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a5eba5727e6d4da6bb6d7a6f1d78f06ff"><param name="Name" value="stop_phase"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_stop_gap_class.html#a9d09a53f1698598227715f3635a44ce4"><param name="Name" value="StopGapClass"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_stop_phase_class.html#a48dda4605e04d1edeb88d6c16b25304c"><param name="Name" value="StopPhaseClass"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#ade5eb7b08899e09a779ecea037bc0261"><param name="Name" value="toggle_stop_all"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_toggle_stop_all_class.html#a717f66ee76704d7afa019e1612fb474f"><param name="Name" value="ToggleStopAllClass"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#ae2e98099c519acd0185b001c6388a80e"><param name="Name" value="Undulator"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="namespace_undulator__ns.html"><param name="Name" value="Undulator_ns"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_calibrate_gap_class.html"><param name="Name" value="Undulator_ns::CalibrateGapClass"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_calibrate_gap_class.html#a86408316b1a161174c062c154499a0f9"><param name="Name" value="CalibrateGapClass"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_calibrate_gap_class.html#a096f2ef326924e28abcf645e469741c6"><param name="Name" value="execute"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_calibrate_gap_class.html#af41d3bee8580f3eab2c47de7d8585f54"><param name="Name" value="is_allowed"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_calibrate_phase_class.html"><param name="Name" value="Undulator_ns::CalibratePhaseClass"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_calibrate_phase_class.html#ab181f4cbc6a02f57de0733e4ff2d9c5e"><param name="Name" value="CalibratePhaseClass"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_calibrate_phase_class.html#a8758972b3a7a01427d33c8b9f0b1d69f"><param name="Name" value="execute"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_calibrate_phase_class.html#ac55c4327143aade4112ec63b2720c6da"><param name="Name" value="is_allowed"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_disable_limits_class.html"><param name="Name" value="Undulator_ns::DisableLimitsClass"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_disable_limits_class.html#aba8dccc114a2b0fef80480614699f96d"><param name="Name" value="DisableLimitsClass"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_disable_limits_class.html#a2d1d01dd35a99774f2b0771729352d56"><param name="Name" value="execute"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_disable_limits_class.html#a136ab12828ba0b6d13fdfa6e1e97c3ec"><param name="Name" value="is_allowed"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_gap_acceleration_attrib.html"><param name="Name" value="Undulator_ns::EngineeringGapAccelerationAttrib"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_gap_acceleration_attrib.html#a88127e347e9853cbd8215af18a13e823"><param name="Name" value="is_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_gap_acceleration_attrib.html#a91e04213bdce8cce8bda2b852ebc64ce"><param name="Name" value="read"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_gap_acceleration_attrib.html#a206ce1fd26793c1505b62ab4dde8c6b0"><param name="Name" value="write"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_gap_speed_attrib.html"><param name="Name" value="Undulator_ns::EngineeringGapSpeedAttrib"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_gap_speed_attrib.html#a5f82baf00c5da964cff06fe3d55a6833"><param name="Name" value="is_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_gap_speed_attrib.html#a079e67bf6b3e4f914e8bc622ad0af3db"><param name="Name" value="read"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_gap_speed_attrib.html#a3d545709a240b2107a54151c2b6f0779"><param name="Name" value="write"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_lock_attrib.html"><param name="Name" value="Undulator_ns::EngineeringLockAttrib"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_lock_attrib.html#af2e7e1356e6bcd649f7bf408395a40bb"><param name="Name" value="is_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_lock_attrib.html#a344c64eb7a9bf0f3fc1ac68537cf28d5"><param name="Name" value="read"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_lock_attrib.html#af9211da117350d974a157b7bc06b0d68"><param name="Name" value="write"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_phase_acceleration_attrib.html"><param name="Name" value="Undulator_ns::EngineeringPhaseAccelerationAttrib"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_phase_acceleration_attrib.html#a537e13154fa5ef5897cb9cd38c72a641"><param name="Name" value="is_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_phase_acceleration_attrib.html#a3155c0b3c90c87de9c6d75e331cd1dc5"><param name="Name" value="read"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_phase_acceleration_attrib.html#a11d298f9bde692aceffacee76efa9887"><param name="Name" value="write"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_phase_speed_attrib.html"><param name="Name" value="Undulator_ns::EngineeringPhaseSpeedAttrib"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_phase_speed_attrib.html#aa314c17ace53a9083ede340c3754facc"><param name="Name" value="is_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_phase_speed_attrib.html#a56f8842754ac6aa17b7b98aa566b483f"><param name="Name" value="read"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_phase_speed_attrib.html#ab193d67bab9235b2a46039e31614f942"><param name="Name" value="write"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_gap_acceleration_attrib.html"><param name="Name" value="Undulator_ns::GapAccelerationAttrib"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_gap_acceleration_attrib.html#acb33bd707f5a33d723a03ce1feb320f6"><param name="Name" value="is_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_gap_acceleration_attrib.html#a98ebed53198f793d162f3e36e9e138cb"><param name="Name" value="read"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_gap_acceleration_attrib.html#a28992f7b4b663f1d7b3e98e5fad6203d"><param name="Name" value="write"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_gap_moving_attrib.html"><param name="Name" value="Undulator_ns::GapMovingAttrib"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_gap_moving_attrib.html#ab278025628389aaf92f4ee8cb72987fb"><param name="Name" value="is_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_gap_moving_attrib.html#a30b1c9e51c5dd9c99b979ab317429897"><param name="Name" value="read"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_gap_readback_attrib.html"><param name="Name" value="Undulator_ns::GapReadbackAttrib"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_gap_readback_attrib.html#ac0b4cd5e2d01bf8d3351ceb8717fb61c"><param name="Name" value="is_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_gap_readback_attrib.html#a059bad3d451110720ca378675aa8dc1f"><param name="Name" value="read"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_gap_setpoint_attrib.html"><param name="Name" value="Undulator_ns::GapSetpointAttrib"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_gap_setpoint_attrib.html#a4d2c100b73bd04ca51f7bd424a380720"><param name="Name" value="is_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_gap_setpoint_attrib.html#af2dfb01357a3a754a47d6231e5158fda"><param name="Name" value="read"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_gap_setpoint_attrib.html#a2c688216f504661c0bf5323f6eb51ce7"><param name="Name" value="write"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_gap_speed_attrib.html"><param name="Name" value="Undulator_ns::GapSpeedAttrib"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_gap_speed_attrib.html#a19f88542a411ab9524814a9d7d66bd66"><param name="Name" value="is_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_gap_speed_attrib.html#aad51481fda6814bd8e7c05337a4f9990"><param name="Name" value="read"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_gap_speed_attrib.html#a13d5ed6cd31a7338d2f7c88e5242dd70"><param name="Name" value="write"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_interlock_attrib.html"><param name="Name" value="Undulator_ns::InterlockAttrib"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_interlock_attrib.html#ae498401b6f50d550edde093a1521bae3"><param name="Name" value="is_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_interlock_attrib.html#a851daf7d0dfc24967d57de5df1a2a181"><param name="Name" value="read"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_limits_disabled_attrib.html"><param name="Name" value="Undulator_ns::LimitsDisabledAttrib"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_limits_disabled_attrib.html#af9629914c7bff4bf7de013d60a07559f"><param name="Name" value="is_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_limits_disabled_attrib.html#aca4f4a82ecf5cec86616b769429cb523"><param name="Name" value="read"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_offset_readback_attrib.html"><param name="Name" value="Undulator_ns::OffsetReadbackAttrib"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_offset_readback_attrib.html#abd60cad8be82935283e12c55592ea8d9"><param name="Name" value="is_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_offset_readback_attrib.html#a9a9c5b8bdeb8483acf5ffefe6e27c511"><param name="Name" value="read"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_offset_setpoint_attrib.html"><param name="Name" value="Undulator_ns::OffsetSetpointAttrib"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_offset_setpoint_attrib.html#a5be5c962beb0fc2109b093552fbf485d"><param name="Name" value="is_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_offset_setpoint_attrib.html#ab3e3f7fab78a2cc63f9e13ef748bde30"><param name="Name" value="read"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_offset_setpoint_attrib.html#ae5ae9cc027317fcee2c79beefd24ec89"><param name="Name" value="write"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_acceleration_attrib.html"><param name="Name" value="Undulator_ns::PhaseAccelerationAttrib"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_acceleration_attrib.html#a8c35b284a274247d039d02860c3202fe"><param name="Name" value="is_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_acceleration_attrib.html#ab1a738d10db58041e82a450fba4b5dcf"><param name="Name" value="read"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_acceleration_attrib.html#a709e0b4c46ae17d04d8c6c7c32f983f5"><param name="Name" value="write"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_mode_readback_attrib.html"><param name="Name" value="Undulator_ns::PhaseModeReadbackAttrib"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_mode_readback_attrib.html#a9cac9bbbff4b5a80d0266a2e954c2985"><param name="Name" value="is_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_mode_readback_attrib.html#a4c219d04603f99d3bdbae5020aa2546c"><param name="Name" value="read"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_mode_setpoint_attrib.html"><param name="Name" value="Undulator_ns::PhaseModeSetpointAttrib"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_mode_setpoint_attrib.html#a5b18ef040b16d39ed877c811fb426ead"><param name="Name" value="is_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_mode_setpoint_attrib.html#ae346609f97beee56a9c8618cf6dabf3e"><param name="Name" value="read"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_mode_setpoint_attrib.html#aa5aa870a352a0cda03bf771d7c977e00"><param name="Name" value="write"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_moving_attrib.html"><param name="Name" value="Undulator_ns::PhaseMovingAttrib"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_moving_attrib.html#a0b806af5aa81170831ddcce25b1c6d2e"><param name="Name" value="is_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_moving_attrib.html#a8c6841d8f3e36b7b2caf7aa33d5d2cec"><param name="Name" value="read"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_readback_attrib.html"><param name="Name" value="Undulator_ns::PhaseReadbackAttrib"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_readback_attrib.html#a439fb20b3f458ec42b6ee5fa83e8d2d9"><param name="Name" value="is_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_readback_attrib.html#a645d402a3d0d8d665e076199f79ea58a"><param name="Name" value="read"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_setpoint_attrib.html"><param name="Name" value="Undulator_ns::PhaseSetpointAttrib"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_setpoint_attrib.html#a8bbb7156e3b89e79f46d73af8e3ee5f3"><param name="Name" value="is_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_setpoint_attrib.html#a65ace161de275b02d33fa7d854d03fd8"><param name="Name" value="read"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_setpoint_attrib.html#a433ea1e662ff1632cc9044fd772db4ed"><param name="Name" value="write"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_speed_attrib.html"><param name="Name" value="Undulator_ns::PhaseSpeedAttrib"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_speed_attrib.html#a57ea1d8e9015146068d4474da310a35c"><param name="Name" value="is_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_speed_attrib.html#a938182554beece4bcf68bb2366b8d055"><param name="Name" value="read"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_speed_attrib.html#a8e510bca22ba53b2b9b14d6ba302c999"><param name="Name" value="write"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_stop_all_attrib.html"><param name="Name" value="Undulator_ns::StopAllAttrib"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_stop_all_attrib.html#a71cf3d88add5420df902cea27a319ce0"><param name="Name" value="is_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_stop_all_attrib.html#abc13fc53665448843c2e7000075f709b"><param name="Name" value="read"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_stop_gap_class.html"><param name="Name" value="Undulator_ns::StopGapClass"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_stop_gap_class.html#aa0f5a501ac7fed2a6263b1d45f49e27e"><param name="Name" value="execute"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_stop_gap_class.html#a14bd1c854a5ef86f0295b0d4cdb70f2c"><param name="Name" value="is_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_stop_gap_class.html#a9d09a53f1698598227715f3635a44ce4"><param name="Name" value="StopGapClass"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_stop_phase_class.html"><param name="Name" value="Undulator_ns::StopPhaseClass"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_stop_phase_class.html#ad6bda8917ae2434ba5184eb73a7c92c1"><param name="Name" value="execute"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_stop_phase_class.html#aa2bfbcc9494ebfde571f9968401e851d"><param name="Name" value="is_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_stop_phase_class.html#a48dda4605e04d1edeb88d6c16b25304c"><param name="Name" value="StopPhaseClass"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_taper_acceleration_attrib.html"><param name="Name" value="Undulator_ns::TaperAccelerationAttrib"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_taper_acceleration_attrib.html#a4fbfb1f9225f61f3358b1687dac0ad86"><param name="Name" value="is_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_taper_acceleration_attrib.html#a193801b3571107cb70234796a7d0f624"><param name="Name" value="read"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_taper_acceleration_attrib.html#accbe0bf4932aab48a6aa905f77829b58"><param name="Name" value="write"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_taper_readback_attrib.html"><param name="Name" value="Undulator_ns::TaperReadbackAttrib"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_taper_readback_attrib.html#a660ece71eeca24311ec741ac5d0e7696"><param name="Name" value="is_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_taper_readback_attrib.html#ac4acf531fa6eaa7a98dff855a32074bf"><param name="Name" value="read"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_taper_setpoint_attrib.html"><param name="Name" value="Undulator_ns::TaperSetpointAttrib"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_taper_setpoint_attrib.html#a2634bde4e9af47ec49cb5dd603f1367e"><param name="Name" value="is_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_taper_setpoint_attrib.html#a8484da66820198c0d10e93ba52e1b8ec"><param name="Name" value="read"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_taper_setpoint_attrib.html#a9831c8715f0eaad538edefaa771abed8"><param name="Name" value="write"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_taper_speed_attrib.html"><param name="Name" value="Undulator_ns::TaperSpeedAttrib"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_taper_speed_attrib.html#ade81ace5e483c3b68151e5816fb5e4e2"><param name="Name" value="is_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_taper_speed_attrib.html#ad6dd8f8db63adf02b2d05c239a9cd067"><param name="Name" value="read"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_taper_speed_attrib.html#a170828003331753a17f3342046fbf09f"><param name="Name" value="write"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_toggle_stop_all_class.html"><param name="Name" value="Undulator_ns::ToggleStopAllClass"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_toggle_stop_all_class.html#a66dd277e5092d2b881ef60f0bf392544"><param name="Name" value="execute"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_toggle_stop_all_class.html#a1c6b78d6092da17b391423d879a7b71d"><param name="Name" value="is_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_toggle_stop_all_class.html#a717f66ee76704d7afa019e1612fb474f"><param name="Name" value="ToggleStopAllClass"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html"><param name="Name" value="Undulator_ns::Undulator"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a0ca443d1560992f4f0a103d999c10bcb"><param name="Name" value="add_dynamic_attributes"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a7e2ab0db2f9ee6e32a0a8d7e43ebd656"><param name="Name" value="always_executed_hook"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a72ccda7c0090baed1404e7c48d6aee81"><param name="Name" value="calibrate_gap"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a272b156cd2e5645fc49bca848dc8ffb6"><param name="Name" value="calibrate_phase"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#abd797117056b2b5fddd5b4c9fd1e381a"><param name="Name" value="controlBoxGapLink"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#afa031a7d41e0a4cc0e51d0cdebc793be"><param name="Name" value="controlBoxPhaseLink"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#afdaa8d36faf058b51fdfad5dd3b4d50c"><param name="Name" value="delete_device"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a7e5a4add4d2280b7e67855fd0572c9e8"><param name="Name" value="deviceLock"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a495f9fe59b1b1dd251172dae8c3fb3b9"><param name="Name" value="disable_limits"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a99998dac6271ce137bcc6db0c81e53ff"><param name="Name" value="gapAxes"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#ac3a8d0fd9b96bdb789e12488f0386439"><param name="Name" value="gearedAxes"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a92d944b331afaace7868ba5b0b739143"><param name="Name" value="get_device_property"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#ae435bb0dce4d4fb55b9f7445185feed3"><param name="Name" value="init_device"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#abbe34168a6ef738e0cf6c0ea709d2a7d"><param name="Name" value="is_CalibrateGap_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a5257f2be071ca56dc7645b8d8b57afca"><param name="Name" value="is_CalibratePhase_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a1c798567e5c7ef03eb73da9b858700db"><param name="Name" value="is_DisableLimits_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#ac810e36b8ba1d5d2209ae67b92ef3dc0"><param name="Name" value="is_EngineeringGapAcceleration_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a07fa291732244fa27bc4ce12830c3b37"><param name="Name" value="is_EngineeringGapSpeed_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a3ab5965e1e80805afcb7ad2cdf04325f"><param name="Name" value="is_EngineeringLock_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#afa6edb7c1be462e7909d8e3f7fc26c1a"><param name="Name" value="is_EngineeringPhaseAcceleration_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#ace0c275293da2e0f245f446560a3e597"><param name="Name" value="is_EngineeringPhaseSpeed_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a25f8c065dccf059eade920ac08ee3c77"><param name="Name" value="is_GapAcceleration_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a5f50e03d697552cf8e5496227c3e9748"><param name="Name" value="is_GapMoving_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#af0d23479b86b7130c27c9555e6d20c41"><param name="Name" value="is_GapReadback_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a421d4ced0756dd6774354135ae3dd246"><param name="Name" value="is_GapSetpoint_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a12493f052b88aad2359149f6916546f5"><param name="Name" value="is_GapSpeed_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a032ca118210cdd6276e770fb6e8c642b"><param name="Name" value="is_Interlock_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a7133344653a07ce1aea45e9e6413b243"><param name="Name" value="is_LimitsDisabled_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a8d615fde5cb0cd9a278969cfa3ce9059"><param name="Name" value="is_OffsetReadback_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a63a40574fad7cc9f89fd4e31593c7f3d"><param name="Name" value="is_OffsetSetpoint_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#ab98816cff4a9117b9108204143272963"><param name="Name" value="is_PhaseAcceleration_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a09f638104877fe88c08805c90d8b0f55"><param name="Name" value="is_PhaseModeReadback_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a35730864d600bfa9470665fe2f7e909f"><param name="Name" value="is_PhaseModeSetpoint_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#aa2a51ce1329ad5887604c5f6a9ef78ef"><param name="Name" value="is_PhaseMoving_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a1b9dfe66a7e33582d882565f87eabc2d"><param name="Name" value="is_PhaseReadback_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a4c22a4749247cac6482f9b27a1a9f9d0"><param name="Name" value="is_PhaseSetpoint_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a53c5825ffd411679910e3592530c149b"><param name="Name" value="is_PhaseSpeed_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a3f22fa11e992823113c825d4b880312a"><param name="Name" value="is_StopAll_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a000da737612fe67801fdcecab7b66de5"><param name="Name" value="is_StopGap_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a285ba1b7430bff4035c5a89108590d13"><param name="Name" value="is_StopPhase_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#ae97b0f5df9e297d3bf2e66384d75eccf"><param name="Name" value="is_TaperAcceleration_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#ad81e6a4197bda51efcd3dcb65c17d122"><param name="Name" value="is_TaperReadback_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#aad945b62cae4f6b545a5bfb96191a381"><param name="Name" value="is_TaperSetpoint_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a63b345156996e31d7461084245c718e1"><param name="Name" value="is_TaperSpeed_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a8bbd3c03fa1ecbb3244efe9e7f27c96d"><param name="Name" value="is_ToggleStopAll_allowed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a7c56f1e1c64682beb5d06109f950d84c"><param name="Name" value="phaseAxes"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a84a2ca9c1460dfc1a9d6e9a9191331d1"><param name="Name" value="read_attr_hardware"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a30a8d30b1927ecb89165a23c54db7406"><param name="Name" value="read_EngineeringGapAcceleration"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a9e10a2ef9b28c09aaa96529e69e354f3"><param name="Name" value="read_EngineeringGapSpeed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a8fdb2ce8dbe04470caf6fa6032e8bdeb"><param name="Name" value="read_EngineeringLock"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a28dcd86ec66fbfa81e6e0d2812da9ccd"><param name="Name" value="read_EngineeringPhaseAcceleration"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a3a76732d1123ee21df6a8469bd5f79f5"><param name="Name" value="read_EngineeringPhaseSpeed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a5787d80ff20765f6a319ae9b930ef170"><param name="Name" value="read_GapAcceleration"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a5563443793dcf34903d3f7babc4d32a3"><param name="Name" value="read_GapMoving"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a101d321283fd8c3f99a1426fcae26980"><param name="Name" value="read_GapReadback"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#aa38ad554029a323660d55a3391030bbf"><param name="Name" value="read_GapSetpoint"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#ada8e92e6fafde523e60ee2ec1183726d"><param name="Name" value="read_GapSpeed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a6f831a1f49076d3124936c5b2b0eee4e"><param name="Name" value="read_Interlock"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#afc6f3d3c385912e6fa482b3bfc6de89b"><param name="Name" value="read_LimitsDisabled"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a6524104a9c3f8fdb957d349e2beedd80"><param name="Name" value="read_OffsetReadback"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#aa2901307c763d9993bad36c0597a5c94"><param name="Name" value="read_OffsetSetpoint"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a45b32c88d7a83eb74e1378fc49777380"><param name="Name" value="read_PhaseAcceleration"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a0e2c101bfe4ce011c67197dc47c6ceb7"><param name="Name" value="read_PhaseModeReadback"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a53250d659f7a300ff3461f292bd3a822"><param name="Name" value="read_PhaseModeSetpoint"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a04e12c35f39372a9c85190663d7ad462"><param name="Name" value="read_PhaseMoving"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a87b2d98352336a912d06a41f6b7219a7"><param name="Name" value="read_PhaseReadback"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a47796fb2a075c59d7e8a99ef79b8cda0"><param name="Name" value="read_PhaseSetpoint"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a78f18a9fc079d3bf031a8b39e341f171"><param name="Name" value="read_PhaseSpeed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a44ca1b0a413ef6e73bc02dd19499ebcf"><param name="Name" value="read_StopAll"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a41482ff33b7135b895380151df1994c3"><param name="Name" value="read_TaperAcceleration"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#afeef29d23f7223fbb94e2b97fcce56a8"><param name="Name" value="read_TaperReadback"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#adb37ff23762cd38dc23fca8d1e36ab4f"><param name="Name" value="read_TaperSetpoint"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a185809df84d035d4a69a43469c9b9d0d"><param name="Name" value="read_TaperSpeed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a9a4d93752d21cccbe7c75f2ade6b5e1e"><param name="Name" value="stop_gap"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a5eba5727e6d4da6bb6d7a6f1d78f06ff"><param name="Name" value="stop_phase"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#ade5eb7b08899e09a779ecea037bc0261"><param name="Name" value="toggle_stop_all"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#ae2e98099c519acd0185b001c6388a80e"><param name="Name" value="Undulator"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a9a871c4a8a80c7d93130183ffdd6d59c"><param name="Name" value="UpdaterThread"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a4579ce8e235f43362717f37e06b53667"><param name="Name" value="write_EngineeringGapAcceleration"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a896eb0744a9e2e639f91a7d7fa73015f"><param name="Name" value="write_EngineeringGapSpeed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a61609d35367d72d5f73bbeb89dde4495"><param name="Name" value="write_EngineeringLock"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a015c6d7b88e3668cbb4e99a00a5adfb7"><param name="Name" value="write_EngineeringPhaseAcceleration"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a821cc4432be0c1270a644db1793e680d"><param name="Name" value="write_EngineeringPhaseSpeed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a17d812aba37190ee5d14b527dfc3a8de"><param name="Name" value="write_GapAcceleration"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a96592030dc5b2ee0d1b6a06a925b49df"><param name="Name" value="write_GapSetpoint"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#ab0747a5a32a6bf0a4138c93864221f2c"><param name="Name" value="write_GapSpeed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#ada79b0ef03ae9a1a12310e23cc823da2"><param name="Name" value="write_OffsetSetpoint"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a401920770ba390d782d35a4bf99966e8"><param name="Name" value="write_PhaseAcceleration"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a6dfffaf0297992ba0ffec56a830c9dd8"><param name="Name" value="write_PhaseModeSetpoint"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#acacbc8864933942da06badd8cb56cdc3"><param name="Name" value="write_PhaseSetpoint"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a2695af3f2d78211f7ce80acd0221162b"><param name="Name" value="write_PhaseSpeed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a8960038fa2061fb24e71790c1ad8718f"><param name="Name" value="write_TaperAcceleration"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a9128f3e0ff40d557ce3d6d00a0bc093b"><param name="Name" value="write_TaperSetpoint"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a764d10fcc6fac2009b4d3b5815e7e83a"><param name="Name" value="write_TaperSpeed"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#abdd0d6df05af50a371ff08c6dd2cf160"><param name="Name" value="~Undulator"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html"><param name="Name" value="Undulator_ns::UndulatorClass"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#a6fd8af8442ab72a5fc4359826e374f98"><param name="Name" value="_instance"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#a7c649ac687e05b9037b4f1c2d46fcd28"><param name="Name" value="attribute_factory"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#acc749111608e99d6037b658ae88a46d5"><param name="Name" value="cl_def_prop"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#a4e21d1c8e824d282ed6670760c28f524"><param name="Name" value="cl_prop"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#a1dab312109e4b23a8bad00b0b33f2c66"><param name="Name" value="command_factory"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#aac77d0d6c1b0c11fb054e2b2f6973f50"><param name="Name" value="dev_def_prop"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#ab5ab15d3426c88502957843948fc59ed"><param name="Name" value="get_class_property"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#aec6bdf818bf8be4c682e6cefc49fb303"><param name="Name" value="get_cvsroot"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#aa883e1b80b9f58aa31dcee752f8fa162"><param name="Name" value="get_cvstag"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#a5777dce1a5607d9f80ae51588ebdba49"><param name="Name" value="get_default_class_property"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#a0faa4a356192df33cb3dfa31dc46dc38"><param name="Name" value="get_default_device_property"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#a57712e9887f52c5280a7e78f7a25a66e"><param name="Name" value="init"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#acd966e0c1f4155ba2844af30f16c6ce9"><param name="Name" value="instance"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#a7cec82b21b7e7ef63c65dcf007c42953"><param name="Name" value="set_default_property"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#a1c44a507c7cd9579a3d458f073bceb0e"><param name="Name" value="UndulatorClass"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#a3b89f943aca84a70af78aef7b268d7a1"><param name="Name" value="write_class_property"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#a3101cfef41b763fe98916fa914d4ce31"><param name="Name" value="~UndulatorClass"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_updater_thread.html"><param name="Name" value="Undulator_ns::UpdaterThread"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_updater_thread.html#a6d9f2e4ef6116f4c6a45a5b3409e19da"><param name="Name" value="abort"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_updater_thread.html#a46acef849a200c51fc65747a9ef2335a"><param name="Name" value="check_axes_state"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_updater_thread.html#a6fda0614cb8a39ebd9d23282a61fa05e"><param name="Name" value="display_axes_status"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_updater_thread.html#af0cd4eeba1419ed3fe219f5b56a704a3"><param name="Name" value="go"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_updater_thread.html#af3b76323948325a3c9db4ad59e6c9a61"><param name="Name" value="read_motor_pos"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_updater_thread.html#aecded24740e90d1761b23191e6f34920"><param name="Name" value="run_undetached"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_updater_thread.html#a7948fd39c491266934f1799373dc1a5d"><param name="Name" value="UpdaterThread"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_updater_thread.html#aef60be8bab674d1332337dca1deaa7eb"><param name="Name" value="~UpdaterThread"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#a1c44a507c7cd9579a3d458f073bceb0e"><param name="Name" value="UndulatorClass"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a9a871c4a8a80c7d93130183ffdd6d59c"><param name="Name" value="UpdaterThread"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a9a871c4a8a80c7d93130183ffdd6d59c"><param name="Name" value="Undulator_ns::Undulator"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_updater_thread.html#a7948fd39c491266934f1799373dc1a5d"><param name="Name" value="Undulator_ns::UpdaterThread"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_gap_acceleration_attrib.html#a206ce1fd26793c1505b62ab4dde8c6b0"><param name="Name" value="write"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_gap_acceleration_attrib.html#a206ce1fd26793c1505b62ab4dde8c6b0"><param name="Name" value="Undulator_ns::EngineeringGapAccelerationAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_gap_speed_attrib.html#a3d545709a240b2107a54151c2b6f0779"><param name="Name" value="Undulator_ns::EngineeringGapSpeedAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_lock_attrib.html#af9211da117350d974a157b7bc06b0d68"><param name="Name" value="Undulator_ns::EngineeringLockAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_phase_acceleration_attrib.html#a11d298f9bde692aceffacee76efa9887"><param name="Name" value="Undulator_ns::EngineeringPhaseAccelerationAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_engineering_phase_speed_attrib.html#ab193d67bab9235b2a46039e31614f942"><param name="Name" value="Undulator_ns::EngineeringPhaseSpeedAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_gap_acceleration_attrib.html#a28992f7b4b663f1d7b3e98e5fad6203d"><param name="Name" value="Undulator_ns::GapAccelerationAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_gap_setpoint_attrib.html#a2c688216f504661c0bf5323f6eb51ce7"><param name="Name" value="Undulator_ns::GapSetpointAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_gap_speed_attrib.html#a13d5ed6cd31a7338d2f7c88e5242dd70"><param name="Name" value="Undulator_ns::GapSpeedAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_offset_setpoint_attrib.html#ae5ae9cc027317fcee2c79beefd24ec89"><param name="Name" value="Undulator_ns::OffsetSetpointAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_acceleration_attrib.html#a709e0b4c46ae17d04d8c6c7c32f983f5"><param name="Name" value="Undulator_ns::PhaseAccelerationAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_mode_setpoint_attrib.html#aa5aa870a352a0cda03bf771d7c977e00"><param name="Name" value="Undulator_ns::PhaseModeSetpointAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_setpoint_attrib.html#a433ea1e662ff1632cc9044fd772db4ed"><param name="Name" value="Undulator_ns::PhaseSetpointAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_phase_speed_attrib.html#a8e510bca22ba53b2b9b14d6ba302c999"><param name="Name" value="Undulator_ns::PhaseSpeedAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_taper_acceleration_attrib.html#accbe0bf4932aab48a6aa905f77829b58"><param name="Name" value="Undulator_ns::TaperAccelerationAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_taper_setpoint_attrib.html#a9831c8715f0eaad538edefaa771abed8"><param name="Name" value="Undulator_ns::TaperSetpointAttrib"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_taper_speed_attrib.html#a170828003331753a17f3342046fbf09f"><param name="Name" value="Undulator_ns::TaperSpeedAttrib"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#a3b89f943aca84a70af78aef7b268d7a1"><param name="Name" value="write_class_property"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a4579ce8e235f43362717f37e06b53667"><param name="Name" value="write_EngineeringGapAcceleration"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a896eb0744a9e2e639f91a7d7fa73015f"><param name="Name" value="write_EngineeringGapSpeed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a61609d35367d72d5f73bbeb89dde4495"><param name="Name" value="write_EngineeringLock"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a015c6d7b88e3668cbb4e99a00a5adfb7"><param name="Name" value="write_EngineeringPhaseAcceleration"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a821cc4432be0c1270a644db1793e680d"><param name="Name" value="write_EngineeringPhaseSpeed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a17d812aba37190ee5d14b527dfc3a8de"><param name="Name" value="write_GapAcceleration"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a96592030dc5b2ee0d1b6a06a925b49df"><param name="Name" value="write_GapSetpoint"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#ab0747a5a32a6bf0a4138c93864221f2c"><param name="Name" value="write_GapSpeed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#ada79b0ef03ae9a1a12310e23cc823da2"><param name="Name" value="write_OffsetSetpoint"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a401920770ba390d782d35a4bf99966e8"><param name="Name" value="write_PhaseAcceleration"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a6dfffaf0297992ba0ffec56a830c9dd8"><param name="Name" value="write_PhaseModeSetpoint"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#acacbc8864933942da06badd8cb56cdc3"><param name="Name" value="write_PhaseSetpoint"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a2695af3f2d78211f7ce80acd0221162b"><param name="Name" value="write_PhaseSpeed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a8960038fa2061fb24e71790c1ad8718f"><param name="Name" value="write_TaperAcceleration"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a9128f3e0ff40d557ce3d6d00a0bc093b"><param name="Name" value="write_TaperSetpoint"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#a764d10fcc6fac2009b4d3b5815e7e83a"><param name="Name" value="write_TaperSpeed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator.html#abdd0d6df05af50a371ff08c6dd2cf160"><param name="Name" value="~Undulator"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_undulator_class.html#a3101cfef41b763fe98916fa914d4ce31"><param name="Name" value="~UndulatorClass"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_undulator__ns_1_1_updater_thread.html#aef60be8bab674d1332337dca1deaa7eb"><param name="Name" value="~UpdaterThread"></OBJECT>
+</UL>
+</BODY>
+</HTML>
