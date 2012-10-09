@@ -34,7 +34,7 @@ static const char *RcsId = "$Id:  $";
 #include <UndulatorClass.h>
 #include <cmath>
 
-#include "UpdaterThread.h"
+#include "insertion/UpdaterThread.h"
 #include "correction/PollerThread.h"
 
 /*----- PROTECTED REGION END -----*/
@@ -277,13 +277,13 @@ void Undulator::init_device()
 	    //Try to load the interpolation data table from the provided DataFile property
 	    bool loadOk=true;
 	    try {
-	    	load(const_cast<char*>(dataFile.c_str()));
+	    	load_correction_data(const_cast<char*>(dataFile.c_str()));
 	    } catch (...)
 	    {
 	    	loadOk=false;
 	    }
 	    // Start correction thread
-	    pollerThread = new PollerThread(*this, controlBoxGap,controlBoxPhase);
+	    pollerThread = new PollerThread(*this, controlBoxGapLink, controlBoxPhaseLink);
 	    pollerThread->go();
 
 	    //TODO: this should not be in the initmethod?

@@ -5,11 +5,11 @@
 
 class DataItem;
 
-namespace CoilCorrection_ns
+namespace Undulator_ns
 {
 
 // Forward declaration of the device server implementation class.
-class CoilCorrection;
+class Undulator;
 
 /**
  * This thread polls the DMC via ControlBox for getting the most up-to-date values for gap,phase and phase mode
@@ -25,7 +25,7 @@ public:
 	 * @param controlBoxGapLink
 	 * @param controlBoxPhaseLink
 	 */
-	PollerThread(CoilCorrection &cc, std::string controlBoxGapLink, std::string controlBoxPhaseLink);
+	PollerThread(Undulator &cc, std::string controlBoxGapLink, std::string controlBoxPhaseLink);
 
 	/**
 	 * Starts the thread.
@@ -64,7 +64,7 @@ protected:
     ~PollerThread ();
 
 private:
-    CoilCorrection &coilCorrection;  //!< Reference to the coil correction device server implementation class.
+    Undulator &undulator;  //!< Reference to the coil correction device server implementation class.
 
     volatile bool run; 		//!< Used for running thread.
     volatile bool compensate; 		//!< Indicates whether the power supply should compensate according to the table.

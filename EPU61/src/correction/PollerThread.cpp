@@ -1,6 +1,5 @@
 #include "PollerThread.h"
 
-#include "CoilCorrection.h"
 #include "DataItem.h"
 
 #include <string>
@@ -9,13 +8,13 @@
 
 using namespace std;
 
-namespace CoilCorrection_ns
+namespace Undulator_ns
 {
 
-PollerThread::PollerThread(CoilCorrection &c, string controlBoxGapLink, string controlBoxPhaseLink)
+PollerThread::PollerThread(Undulator &u, string controlBoxGapLink, string controlBoxPhaseLink)
     : omni_thread(),
-      Tango::LogAdapter(&c),
-      coilCorrection(c),
+      Tango::LogAdapter(&u),
+      undulator(u),
       run(true),
       compensate(false),
 	  compensate_prev(false),
@@ -144,13 +143,13 @@ void* PollerThread::run_undetached(void *)
 			ERROR_STREAM << __PRETTY_FUNCTION__ << " failure: " << err.errors[0].reason << " origin:"
 					<< err.errors[0].origin;
 
-			coilCorrection.set_state(Tango::FAULT);
+			undulator.set_state(Tango::FAULT);
 			break;
 		}
 		catch(...)
 		{
 			ERROR_STREAM << __PRETTY_FUNCTION__ << " unknown exception in the PollerThread!";
-			coilCorrection.set_state(Tango::FAULT);
+			undulator.set_state(Tango::FAULT);
 			break;
 		}
 
@@ -168,9 +167,9 @@ void PollerThread::apply_correction(const DataItem &active)
 	double minDist=numeric_limits<double>::max(); // minimum distance from the nearest item
 
 	// find nearest item in the table
-	for (size_t i=0;i<coilCorrection.data.size();i++)
+	for (size_t i=0;i<undulator.data.size();i++)
 	{
-		const DataItem &di = coilCorrection.data[i];
+		const DataItem &di = undulator.data[i];
 		if (di.mode!=active.mode) continue;
 
 		double dist = sqrt(pow(di.gap-active.gap,2) + pow(di.phase-active.phase,2));
@@ -187,7 +186,7 @@ void PollerThread::apply_correction(const DataItem &active)
 
 	// Apply the correction on the devices
 	for (int i=0;i<4;i++)
-		coilCorrection.supplies[i].set_current( coilCorrection.data[minItem].coils[i] );
+		undulator.supplies[i].set_current( undulator.data[minItem].coils[i] );
 }
 
 }
