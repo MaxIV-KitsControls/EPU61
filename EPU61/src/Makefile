@@ -136,7 +136,6 @@ SVC_OBJS =      \
             $(OBJDIR)/insertion/UpdaterThread.o \
             $(OBJDIR)/correction/PollerThread.o \
             $(OBJDIR)/correction/DataItem.o \
-            $(OBJDIR)/powersupply/PowerSupply.o \
             $(ADDITIONAL_OBJS)
 
 

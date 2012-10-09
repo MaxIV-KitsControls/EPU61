@@ -3,13 +3,15 @@
 
 #include <tango.h>
 
+#include "Undulator.h"
+
 class DataItem;
 
 namespace Undulator_ns
 {
 
 // Forward declaration of the device server implementation class.
-class Undulator;
+//class Undulator;
 
 /**
  * This thread polls the DMC via ControlBox for getting the most up-to-date values for gap,phase and phase mode

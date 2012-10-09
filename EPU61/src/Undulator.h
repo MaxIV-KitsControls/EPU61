@@ -36,7 +36,7 @@
 
 #include "correction/DataItem.h"
 #include "powersupply/PowerSupply.h"
-#include "correction/PollerThread.h"
+//#include "correction/PollerThread.h"
 
 
 /*----- PROTECTED REGION END -----*/
@@ -54,7 +54,7 @@ namespace Undulator_ns
 	/*----- PROTECTED REGION ID(Undulator::Additional Class Declarations) ENABLED START -----*/
 
     class UpdaterThread;
-    //class PollerThread;
+    class PollerThread;
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::Additional Class Declarations
 
