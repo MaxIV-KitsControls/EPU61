@@ -30,7 +30,7 @@
      <string notr="true">background-color: rgb(147, 147, 147);</string>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tabWidgetOPPage1">
      <attribute name="title">
@@ -193,7 +193,7 @@
         <double>1.000000000000000</double>
        </property>
        <property name="model">
-        <string notr="true">$undulator/PhaseSetpoint</string>
+        <string notr="true">$undulator/Phase</string>
        </property>
        <property name="autoApply">
         <bool>true</bool>
@@ -271,13 +271,13 @@ color: rgb(0, 0, 0);</string>
         <enum>Qt::PlainText</enum>
        </property>
        <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
        <property name="indent">
         <number>0</number>
        </property>
        <property name="model">
-        <string notr="true">$undulator/PhaseReadback</string>
+        <string notr="true">$undulator/Phase</string>
        </property>
        <property name="suffixText">
         <string> um</string>
@@ -325,10 +325,10 @@ color: rgb(0, 0, 0);</string>
         <string notr="true">background-color: rgb(255, 255, 255);</string>
        </property>
        <property name="text">
-        <string>Phase A</string>
+        <string> 99.99</string>
        </property>
        <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
        <property name="model">
         <string notr="true"/>
@@ -412,10 +412,10 @@ color: rgb(0, 0, 0);</string>
         <enum>Qt::AutoText</enum>
        </property>
        <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
        <property name="model">
-        <string>$undulator/GapReadback</string>
+        <string>$undulator/Gap</string>
        </property>
        <property name="suffixText">
         <string> um</string>
@@ -510,13 +510,13 @@ color: rgb(0, 0, 0);</string>
         <enum>Qt::PlainText</enum>
        </property>
        <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
        <property name="indent">
         <number>0</number>
        </property>
        <property name="model">
-        <string>$undulator/OffsetReadback</string>
+        <string>$undulator/Offset</string>
        </property>
        <property name="suffixText">
         <string> um</string>
@@ -549,13 +549,13 @@ color: rgb(0, 0, 0);</string>
         <enum>Qt::PlainText</enum>
        </property>
        <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
        <property name="indent">
         <number>0</number>
        </property>
        <property name="model">
-        <string>$undulator/TaperReadback</string>
+        <string>$undulator/Taper</string>
        </property>
        <property name="prefixText">
         <string/>
@@ -623,7 +623,7 @@ color: rgb(0, 0, 0);</string>
         <double>1.000000000000000</double>
        </property>
        <property name="model">
-        <string notr="true">$undulator/GapReadback</string>
+        <string notr="true">$undulator/Gap</string>
        </property>
        <property name="autoApply">
         <bool>true</bool>
@@ -5176,7 +5176,7 @@ color: rgb(0, 0, 0);</string>
         <double>1.000000000000000</double>
        </property>
        <property name="model">
-        <string>$undulator/OffsetSetpoint</string>
+        <string>$undulator/Offset</string>
        </property>
        <property name="autoApply">
         <bool>true</bool>
@@ -5216,7 +5216,7 @@ color: rgb(0, 0, 0);</string>
         <double>999999.000000000000000</double>
        </property>
        <property name="model">
-        <string>$undulator/TaperSetpoint</string>
+        <string>$undulator/Taper</string>
        </property>
       </widget>
       <widget class="TaurusLCD" name="lblGapSpeed_16">
@@ -5253,7 +5253,7 @@ color: rgb(0, 0, 0);</string>
         <double>999999.000000000000000</double>
        </property>
        <property name="model">
-        <string>$undulator/OffsetSetpoint</string>
+        <string>$undulator/Offset</string>
        </property>
       </widget>
       <widget class="TaurusValueSpinBox" name="vsbGap_17">
@@ -5289,7 +5289,7 @@ color: rgb(0, 0, 0);</string>
         <double>1.000000000000000</double>
        </property>
        <property name="model">
-        <string>$undulator/TaperSetpoint</string>
+        <string>$undulator/Taper</string>
        </property>
        <property name="autoApply">
         <bool>true</bool>

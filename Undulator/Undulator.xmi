@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="ASCII"?>
 <pogoDsl:PogoSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pogoDsl="http://www.esrf.fr/tango/pogo/PogoDsl">
   <classes name="Undulator">
-    <description description="Device server for controling movement of undulator axes. &#xA;It features gap movement and phase movement in 4 modes.&#xA;In expert mode, user can configure the behaviour of axes and restrict certain actions." title="" sourcePath="/home/green/projects/Max4/Apps/Undulator" language="Cpp" filestogenerate="XMI   file,html Pages" hasAbstractCommand="false" hasAbstractAttribute="false">
+    <description description="Device server for controling movement of undulator axes. &#xA;It features gap movement and phase movement in 4 modes.&#xA;In expert mode, user can configure the behaviour of axes and restrict certain actions." title="" sourcePath="/home/thumar/workspace/Undulator" language="Cpp" filestogenerate="XMI   file,Code files,html Pages" hasAbstractCommand="false" hasAbstractAttribute="false">
       <inheritances classname="Device_Impl" sourcePath=""/>
       <identification contact="at cosylab.com - tadej.humar" author="tadej.humar" emailDomain="cosylab.com" classFamily="Motion" siteSpecific="" platform="Unix Like" bus="Ethernet" manufacturer="none" reference=""/>
       <comments commandsTable="//================================================================&#xA;//&#xA;//  The following table gives the correspondence&#xA;//  between command and method names.&#xA;//&#xA;//  Command name    |  Method name&#xA;//----------------------------------------------------------------&#xA;//  State           |  Inherited (no method)&#xA;//  Status          |  Inherited (no method)&#xA;//  StopGap         |  stop_gap&#xA;//  ToggleStopAll   |  toggle_stop_all&#xA;//  DisableLimits   |  disable_limits&#xA;//  StopPhase       |  stop_phase&#xA;//  CalibrateGap    |  calibrate_gap&#xA;//  CalibratePhase  |  calibrate_phase&#xA;//================================================================"/>
     </description>
-    <deviceProperties name="ControlBoxGapLink" description="Link to ControlBox with gap DMC">
+    <deviceProperties name="ControlBoxGapProxy" description="Proxy to ControlBox with gap DMC">
       <type xsi:type="pogoDsl:StringType"/>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
     </deviceProperties>
-    <deviceProperties name="GapAxes" description="Links to axes that control gap movement. Order: Z1,Z2,Z3,Z4">
+    <deviceProperties name="GapAxes" description="Proxy to axes that control gap movement. Order: Z1,Z2,Z3,Z4">
       <type xsi:type="pogoDsl:StringVectorType"/>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
     </deviceProperties>
-    <deviceProperties name="PhaseAxes" description="Links to axes that control phase movement.  Order: X1,X2,X3,X4">
+    <deviceProperties name="PhaseAxes" description="Proxy to axes that control phase movement.  Order: X1,X2,X3,X4">
       <type xsi:type="pogoDsl:StringVectorType"/>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
     </deviceProperties>
-    <deviceProperties name="ControlBoxPhaseLink" description="Link to controlbox with phase DMC">
+    <deviceProperties name="ControlBoxPhaseProxy" description="Proxy to controlbox with phase DMC">
       <type xsi:type="pogoDsl:StringType"/>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
     </deviceProperties>
-    <deviceProperties name="GearedAxes" description="Links to GalilGearedAxes that control upper and lower girder. Order: Upper girder, Lower girder">
+    <deviceProperties name="GearedAxes" description="Proxy to GalilGearedAxes that control upper and lower girder. Order: Upper girder, Lower girder">
       <type xsi:type="pogoDsl:StringVectorType"/>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
     </deviceProperties>
@@ -105,21 +105,13 @@
       </argout>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
     </commands>
-    <attributes name="GapReadback" attType="Scalar" rwType="READ" displayLevel="OPERATOR" polledPeriod="2000" maxX="" maxY="" allocReadMember="false">
+    <attributes name="Gap" attType="Scalar" rwType="READ_WRITE" displayLevel="OPERATOR" polledPeriod="2000" maxX="" maxY="" allocReadMember="false">
       <dataType xsi:type="pogoDsl:DoubleType"/>
       <changeEvent fire="false" libCheckCriteria="true"/>
       <archiveEvent fire="false" libCheckCriteria="true"/>
       <dataReadyEvent fire="false" libCheckCriteria="true"/>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
-      <properties description="Read-back value for the current gap" label="" unit="um" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
-    </attributes>
-    <attributes name="GapSetpoint" attType="Scalar" rwType="READ_WRITE" displayLevel="OPERATOR" polledPeriod="2000" maxX="" maxY="" allocReadMember="false">
-      <dataType xsi:type="pogoDsl:DoubleType"/>
-      <changeEvent fire="false" libCheckCriteria="true"/>
-      <archiveEvent fire="false" libCheckCriteria="true"/>
-      <dataReadyEvent fire="false" libCheckCriteria="true"/>
-      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
-      <properties description="Set-point for current gap. &#xA;Writing to this attribute commences movement for the gap, &#xA;using the current operator center offset and taper." label="" unit="um" standardUnit="" displayUnit="" format="" maxValue="220000" minValue="14000" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
+      <properties description="Read-back and set-point for current gap. &#xA;Writing to this attribute commences movement for the gap, &#xA;using the current operator center offset and taper." label="" unit="um" standardUnit="" displayUnit="" format="" maxValue="220000" minValue="14000" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
     </attributes>
     <attributes name="EngineeringLock" attType="Scalar" rwType="READ_WRITE" displayLevel="EXPERT" maxX="" maxY="" allocReadMember="false">
       <dataType xsi:type="pogoDsl:BooleanType"/>
@@ -136,7 +128,6 @@
       <dataReadyEvent fire="false" libCheckCriteria="true"/>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
       <properties description="Gap movement average acceleration in um/s^2." label="" unit="um/s^2" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
-      <writeExcludedStates>FAULT</writeExcludedStates>
     </attributes>
     <attributes name="GapSpeed" attType="Scalar" rwType="READ_WRITE" displayLevel="EXPERT" polledPeriod="2000" maxX="" maxY="" memorized="true" memorizedAtInit="true" allocReadMember="false">
       <dataType xsi:type="pogoDsl:DoubleType"/>
@@ -145,24 +136,6 @@
       <dataReadyEvent fire="false" libCheckCriteria="true"/>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
       <properties description="Final profile velocity in um/s for gap movements." label="" unit="um/s" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
-      <writeExcludedStates>FAULT</writeExcludedStates>
-    </attributes>
-    <attributes name="OffsetReadback" attType="Scalar" rwType="READ" displayLevel="EXPERT" polledPeriod="2000" maxX="" maxY="" allocReadMember="false">
-      <dataType xsi:type="pogoDsl:DoubleType"/>
-      <changeEvent fire="false" libCheckCriteria="true"/>
-      <archiveEvent fire="false" libCheckCriteria="true"/>
-      <dataReadyEvent fire="false" libCheckCriteria="true"/>
-      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
-      <properties description="Read-back value for the current vertical center offset." label="" unit="um" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
-    </attributes>
-    <attributes name="OffsetSetpoint" attType="Scalar" rwType="READ_WRITE" displayLevel="EXPERT" polledPeriod="2000" maxX="" maxY="" memorized="true" memorizedAtInit="true" allocReadMember="false">
-      <dataType xsi:type="pogoDsl:DoubleType"/>
-      <changeEvent fire="false" libCheckCriteria="true"/>
-      <archiveEvent fire="false" libCheckCriteria="true"/>
-      <dataReadyEvent fire="false" libCheckCriteria="true"/>
-      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
-      <properties description="Set-point value for the current vertical offset. &#xA;Will be applied next time the GapSetpoint attribute is modified." label="" unit="um" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
-      <writeExcludedStates>FAULT</writeExcludedStates>
     </attributes>
     <attributes name="PhaseAcceleration" attType="Scalar" rwType="READ_WRITE" displayLevel="EXPERT" polledPeriod="2000" maxX="" maxY="" memorized="true" memorizedAtInit="true" allocReadMember="false">
       <dataType xsi:type="pogoDsl:DoubleType"/>
@@ -171,40 +144,22 @@
       <dataReadyEvent fire="false" libCheckCriteria="true"/>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
       <properties description="Phase movement average acceleration in um/s^2." label="" unit="um/s^2" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
-      <writeExcludedStates>FAULT</writeExcludedStates>
     </attributes>
-    <attributes name="PhaseModeReadback" attType="Scalar" rwType="READ" displayLevel="OPERATOR" polledPeriod="2000" maxX="" maxY="" allocReadMember="false">
+    <attributes name="PhaseMode" attType="Scalar" rwType="READ_WRITE" displayLevel="OPERATOR" polledPeriod="2000" maxX="" maxY="" memorized="true" memorizedAtInit="true" allocReadMember="false">
       <dataType xsi:type="pogoDsl:ShortType"/>
       <changeEvent fire="false" libCheckCriteria="true"/>
       <archiveEvent fire="false" libCheckCriteria="true"/>
       <dataReadyEvent fire="false" libCheckCriteria="true"/>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
-      <properties description="Current phase mode." label="" unit="" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
+      <properties description="Read-back and set-point for desired phase mode. &#xA;Will be used next time Phase is written." label="" unit="" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
     </attributes>
-    <attributes name="PhaseModeSetpoint" attType="Scalar" rwType="READ_WRITE" displayLevel="OPERATOR" polledPeriod="2000" maxX="" maxY="" memorized="true" allocReadMember="false">
-      <dataType xsi:type="pogoDsl:ShortType"/>
-      <changeEvent fire="false" libCheckCriteria="true"/>
-      <archiveEvent fire="false" libCheckCriteria="true"/>
-      <dataReadyEvent fire="false" libCheckCriteria="true"/>
-      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
-      <properties description="Desired phase mode. &#xA;Will be used next time PhaseSetpoint is written." label="" unit="" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
-      <writeExcludedStates>FAULT</writeExcludedStates>
-    </attributes>
-    <attributes name="PhaseReadback" attType="Scalar" rwType="READ" displayLevel="OPERATOR" polledPeriod="2000" maxX="" maxY="" allocReadMember="false">
+    <attributes name="Phase" attType="Scalar" rwType="READ_WRITE" displayLevel="OPERATOR" polledPeriod="2000" maxX="" maxY="" allocReadMember="false">
       <dataType xsi:type="pogoDsl:DoubleType"/>
       <changeEvent fire="false" libCheckCriteria="true"/>
       <archiveEvent fire="false" libCheckCriteria="true"/>
       <dataReadyEvent fire="false" libCheckCriteria="true"/>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
-      <properties description="Current phase offset in um." label="" unit="um" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
-    </attributes>
-    <attributes name="PhaseSetpoint" attType="Scalar" rwType="READ_WRITE" displayLevel="OPERATOR" polledPeriod="2000" maxX="" maxY="" allocReadMember="false">
-      <dataType xsi:type="pogoDsl:DoubleType"/>
-      <changeEvent fire="false" libCheckCriteria="true"/>
-      <archiveEvent fire="false" libCheckCriteria="true"/>
-      <dataReadyEvent fire="false" libCheckCriteria="true"/>
-      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
-      <properties description="Requested phase offset in um. &#xA;When this attribute is written new phase movement commences &#xA;using phase mode specified in PhaseModeSetpoint." label="" unit="um" standardUnit="" displayUnit="" format="" maxValue="30500" minValue="-30500" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
+      <properties description="Read-back and set-point for phase offset.&#xA;When this attribute is written new phase movement commences &#xA;using phase mode specified in PhaseMode attribute." label="" unit="um" standardUnit="" displayUnit="" format="" maxValue="30500" minValue="-30500" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
     </attributes>
     <attributes name="PhaseSpeed" attType="Scalar" rwType="READ_WRITE" displayLevel="EXPERT" polledPeriod="2000" maxX="" maxY="" memorized="true" memorizedAtInit="true" allocReadMember="false">
       <dataType xsi:type="pogoDsl:DoubleType"/>
@@ -213,7 +168,6 @@
       <dataReadyEvent fire="false" libCheckCriteria="true"/>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
       <properties description="Final profile velocity in um/s for phase (sub-girders) movement." label="" unit="um/s" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
-      <writeExcludedStates>FAULT</writeExcludedStates>
     </attributes>
     <attributes name="TaperAcceleration" attType="Scalar" rwType="READ_WRITE" displayLevel="EXPERT" maxX="" maxY="" memorized="true" memorizedAtInit="true" allocReadMember="false">
       <dataType xsi:type="pogoDsl:DoubleType"/>
@@ -222,24 +176,22 @@
       <dataReadyEvent fire="false" libCheckCriteria="true"/>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
       <properties description="Taper movement average acceleration in um/s^2." label="" unit="um/s^2" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
-      <writeExcludedStates>FAULT</writeExcludedStates>
     </attributes>
-    <attributes name="TaperReadback" attType="Scalar" rwType="READ" displayLevel="EXPERT" polledPeriod="2000" maxX="" maxY="" allocReadMember="false">
+    <attributes name="Taper" attType="Scalar" rwType="READ_WRITE" displayLevel="EXPERT" polledPeriod="2000" maxX="" maxY="" memorized="true" memorizedAtInit="true" allocReadMember="false">
       <dataType xsi:type="pogoDsl:DoubleType"/>
       <changeEvent fire="false" libCheckCriteria="true"/>
       <archiveEvent fire="false" libCheckCriteria="true"/>
       <dataReadyEvent fire="false" libCheckCriteria="true"/>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
-      <properties description="Read-back value for the current taper." label="" unit="um" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
+      <properties description="Read-back and set-point value for the current taper. &#xA;Will be applied next time the GapSetpoint attribute is modified." label="" unit="um" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
     </attributes>
-    <attributes name="TaperSetpoint" attType="Scalar" rwType="READ_WRITE" displayLevel="EXPERT" polledPeriod="2000" maxX="" maxY="" memorized="true" memorizedAtInit="true" allocReadMember="false">
+    <attributes name="Offset" attType="Scalar" rwType="READ_WRITE" displayLevel="EXPERT" polledPeriod="2000" maxX="" maxY="" memorized="true" memorizedAtInit="true" allocReadMember="false">
       <dataType xsi:type="pogoDsl:DoubleType"/>
       <changeEvent fire="false" libCheckCriteria="true"/>
       <archiveEvent fire="false" libCheckCriteria="true"/>
       <dataReadyEvent fire="false" libCheckCriteria="true"/>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
-      <properties description="Set-point value for the current taper. &#xA;Will be applied next time the GapSetpoint attribute is modified." label="" unit="um" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
-      <writeExcludedStates>FAULT</writeExcludedStates>
+      <properties description="Read-back and set-point value for the current vertical offset. &#xA;Will be applied next time the Gap attribute is modified." label="" unit="um" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
     </attributes>
     <attributes name="TaperSpeed" attType="Scalar" rwType="READ_WRITE" displayLevel="EXPERT" polledPeriod="1000" maxX="" maxY="" memorized="true" memorizedAtInit="true" allocReadMember="false">
       <dataType xsi:type="pogoDsl:DoubleType"/>
@@ -248,7 +200,6 @@
       <dataReadyEvent fire="false" libCheckCriteria="true"/>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
       <properties description="Final profile velocity in um/s for taper movements." label="" unit="um/s" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
-      <writeExcludedStates>FAULT</writeExcludedStates>
     </attributes>
     <attributes name="LimitsDisabled" attType="Scalar" rwType="READ" displayLevel="OPERATOR" polledPeriod="2000" maxX="" maxY="" allocReadMember="false">
       <dataType xsi:type="pogoDsl:BooleanType"/>
@@ -282,53 +233,37 @@
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
       <properties description="Indicates that phase movement is in progress. &#xA;Used to distinguish whether gap, phase or both are moving." label="" unit="" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
     </attributes>
-    <attributes name="EngineeringGapSpeed" attType="Scalar" rwType="READ_WRITE" displayLevel="EXPERT" polledPeriod="2000" maxX="" maxY="" memorized="true" memorizedAtInit="true" allocReadMember="false">
+    <attributes name="EngineeringGapSpeed" attType="Scalar" rwType="READ_WRITE" displayLevel="EXPERT" polledPeriod="2000" maxX="" maxY="" allocReadMember="false">
       <dataType xsi:type="pogoDsl:DoubleType"/>
       <changeEvent fire="false" libCheckCriteria="true"/>
       <archiveEvent fire="false" libCheckCriteria="true"/>
       <dataReadyEvent fire="false" libCheckCriteria="true"/>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
       <properties description="Final profile velocity in um/s for gap axes engineering movement." label="" unit="um/s" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
-      <writeExcludedStates>FAULT</writeExcludedStates>
-      <writeExcludedStates>MOVING</writeExcludedStates>
-      <writeExcludedStates>DISABLE</writeExcludedStates>
-      <writeExcludedStates>ALARM</writeExcludedStates>
     </attributes>
-    <attributes name="EngineeringPhaseSpeed" attType="Scalar" rwType="READ_WRITE" displayLevel="EXPERT" polledPeriod="2000" maxX="" maxY="" memorized="true" memorizedAtInit="true" allocReadMember="false">
+    <attributes name="EngineeringPhaseSpeed" attType="Scalar" rwType="READ_WRITE" displayLevel="EXPERT" polledPeriod="2000" maxX="" maxY="" allocReadMember="false">
       <dataType xsi:type="pogoDsl:DoubleType"/>
       <changeEvent fire="false" libCheckCriteria="true"/>
       <archiveEvent fire="false" libCheckCriteria="true"/>
       <dataReadyEvent fire="false" libCheckCriteria="true"/>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
       <properties description="Final profile velocity in um/s for phase axes engineering movement." label="" unit="um/s" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
-      <writeExcludedStates>FAULT</writeExcludedStates>
-      <writeExcludedStates>MOVING</writeExcludedStates>
-      <writeExcludedStates>DISABLE</writeExcludedStates>
-      <writeExcludedStates>ALARM</writeExcludedStates>
     </attributes>
-    <attributes name="EngineeringGapAcceleration" attType="Scalar" rwType="READ_WRITE" displayLevel="EXPERT" polledPeriod="2000" maxX="" maxY="" memorized="true" memorizedAtInit="true" allocReadMember="false">
+    <attributes name="EngineeringGapAcceleration" attType="Scalar" rwType="READ_WRITE" displayLevel="EXPERT" polledPeriod="2000" maxX="" maxY="" allocReadMember="false">
       <dataType xsi:type="pogoDsl:DoubleType"/>
       <changeEvent fire="false" libCheckCriteria="true"/>
       <archiveEvent fire="false" libCheckCriteria="true"/>
       <dataReadyEvent fire="false" libCheckCriteria="true"/>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
       <properties description="Gap axes engineering movement average acceleration/deceleration in um/s^2." label="" unit="um/s^2" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
-      <writeExcludedStates>FAULT</writeExcludedStates>
-      <writeExcludedStates>MOVING</writeExcludedStates>
-      <writeExcludedStates>DISABLE</writeExcludedStates>
-      <writeExcludedStates>ALARM</writeExcludedStates>
     </attributes>
-    <attributes name="EngineeringPhaseAcceleration" attType="Scalar" rwType="READ_WRITE" displayLevel="EXPERT" polledPeriod="2000" maxX="" maxY="" memorized="true" memorizedAtInit="true" allocReadMember="false">
+    <attributes name="EngineeringPhaseAcceleration" attType="Scalar" rwType="READ_WRITE" displayLevel="EXPERT" polledPeriod="2000" maxX="" maxY="" allocReadMember="false">
       <dataType xsi:type="pogoDsl:DoubleType"/>
       <changeEvent fire="false" libCheckCriteria="true"/>
       <archiveEvent fire="false" libCheckCriteria="true"/>
       <dataReadyEvent fire="false" libCheckCriteria="true"/>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
       <properties description="Phase axes engineering movement average acceleration/deceleration in um/s^2." label="" unit="um/s^2" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
-      <writeExcludedStates>FAULT</writeExcludedStates>
-      <writeExcludedStates>MOVING</writeExcludedStates>
-      <writeExcludedStates>DISABLE</writeExcludedStates>
-      <writeExcludedStates>ALARM</writeExcludedStates>
     </attributes>
     <attributes name="Interlock" attType="Scalar" rwType="READ" displayLevel="OPERATOR" polledPeriod="2000" maxX="" maxY="" allocReadMember="false">
       <dataType xsi:type="pogoDsl:BooleanType"/>
@@ -353,6 +288,6 @@
     <states name="ALARM" description="Something is preventing axes to go into standby. &#xA;For more details check status message.">
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
     </states>
-    <preferences docHome="./doc_html" makefileHome="/usr/share/pogo/preferences"/>
+    <preferences docHome="./doc_html" makefileHome="/usr/local/share/pogo/preferences"/>
   </classes>
 </pogoDsl:PogoSystem>

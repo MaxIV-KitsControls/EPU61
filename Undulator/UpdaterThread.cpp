@@ -87,6 +87,7 @@ void* UpdaterThread::run_undetached (void *arg)
 		catch(Tango::DevFailed& msg)
 		{
 			ERROR_STREAM << "Tango exception: " << msg.errors[0].reason << endl;
+			cout << msg.errors[0].reason << endl;
 			dev.set_state(Tango::FAULT);
 			break;
 		}
@@ -98,6 +99,7 @@ void* UpdaterThread::run_undetached (void *arg)
 		catch(...)
 		{
 			ERROR_STREAM << "Unknown exception occured." << endl;
+			cout << "Unknown exception." << endl;
 			dev.set_state(Tango::FAULT);
 			break;
 		}

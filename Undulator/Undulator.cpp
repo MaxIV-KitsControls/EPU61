@@ -33,8 +33,9 @@ static const char *RcsId = "$Id:  $";
 #include <Undulator.h>
 #include <UndulatorClass.h>
 #include <cmath>
-
 #include "UpdaterThread.h"
+
+#define VECTOR_UNIT_TO_INDIVIDUAL 1.414213562
 
 /*----- PROTECTED REGION END -----*/
 
@@ -131,16 +132,9 @@ void Undulator::delete_device()
 		stateUpdater = 0;
 	}
 
-    if (gapA) delete gapA;
-    if (gapB) delete gapB;
-    if (gapC) delete gapC;
-    if (gapD) delete gapD;
-    if (phaseA) delete phaseA;
-    if (phaseB) delete phaseB;
-    if (phaseC) delete phaseC;
-    if (phaseD) delete phaseD;
-    if (controlBoxGap) delete controlBoxGap;
-    if (controlBoxPhase) delete controlBoxPhase;
+    if (galilFunctions) delete galilFunctions;
+    if (phaseAxesGroup) delete phaseAxesGroup;
+    if (gapAxesGroup) delete gapAxesGroup;
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::delete_device
 	
@@ -171,36 +165,23 @@ void Undulator::init_device()
 
 	// Initialize pointers to null
 	stateUpdater=0;
-	gapA=gapB=gapC=gapD=phaseA=phaseB=phaseC=phaseD=0;
-	controlBoxGap=controlBoxPhase=0;
+	phaseAxesGroup=gapAxesGroup=0;
+	galilFunctions = 0;
 
-	//	Initialize device
-	//! Variables to 0.
+	// Initialize device
+	// Variables to 0.
 	gap = 0;
-	center = 0;
 	taper = 0;
-	phase = -1;
+	center = 0;
 	phaseOffset = 0;
-	phaseCenter = 0;
 
 	minGap = 0;
 	maxGap = 0;
 	maxOpPhase = 0;
-
-	gapAcc = 0;
-	phaseAcc = 0;
-	taperAcc = 0;
-
-	gapSpeed = 0;
-	taperSpeed = 0;
-	phaseSpeed = 0;
-
 	desiredGap = 0;
+	desiredOffset = 0;
 	desiredCenter = 0;
 	desiredTaper = 0;
-
-	desiredPhase = 0;
-	desiredOffset = 0;
 
 	interlock = false;
 
@@ -212,38 +193,33 @@ void Undulator::init_device()
 
 	try
 	{
-	    // Device proxy initialization.
-	    // Gap axes.
-	    gapA = new Tango::DeviceProxy(gapAxes[0]);
-	    gapB = new Tango::DeviceProxy(gapAxes[1]);
-	    gapC = new Tango::DeviceProxy(gapAxes[2]);
-	    gapD = new Tango::DeviceProxy(gapAxes[3]);
+	    // Create groups.
+	    phaseAxesGroup = new Tango::Group("");
+	    gapAxesGroup = new Tango::Group("");
 
-	    // Phase axes.
-	    phaseA = new Tango::DeviceProxy(phaseAxes[0]);
-	    phaseB = new Tango::DeviceProxy(phaseAxes[1]);
-	    phaseC = new Tango::DeviceProxy(phaseAxes[2]);
-	    phaseD = new Tango::DeviceProxy(phaseAxes[3]);
+	    if(gapAxes.size() != phaseAxes.size())
+	        Tango::Except::throw_exception("Number of gap and phase axes doesn't match.",
+	                    "Number of proxys for gap and phase in properties is not the same.","init_device()", Tango::ERR);
 
-	    // Control box links.
-	    controlBoxGap = new Tango::DeviceProxy(controlBoxGapLink);
-	    controlBoxPhase = new Tango::DeviceProxy(controlBoxPhaseLink);
+	    for(uint i = 0; i < gapAxes.size(); i++)
+	    {
+	        phaseAxesGroup->add(phaseAxes[i]);
+	        gapAxesGroup->add(gapAxes[i]);
+	    }
 
+	    galilFunctions = new GalilCommunicator(controlBoxGapProxy, controlBoxPhaseProxy);
 
 	    // Read counts to micrometer ratio.
 	    Tango::DbData deviceProperty;
 	    string propertyName = "AxisPositionRatio";
 
 	    // Read from first gap axis since all should be the same.
-	    gapA->get_property(propertyName , deviceProperty);
+	    Tango::DeviceProxy(gapAxes[0]).get_property(propertyName , deviceProperty);
 	    deviceProperty[0] >> positionRatioGap;
 
 	    // Same for phase axis.
-	    phaseA->get_property(propertyName , deviceProperty);
+	    Tango::DeviceProxy(phaseAxes[0]).get_property(propertyName , deviceProperty);
 	    deviceProperty[0] >> positionRatioPhase;
-
-	    // Get offset for each axis.
-	    get_offsets();
 
 	    // Set tango state to ON.
 	    this->set_state(Tango::ON);
@@ -259,19 +235,26 @@ void Undulator::init_device()
 	    msg << "Tango exception in initialization." << endl
 	            << "Reason: " << err.errors[0].reason << endl
 	            << "Description: " << err.errors[0].desc;
-
-	    this->set_status(msg.str());
+	    cout << msg.str() << endl;
 	}
 	catch(std::exception& err)
 	{
 	    this->set_state(Tango::FAULT);
-	    this->set_status(err.what());
+	    cout << err.what() << endl;
 	}
 	catch(...)
 	{
 	    this->set_state(Tango::FAULT);
-	    this->set_status("Unknown exception occurred in initialization.");
+	    cout << "Unknown exception occurred in initialization." << endl;
 	}
+
+
+
+
+    //DEBUG PART
+
+
+
 	/*----- PROTECTED REGION END -----*/	//	Undulator::init_device
 }
 
@@ -294,10 +277,10 @@ void Undulator::get_device_property()
 
 	//	Read device properties from database.
 	Tango::DbData	dev_prop;
-	dev_prop.push_back(Tango::DbDatum("ControlBoxGapLink"));
+	dev_prop.push_back(Tango::DbDatum("ControlBoxGapProxy"));
 	dev_prop.push_back(Tango::DbDatum("GapAxes"));
 	dev_prop.push_back(Tango::DbDatum("PhaseAxes"));
-	dev_prop.push_back(Tango::DbDatum("ControlBoxPhaseLink"));
+	dev_prop.push_back(Tango::DbDatum("ControlBoxPhaseProxy"));
 	dev_prop.push_back(Tango::DbDatum("GearedAxes"));
 
 	//	is there at least one property to be read ?
@@ -313,16 +296,16 @@ void Undulator::get_device_property()
 			(static_cast<UndulatorClass *>(get_device_class()));
 		int	i = -1;
 
-		//	Try to initialize ControlBoxGapLink from class property
+		//	Try to initialize ControlBoxGapProxy from class property
 		cl_prop = ds_class->get_class_property(dev_prop[++i].name);
-		if (cl_prop.is_empty()==false)	cl_prop  >>  controlBoxGapLink;
+		if (cl_prop.is_empty()==false)	cl_prop  >>  controlBoxGapProxy;
 		else {
-			//	Try to initialize ControlBoxGapLink from default device value
+			//	Try to initialize ControlBoxGapProxy from default device value
 			def_prop = ds_class->get_default_device_property(dev_prop[i].name);
-			if (def_prop.is_empty()==false)	def_prop  >>  controlBoxGapLink;
+			if (def_prop.is_empty()==false)	def_prop  >>  controlBoxGapProxy;
 		}
-		//	And try to extract ControlBoxGapLink value from database
-		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  controlBoxGapLink;
+		//	And try to extract ControlBoxGapProxy value from database
+		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  controlBoxGapProxy;
 
 		//	Try to initialize GapAxes from class property
 		cl_prop = ds_class->get_class_property(dev_prop[++i].name);
@@ -346,16 +329,16 @@ void Undulator::get_device_property()
 		//	And try to extract PhaseAxes value from database
 		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  phaseAxes;
 
-		//	Try to initialize ControlBoxPhaseLink from class property
+		//	Try to initialize ControlBoxPhaseProxy from class property
 		cl_prop = ds_class->get_class_property(dev_prop[++i].name);
-		if (cl_prop.is_empty()==false)	cl_prop  >>  controlBoxPhaseLink;
+		if (cl_prop.is_empty()==false)	cl_prop  >>  controlBoxPhaseProxy;
 		else {
-			//	Try to initialize ControlBoxPhaseLink from default device value
+			//	Try to initialize ControlBoxPhaseProxy from default device value
 			def_prop = ds_class->get_default_device_property(dev_prop[i].name);
-			if (def_prop.is_empty()==false)	def_prop  >>  controlBoxPhaseLink;
+			if (def_prop.is_empty()==false)	def_prop  >>  controlBoxPhaseProxy;
 		}
-		//	And try to extract ControlBoxPhaseLink value from database
-		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  controlBoxPhaseLink;
+		//	And try to extract ControlBoxPhaseProxy value from database
+		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  controlBoxPhaseProxy;
 
 		//	Try to initialize GearedAxes from class property
 		cl_prop = ds_class->get_class_property(dev_prop[++i].name);
@@ -415,28 +398,8 @@ void Undulator::read_attr_hardware(vector<long> &attr_list)
 
 //--------------------------------------------------------
 /**
- *	Read GapReadback attribute
- *	Description: Read-back value for the current gap
- *
- *	Data type:	Tango::DevDouble
- *	Attr type:	Scalar 
- */
-//--------------------------------------------------------
-void Undulator::read_GapReadback(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "Undulator::read_GapReadback(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(Undulator::read_GapReadback) ENABLED START -----*/
-
-	//	Set the attribute value
-	omni_mutex_lock guard(deviceLock);
-	attr.set_value(&gap);
-
-	/*----- PROTECTED REGION END -----*/	//	Undulator::read_GapReadback
-}
-//--------------------------------------------------------
-/**
- *	Read GapSetpoint attribute
- *	Description: Set-point for current gap. 
+ *	Read Gap attribute
+ *	Description: Read-back and set-point for current gap. 
  *	             Writing to this attribute commences movement for the gap, 
  *	             using the current operator center offset and taper.
  *
@@ -444,13 +407,10 @@ void Undulator::read_GapReadback(Tango::Attribute &attr)
  *	Attr type:	Scalar 
  */
 //--------------------------------------------------------
-void Undulator::read_GapSetpoint(Tango::Attribute &attr)
+void Undulator::read_Gap(Tango::Attribute &attr)
 {
-	DEBUG_STREAM << "Undulator::read_GapSetpoint(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(Undulator::read_GapSetpoint) ENABLED START -----*/
-
-	//	Set the attribute value
-	attr.set_value(&desiredGap);
+	DEBUG_STREAM << "Undulator::read_Gap(Tango::Attribute &attr) entering... " << endl;
+	/*----- PROTECTED REGION ID(Undulator::read_Gap) ENABLED START -----*/
 
 	// Read max phase offset value from properties.
     Tango::AttributeConfig confGap;
@@ -465,37 +425,38 @@ void Undulator::read_GapSetpoint(Tango::Attribute &attr)
     {
 	    maxGap = max;
 	    minGap = min;
-
 	    if (!limitsDisabled)
 	        set_soft_limits_gap();
     }
 
-	/*----- PROTECTED REGION END -----*/	//	Undulator::read_GapSetpoint
+    omni_mutex_lock guard(deviceLock);
+    attr.set_value(&gap);
+
+	/*----- PROTECTED REGION END -----*/	//	Undulator::read_Gap
 }
 
 //--------------------------------------------------------
 /**
- *	Write GapSetpoint attribute values to hardware.
+ *	Write Gap attribute values to hardware.
  *
  *	Data type:	Tango::DevDouble
  *	Attr type:	Scalar 
  */
 //--------------------------------------------------------
-void Undulator::write_GapSetpoint(Tango::WAttribute &attr)
+void Undulator::write_Gap(Tango::WAttribute &attr)
 {
-	DEBUG_STREAM << "Undulator::write_GapSetpoint(Tango::Attribute &attr) entering... " << endl;
+	DEBUG_STREAM << "Undulator::write_Gap(Tango::Attribute &attr) entering... " << endl;
 	
 	//	Retrieve write value
 	Tango::DevDouble	w_val;
 	attr.get_write_value(w_val);
 	
-	/*----- PROTECTED REGION ID(Undulator::write_GapSetpoint) ENABLED START -----*/
+	/*----- PROTECTED REGION ID(Undulator::write_Gap) ENABLED START -----*/
 
 	desiredGap = w_val;
-	
-	start_gap();
+    start_gap();
 
-	/*----- PROTECTED REGION END -----*/	//	Undulator::write_GapSetpoint
+	/*----- PROTECTED REGION END -----*/	//	Undulator::write_Gap
 }
 
 //--------------------------------------------------------
@@ -630,74 +591,6 @@ void Undulator::write_GapSpeed(Tango::WAttribute &attr)
 
 //--------------------------------------------------------
 /**
- *	Read OffsetReadback attribute
- *	Description: Read-back value for the current vertical center offset.
- *
- *	Data type:	Tango::DevDouble
- *	Attr type:	Scalar 
- */
-//--------------------------------------------------------
-void Undulator::read_OffsetReadback(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "Undulator::read_OffsetReadback(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(Undulator::read_OffsetReadback) ENABLED START -----*/
-
-	//	Set the attribute value
-	omni_mutex_lock guard(deviceLock);
-	attr.set_value(&center);
-
-	/*----- PROTECTED REGION END -----*/	//	Undulator::read_OffsetReadback
-}
-//--------------------------------------------------------
-/**
- *	Read OffsetSetpoint attribute
- *	Description: Set-point value for the current vertical offset. 
- *	             Will be applied next time the GapSetpoint attribute is modified.
- *
- *	Data type:	Tango::DevDouble
- *	Attr type:	Scalar 
- */
-//--------------------------------------------------------
-void Undulator::read_OffsetSetpoint(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "Undulator::read_OffsetSetpoint(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(Undulator::read_OffsetSetpoint) ENABLED START -----*/
-
-	//	Set the attribute value
-	attr.set_value(&desiredCenter);
-
-	/*----- PROTECTED REGION END -----*/	//	Undulator::read_OffsetSetpoint
-}
-
-//--------------------------------------------------------
-/**
- *	Write OffsetSetpoint attribute values to hardware.
- *
- *	Data type:	Tango::DevDouble
- *	Attr type:	Scalar 
- */
-//--------------------------------------------------------
-void Undulator::write_OffsetSetpoint(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "Undulator::write_OffsetSetpoint(Tango::Attribute &attr) entering... " << endl;
-	
-	//	Retrieve write value
-	Tango::DevDouble	w_val;
-	attr.get_write_value(w_val);
-	
-	/*----- PROTECTED REGION ID(Undulator::write_OffsetSetpoint) ENABLED START -----*/
-
-	desiredCenter = w_val;
-
-	// Center changed, set new gap limits.
-	if (!limitsDisabled)
-	    set_soft_limits_gap();
-
-	/*----- PROTECTED REGION END -----*/	//	Undulator::write_OffsetSetpoint
-}
-
-//--------------------------------------------------------
-/**
  *	Read PhaseAcceleration attribute
  *	Description: Phase movement average acceleration in um/s^2.
  *
@@ -741,155 +634,113 @@ void Undulator::write_PhaseAcceleration(Tango::WAttribute &attr)
 
 //--------------------------------------------------------
 /**
- *	Read PhaseModeReadback attribute
- *	Description: Current phase mode.
+ *	Read PhaseMode attribute
+ *	Description: Read-back and set-point for desired phase mode. 
+ *	             Will be used next time Phase is written.
  *
  *	Data type:	Tango::DevShort
  *	Attr type:	Scalar 
  */
 //--------------------------------------------------------
-void Undulator::read_PhaseModeReadback(Tango::Attribute &attr)
+void Undulator::read_PhaseMode(Tango::Attribute &attr)
 {
-	DEBUG_STREAM << "Undulator::read_PhaseModeReadback(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(Undulator::read_PhaseModeReadback) ENABLED START -----*/
+	DEBUG_STREAM << "Undulator::read_PhaseMode(Tango::Attribute &attr) entering... " << endl;
+	/*----- PROTECTED REGION ID(Undulator::read_PhaseMode) ENABLED START -----*/
 
 	// Get the current phase mode from DMC.
-	send_command("PhMd=?", *controlBoxPhase);
-	stringstream convert(devdata_to_string());
+    short value = galilFunctions->get_phaseMode();
 
-	omni_mutex_lock guard(deviceLock);
-	convert >> phase;
-
+    {
+        omni_mutex_lock guard(deviceLock);
+        phase = value;
+    }
 	//	Set the attribute value
 	attr.set_value(&phase);
 
-	/*----- PROTECTED REGION END -----*/	//	Undulator::read_PhaseModeReadback
+	/*----- PROTECTED REGION END -----*/	//	Undulator::read_PhaseMode
 }
+
 //--------------------------------------------------------
 /**
- *	Read PhaseModeSetpoint attribute
- *	Description: Desired phase mode. 
- *	             Will be used next time PhaseSetpoint is written.
+ *	Write PhaseMode attribute values to hardware.
  *
  *	Data type:	Tango::DevShort
  *	Attr type:	Scalar 
  */
 //--------------------------------------------------------
-void Undulator::read_PhaseModeSetpoint(Tango::Attribute &attr)
+void Undulator::write_PhaseMode(Tango::WAttribute &attr)
 {
-	DEBUG_STREAM << "Undulator::read_PhaseModeSetpoint(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(Undulator::read_PhaseModeSetpoint) ENABLED START -----*/
-
-	//	Set the attribute value
-	attr.set_value(&desiredPhase);
-
-	/*----- PROTECTED REGION END -----*/	//	Undulator::read_PhaseModeSetpoint
-}
-
-//--------------------------------------------------------
-/**
- *	Write PhaseModeSetpoint attribute values to hardware.
- *
- *	Data type:	Tango::DevShort
- *	Attr type:	Scalar 
- */
-//--------------------------------------------------------
-void Undulator::write_PhaseModeSetpoint(Tango::WAttribute &attr)
-{
-	DEBUG_STREAM << "Undulator::write_PhaseModeSetpoint(Tango::Attribute &attr) entering... " << endl;
+	DEBUG_STREAM << "Undulator::write_PhaseMode(Tango::Attribute &attr) entering... " << endl;
 	
 	//	Retrieve write value
 	Tango::DevShort	w_val;
 	attr.get_write_value(w_val);
 	
-	/*----- PROTECTED REGION ID(Undulator::write_PhaseModeSetpoint) ENABLED START -----*/
+	/*----- PROTECTED REGION ID(Undulator::write_PhaseMode) ENABLED START -----*/
 
 	desiredPhase = w_val;
 
-	/*----- PROTECTED REGION END -----*/	//	Undulator::write_PhaseModeSetpoint
+	/*----- PROTECTED REGION END -----*/	//	Undulator::write_PhaseMode
 }
 
 //--------------------------------------------------------
 /**
- *	Read PhaseReadback attribute
- *	Description: Current phase offset in um.
- *
- *	Data type:	Tango::DevDouble
- *	Attr type:	Scalar 
- */
-//--------------------------------------------------------
-void Undulator::read_PhaseReadback(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "Undulator::read_PhaseReadback(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(Undulator::read_PhaseReadback) ENABLED START -----*/
-
-	//	Set the attribute value
-	omni_mutex_lock guard(deviceLock);
-	attr.set_value(&phaseOffset);
-
-	/*----- PROTECTED REGION END -----*/	//	Undulator::read_PhaseReadback
-}
-//--------------------------------------------------------
-/**
- *	Read PhaseSetpoint attribute
- *	Description: Requested phase offset in um. 
+ *	Read Phase attribute
+ *	Description: Read-back and set-point for phase offset.
  *	             When this attribute is written new phase movement commences 
- *	             using phase mode specified in PhaseModeSetpoint.
+ *	             using phase mode specified in PhaseMode attribute.
  *
  *	Data type:	Tango::DevDouble
  *	Attr type:	Scalar 
  */
 //--------------------------------------------------------
-void Undulator::read_PhaseSetpoint(Tango::Attribute &attr)
+void Undulator::read_Phase(Tango::Attribute &attr)
 {
-	DEBUG_STREAM << "Undulator::read_PhaseSetpoint(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(Undulator::read_PhaseSetpoint) ENABLED START -----*/
-
-	//	Set the attribute value
-	attr.set_value(&desiredOffset);
+	DEBUG_STREAM << "Undulator::read_Phase(Tango::Attribute &attr) entering... " << endl;
+	/*----- PROTECTED REGION ID(Undulator::read_Phase) ENABLED START -----*/
 
 	// Read max phase offset value from properties.
 	Tango::AttributeConfig confPhase;
 	attr.get_properties(confPhase);
-
 	// Convert string to double.
 	double max = atof(confPhase.max_value);
-
 	// If new maximum set, update it and recalculate new limits.
 	if(max != maxOpPhase)
 	{
 	    maxOpPhase = max;
-
 	    if (!limitsDisabled)
 	        set_soft_limits_phase();
 	}
 
+	omni_mutex_lock guard(deviceLock);
+	attr.set_value(&phaseOffset);
 
-	/*----- PROTECTED REGION END -----*/	//	Undulator::read_PhaseSetpoint
+	/*----- PROTECTED REGION END -----*/	//	Undulator::read_Phase
 }
 
 //--------------------------------------------------------
 /**
- *	Write PhaseSetpoint attribute values to hardware.
+ *	Write Phase attribute values to hardware.
  *
  *	Data type:	Tango::DevDouble
  *	Attr type:	Scalar 
  */
 //--------------------------------------------------------
-void Undulator::write_PhaseSetpoint(Tango::WAttribute &attr)
+void Undulator::write_Phase(Tango::WAttribute &attr)
 {
-	DEBUG_STREAM << "Undulator::write_PhaseSetpoint(Tango::Attribute &attr) entering... " << endl;
+	DEBUG_STREAM << "Undulator::write_Phase(Tango::Attribute &attr) entering... " << endl;
 	
 	//	Retrieve write value
 	Tango::DevDouble	w_val;
 	attr.get_write_value(w_val);
 	
-	/*----- PROTECTED REGION ID(Undulator::write_PhaseSetpoint) ENABLED START -----*/
-
+	/*----- PROTECTED REGION ID(Undulator::write_Phase) ENABLED START -----*/
+	
 	desiredOffset = w_val;
-	start_phase();
+    start_phase();
 
-	/*----- PROTECTED REGION END -----*/	//	Undulator::write_PhaseSetpoint
+
+	/*----- PROTECTED REGION END -----*/	//	Undulator::write_Phase
 }
 
 //--------------------------------------------------------
@@ -980,69 +831,101 @@ void Undulator::write_TaperAcceleration(Tango::WAttribute &attr)
 
 //--------------------------------------------------------
 /**
- *	Read TaperReadback attribute
- *	Description: Read-back value for the current taper.
- *
- *	Data type:	Tango::DevDouble
- *	Attr type:	Scalar 
- */
-//--------------------------------------------------------
-void Undulator::read_TaperReadback(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "Undulator::read_TaperReadback(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(Undulator::read_TaperReadback) ENABLED START -----*/
-
-	//	Set the attribute value
-	omni_mutex_lock guard(deviceLock);
-	attr.set_value(&taper);
-
-	/*----- PROTECTED REGION END -----*/	//	Undulator::read_TaperReadback
-}
-//--------------------------------------------------------
-/**
- *	Read TaperSetpoint attribute
- *	Description: Set-point value for the current taper. 
+ *	Read Taper attribute
+ *	Description: Read-back and set-point value for the current taper. 
  *	             Will be applied next time the GapSetpoint attribute is modified.
  *
  *	Data type:	Tango::DevDouble
  *	Attr type:	Scalar 
  */
 //--------------------------------------------------------
-void Undulator::read_TaperSetpoint(Tango::Attribute &attr)
+void Undulator::read_Taper(Tango::Attribute &attr)
 {
-	DEBUG_STREAM << "Undulator::read_TaperSetpoint(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(Undulator::read_TaperSetpoint) ENABLED START -----*/
+	DEBUG_STREAM << "Undulator::read_Taper(Tango::Attribute &attr) entering... " << endl;
+	/*----- PROTECTED REGION ID(Undulator::read_Taper) ENABLED START -----*/
 
-	//	Set the attribute value
-	attr.set_value(&desiredTaper);
+	omni_mutex_lock guard(deviceLock);
+	attr.set_value(&taper);
 
-	/*----- PROTECTED REGION END -----*/	//	Undulator::read_TaperSetpoint
+	/*----- PROTECTED REGION END -----*/	//	Undulator::read_Taper
 }
 
 //--------------------------------------------------------
 /**
- *	Write TaperSetpoint attribute values to hardware.
+ *	Write Taper attribute values to hardware.
  *
  *	Data type:	Tango::DevDouble
  *	Attr type:	Scalar 
  */
 //--------------------------------------------------------
-void Undulator::write_TaperSetpoint(Tango::WAttribute &attr)
+void Undulator::write_Taper(Tango::WAttribute &attr)
 {
-	DEBUG_STREAM << "Undulator::write_TaperSetpoint(Tango::Attribute &attr) entering... " << endl;
+	DEBUG_STREAM << "Undulator::write_Taper(Tango::Attribute &attr) entering... " << endl;
 	
 	//	Retrieve write value
 	Tango::DevDouble	w_val;
 	attr.get_write_value(w_val);
 	
-	/*----- PROTECTED REGION ID(Undulator::write_TaperSetpoint) ENABLED START -----*/
+	/*----- PROTECTED REGION ID(Undulator::write_Taper) ENABLED START -----*/
 
 	desiredTaper = w_val;
 
-	// Taper changed, set new gap limits.
+
+    // Taper changed, set new gap limits.
+    if (!limitsDisabled)
+	    set_soft_limits_gap();
+
+	/*----- PROTECTED REGION END -----*/	//	Undulator::write_Taper
+}
+
+//--------------------------------------------------------
+/**
+ *	Read Offset attribute
+ *	Description: Read-back and set-point value for the current vertical offset. 
+ *	             Will be applied next time the Gap attribute is modified.
+ *
+ *	Data type:	Tango::DevDouble
+ *	Attr type:	Scalar 
+ */
+//--------------------------------------------------------
+void Undulator::read_Offset(Tango::Attribute &attr)
+{
+	DEBUG_STREAM << "Undulator::read_Offset(Tango::Attribute &attr) entering... " << endl;
+	/*----- PROTECTED REGION ID(Undulator::read_Offset) ENABLED START -----*/
+
+	//	Set the attribute value
+	omni_mutex_lock guard(deviceLock);
+	attr.set_value(&center);
+
+	/*----- PROTECTED REGION END -----*/	//	Undulator::read_Offset
+}
+
+//--------------------------------------------------------
+/**
+ *	Write Offset attribute values to hardware.
+ *
+ *	Data type:	Tango::DevDouble
+ *	Attr type:	Scalar 
+ */
+//--------------------------------------------------------
+void Undulator::write_Offset(Tango::WAttribute &attr)
+{
+	DEBUG_STREAM << "Undulator::write_Offset(Tango::Attribute &attr) entering... " << endl;
+	
+	//	Retrieve write value
+	Tango::DevDouble	w_val;
+	attr.get_write_value(w_val);
+	
+	/*----- PROTECTED REGION ID(Undulator::write_Offset) ENABLED START -----*/
+
+	desiredCenter = w_val;
+
+
+	// Center changed, set new gap limits.
 	if (!limitsDisabled)
 	    set_soft_limits_gap();
-	/*----- PROTECTED REGION END -----*/	//	Undulator::write_TaperSetpoint
+
+	/*----- PROTECTED REGION END -----*/	//	Undulator::write_Offset
 }
 
 //--------------------------------------------------------
@@ -1183,24 +1066,20 @@ void Undulator::read_EngineeringGapSpeed(Tango::Attribute &attr)
 	DEBUG_STREAM << "Undulator::read_EngineeringGapSpeed(Tango::Attribute &attr) entering... " << endl;
 	/*----- PROTECTED REGION ID(Undulator::read_EngineeringGapSpeed) ENABLED START -----*/
 
-	//	Set the attribute value
-	double speedA;
-    double speedB;
-    double speedC;
-    double speedD;
-	string attrName = "velocity";
+	// Get reply.
+	Tango::GroupAttrReplyList replyList = gapAxesGroup->read_attribute("velocity", false);
+	double tempSpeed;
 
-	// Read gap axes speed.
-    gapA->read_attribute(attrName) >> speedA;
-    gapB->read_attribute(attrName) >> speedB;
-    gapC->read_attribute(attrName) >> speedC;
-    gapD->read_attribute(attrName) >> speedD;
+	// Extract first velocity.
+	replyList[0] >> engineeringGapAxesSpeed;
 
-	// If all values are the same, set speed to value otherwise set speed to 0.
-    if( (speedA == speedB) && (speedA == speedC) && (speedA == speedD) )
-        engineeringGapAxesSpeed = speedA;
-    else
-        engineeringGapAxesSpeed = 0;
+	for(uint i = 1; i < replyList.size(); i++)
+	{
+	    // Extract others and compare. If all are the same show speed otherwise show zero.
+	    replyList[i] >> tempSpeed;
+	    if(engineeringGapAxesSpeed != tempSpeed)
+	        engineeringGapAxesSpeed = 0;
+	}
 
 	attr.set_value(&engineeringGapAxesSpeed);
 
@@ -1225,21 +1104,14 @@ void Undulator::write_EngineeringGapSpeed(Tango::WAttribute &attr)
 	
 	/*----- PROTECTED REGION ID(Undulator::write_EngineeringGapSpeed) ENABLED START -----*/
 
-	string attrName = "velocity";
 	Tango::DeviceAttribute devattr;
-	devattr.set_name(attrName); // Set the name of attribute.
+	devattr.set_name("velocity"); // Set the name of attribute.
     devattr << w_val; // Add value.
 
 	// Write attributes.
-	gapA->write_attribute(devattr);
-	gapB->write_attribute(devattr);
-	gapC->write_attribute(devattr);
-	gapD->write_attribute(devattr);
+    gapAxesGroup->write_attribute(devattr, false);
 
 
-
-
-	   // ERROR_STREAM << "Error setting EngineeringGapSpeed." << endl;
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::write_EngineeringGapSpeed
 }
@@ -1260,24 +1132,20 @@ void Undulator::read_EngineeringPhaseSpeed(Tango::Attribute &attr)
 
 	//	Set the attribute value
 
-	// Read 4 axes speeds.
-	double speedA;
-    double speedB;
-    double speedC;
-    double speedD;
-    string attrName = "velocity";
+    // Get reply.
+    Tango::GroupAttrReplyList replyList = phaseAxesGroup->read_attribute("velocity", false);
+    double tempSpeed;
 
+    // Extract first velocity.
+    replyList[0] >> engineeringPhaseAxesSpeed;
 
-    phaseA->read_attribute(attrName) >> speedA;
-    phaseB->read_attribute(attrName) >> speedB;
-    phaseC->read_attribute(attrName) >> speedC;
-    phaseD->read_attribute(attrName) >> speedD;
-
-    // If all values are the same, set speed to value otherwise set speed to 0.
-    if( (speedA == speedB) && (speedA == speedC) && (speedA == speedD) )
-	    engineeringPhaseAxesSpeed = speedA;
-    else
-	    engineeringPhaseAxesSpeed = 0;
+    for(uint i = 1; i < replyList.size(); i++)
+    {
+        // Extract others and compare. If all are the same show speed otherwise show zero.
+        replyList[i] >> tempSpeed;
+        if(engineeringPhaseAxesSpeed != tempSpeed)
+            engineeringPhaseAxesSpeed = 0;
+    }
 
 	attr.set_value(&engineeringPhaseAxesSpeed);
 
@@ -1302,17 +1170,12 @@ void Undulator::write_EngineeringPhaseSpeed(Tango::WAttribute &attr)
 	
 	/*----- PROTECTED REGION ID(Undulator::write_EngineeringPhaseSpeed) ENABLED START -----*/
 
-	string attrName = "velocity";
     Tango::DeviceAttribute devattr;
-    devattr.set_name(attrName); // Set the name of attribute.
+    devattr.set_name("velocity"); // Set the name of attribute.
     devattr << w_val; // Add value.
 
-
     // Write attributes.
-    phaseA->write_attribute(devattr);
-    phaseB->write_attribute(devattr);
-    phaseC->write_attribute(devattr);
-    phaseD->write_attribute(devattr);
+    phaseAxesGroup->write_attribute(devattr);
 
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::write_EngineeringPhaseSpeed
@@ -1332,35 +1195,20 @@ void Undulator::read_EngineeringGapAcceleration(Tango::Attribute &attr)
 	DEBUG_STREAM << "Undulator::read_EngineeringGapAcceleration(Tango::Attribute &attr) entering... " << endl;
 	/*----- PROTECTED REGION ID(Undulator::read_EngineeringGapAcceleration) ENABLED START -----*/
 
-	double accA;
-    double accB;
-    double accC;
-    double accD;
-    double dcA;
-    double dcB;
-    double dcC;
-    double dcD;
+    vector<string> attrNames;
+    attrNames.push_back("acceleration");
+    attrNames.push_back("deceleration");
+    Tango::GroupAttrReplyList replyList = gapAxesGroup->read_attributes(attrNames, false);
 
-    string attrName = "acceleration";
+    replyList[0] >> engineeringGapAxesAcceleration;
 
-    // Read gap axes accelerations and decelerations.
-    gapA->read_attribute(attrName) >> (accA);
-    gapB->read_attribute(attrName) >> (accB);
-    gapC->read_attribute(attrName) >> (accC);
-    gapD->read_attribute(attrName) >> (accD);
-
-    attrName = "deceleration";
-    gapA->read_attribute(attrName) >> (dcA);
-    gapB->read_attribute(attrName) >> (dcB);
-    gapC->read_attribute(attrName) >> (dcC);
-    gapD->read_attribute(attrName) >> (dcD);
-
-    // If all values the same, set engineering gap acceleration to value otherwise to 0.
-    if( (accA == accB) && (accA == accC) && (accA == accD) && (accA == dcA)
-	        && (accA == dcB) && (accA == dcC) && (accA == dcD))
-	    engineeringGapAxesAcceleration = accA;
-    else
-	    engineeringGapAxesAcceleration = 0;
+    double tempAcc;
+    for(uint i = 1; i < replyList.size(); i++)
+    {
+        replyList[i] >> tempAcc;
+        if(engineeringGapAxesAcceleration != tempAcc)
+            engineeringGapAxesAcceleration = 0;
+    }
 
     //  Set the attribute value
 	attr.set_value(&engineeringGapAxesAcceleration);
@@ -1386,31 +1234,17 @@ void Undulator::write_EngineeringGapAcceleration(Tango::WAttribute &attr)
 	
 	/*----- PROTECTED REGION ID(Undulator::write_EngineeringGapAcceleration) ENABLED START -----*/
 
-	string attrName = "acceleration";
 	Tango::DeviceAttribute devattr;
-	devattr.set_name(attrName); // Set the name of attribute.
+	devattr.set_name("acceleration"); // Set the name of attribute.
 	devattr << w_val; // Add value.
 
-    try
-    {
-        // Write acceleration attributes.
-        gapA->write_attribute(devattr);
-        gapB->write_attribute(devattr);
-        gapC->write_attribute(devattr);
-        gapD->write_attribute(devattr);
+    // Write acceleration attributes.
+    gapAxesGroup->write_attribute(devattr);
 
-        // Write deceleration attributes.
-        attrName = "deceleration";
-        devattr.set_name(attrName); // Set the name of attribute.
-        gapA->write_attribute(devattr);
-        gapB->write_attribute(devattr);
-        gapC->write_attribute(devattr);
-        gapD->write_attribute(devattr);
-    }
-    catch(...)
-    {
-        ERROR_STREAM << "Error writing EngineeringGapAcceleration." << endl;
-    }
+    // Write deceleration attributes.
+    devattr.set_name("deceleration"); // Set the name of attribute.
+
+    gapAxesGroup->write_attribute(devattr);
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::write_EngineeringGapAcceleration
 }
@@ -1429,37 +1263,20 @@ void Undulator::read_EngineeringPhaseAcceleration(Tango::Attribute &attr)
 	DEBUG_STREAM << "Undulator::read_EngineeringPhaseAcceleration(Tango::Attribute &attr) entering... " << endl;
 	/*----- PROTECTED REGION ID(Undulator::read_EngineeringPhaseAcceleration) ENABLED START -----*/
 
-	//	Set the attribute value
-	double accA;
-    double accB;
-    double accC;
-	double accD;
-    double dcA;
-    double dcB;
-    double dcC;
-    double dcD;
+	vector<string> attrNames;
+    attrNames.push_back("acceleration");
+    attrNames.push_back("deceleration");
+    Tango::GroupAttrReplyList replyList = phaseAxesGroup->read_attributes(attrNames, false);
 
-    string attrName = "acceleration";
+    replyList[0] >> engineeringPhaseAxesAcceleration;
 
-
-    // Read gap axes accelerations and decelerations.
-    phaseA->read_attribute(attrName) >> (accA);
-    phaseB->read_attribute(attrName) >> (accB);
-    phaseC->read_attribute(attrName) >> (accC);
-    phaseD->read_attribute(attrName) >> (accD);
-
-    attrName = "deceleration";
-    phaseA->read_attribute(attrName) >> (dcA);
-    phaseB->read_attribute(attrName) >> (dcB);
-    phaseC->read_attribute(attrName) >> (dcC);
-    phaseD->read_attribute(attrName) >> (dcD);
-
-    // If all values the same, set engineering phase acceleration to value otherwise to 0.
-    if( (accA == accB) && (accA == accC) && (accA == accD) && (accA == dcA)
-	        && (accA == dcB) && (accA == dcC) && (accA == dcD))
-	    engineeringPhaseAxesAcceleration = accA;
-    else
-	    engineeringPhaseAxesAcceleration = 0;
+    double tempAcc;
+    for(uint i = 1; i < replyList.size(); i++)
+    {
+        replyList[i] >> tempAcc;
+        if(engineeringPhaseAxesAcceleration != tempAcc)
+            engineeringPhaseAxesAcceleration = 0;
+    }
 
     attr.set_value(&engineeringPhaseAxesAcceleration);
 
@@ -1484,24 +1301,16 @@ void Undulator::write_EngineeringPhaseAcceleration(Tango::WAttribute &attr)
 	
 	/*----- PROTECTED REGION ID(Undulator::write_EngineeringPhaseAcceleration) ENABLED START -----*/
 
-	string attrName = "acceleration";
     Tango::DeviceAttribute devattr;
-    devattr.set_name(attrName); // Set the name of attribute.
+    devattr.set_name("acceleration"); // Set the name of attribute.
     devattr << w_val; // Add value.
 
     // Write acceleration attributes.
-    phaseA->write_attribute(devattr);
-    phaseB->write_attribute(devattr);
-    phaseC->write_attribute(devattr);
-    phaseD->write_attribute(devattr);
+    phaseAxesGroup->write_attribute(devattr);
 
     // Write deceleration attributes.
-    attrName = "deceleration";
-    devattr.set_name(attrName); // Set the name of attribute.
-    phaseA->write_attribute(devattr);
-    phaseB->write_attribute(devattr);
-    phaseC->write_attribute(devattr);
-    phaseD->write_attribute(devattr);
+    devattr.set_name("deceleration"); // Set the name of attribute.
+    phaseAxesGroup->write_attribute(devattr);
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::write_EngineeringPhaseAcceleration
 }
@@ -1522,27 +1331,9 @@ void Undulator::read_Interlock(Tango::Attribute &attr)
 
 	//	Set the attribute value
 
-	// Send command to return Digital output 5.
-	send_command("IlockAct=?", *controlBoxGap);
-	stringstream response(devdata_to_string());
+	// Send command to get interlock status.
 
-	// If valid response.
-	if (std::string::npos != response.str().find(":"))
-	    response >> interlock;
-	else
-	    ERROR_STREAM << "Error reading interlock from gap DMC." << endl;
-
-	// No need to read from second DMC if we are already in interlock.
-	if(!interlock)
-	{
-	    send_command("IlockAct=?", *controlBoxPhase);
-	    response.str(devdata_to_string());
-
-	    if (std::string::npos != response.str().find(":"))
-	        response >> interlock;
-	    else
-	        ERROR_STREAM << "Error reading interlock from phase DMC." << endl;
-	}
+	interlock = galilFunctions->get_interlock_status();
 
 	attr.set_value(&interlock);
 
@@ -1589,13 +1380,7 @@ void Undulator::stop_gap()
 	//	Add your own code
 
 	// Sends command to stop gap motors.
-	send_command("HX 7; ST S", *controlBoxGap);
-	// Something is wrong. Alert user so he can use other ways to stop motors.
-	if(devdata_to_string().compare("::") != 0)
-	{
-	    ERROR_STREAM << "Undulator::stop_gap()  - Error sending stop gap command!"  << endl;
-	    Tango::Except::throw_exception("Stop gap command couldn't be sent to DMC.","Stop gap command couldn't be sent to DMC.","Stop gap.",Tango::ERR);
-	}
+	galilFunctions->stop_gap();
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::stop_gap
 
@@ -1618,37 +1403,9 @@ void Undulator::toggle_stop_all(Tango::DevBoolean argin)
 	DEBUG_STREAM << "Undulator::ToggleStopAll()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(Undulator::toggle_stop_all) ENABLED START -----*/
 
-	string command;
-	// Set command based on input.
-	if(argin)
-	    command = "StopRq=1";
-	else
-	    command = "StopRq=0";
-
-    bool error = false;
-
-    // Sends command to stop gap motors.
-    send_command(command, *controlBoxGap);
-    // Something is wrong. Alert user so he can use other ways to stop motors.
-    if(devdata_to_string().compare(":") != 0)
-    {
-	    ERROR_STREAM << "Undulator::stop_all()  - Error sending stop all gap command!"  << endl;
-	    error = true;
-    }
-    // Sends command to stop phase motors.
-    send_command(command, *controlBoxPhase);
-    // Something is wrong. Alert user so he can use other ways to stop motors.
-    if(devdata_to_string().compare(":") != 0)
-    {
-	    ERROR_STREAM << "Undulator::stop_all()  - Error sending stop all phase command!"  << endl;
-	    error = true;
-    }
-    // If no error occurred set stop all status to desired.
-    if(!error)
-        stopAll = argin;
-    else
-        Tango::Except::throw_exception("Stop command couldn't be sent to DMC.","Stop command couldn't be sent to DMC.","Stop all command.",Tango::ERR);
-
+	// Set or reset stop all
+    galilFunctions->toggle_stop_all(argin);
+    stopAll = argin;
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::toggle_stop_all
 
@@ -1672,32 +1429,8 @@ void Undulator::disable_limits(Tango::DevBoolean argin)
 
 	if(argin)
 	{
-	    // Command to send to disable soft limits on DMC.
-	    string limitsCommand = "FL 2147483647,2147483647,2147483647,2147483647; BL -2147483648,-2147483648,-2147483648,-2147483648";
-
-	    send_command(limitsCommand, *controlBoxGap);
-
-	    bool success = true;
-	    // Check gap limits disabled response.
-	    if(devdata_to_string().compare("::") != 0)
-	    {
-	        ERROR_STREAM << "Error disabling gap soft limits." << endl;
-	        success = false;
-	    }
-
-	    send_command(limitsCommand, *controlBoxPhase);
-
-	    // Check phase limits disabled response.
-	    if(devdata_to_string().compare("::") != 0)
-	    {
-	        ERROR_STREAM << "Error disabling phase soft limits."  << endl;
-	        success = false;
-	    }
-	    // If no error occurred set limitsDisabled to true.
-	    if(success)
-	        limitsDisabled = success;
-	    else
-	        Tango::Except::throw_exception("Disable limits command couldn't be sent to DMC.","Disable limits command couldn't be sent to DMC.","Disable limits - true",Tango::ERR);
+	    galilFunctions->disable_limits();
+	    limitsDisabled = true;
 	}
 	else
 	{
@@ -1706,8 +1439,6 @@ void Undulator::disable_limits(Tango::DevBoolean argin)
 	    set_soft_limits_gap();
 	    limitsDisabled = false;
 	}
-
-
 	/*----- PROTECTED REGION END -----*/	//	Undulator::disable_limits
 
 }
@@ -1727,13 +1458,7 @@ void Undulator::stop_phase()
 	/*----- PROTECTED REGION ID(Undulator::stop_phase) ENABLED START -----*/
 
 	// Sends command to stop gap motors.
-	send_command("HX 7; ST S", *controlBoxPhase);
-    // Something is wrong. Alert user so he can use other ways to stop motors.
-    if(devdata_to_string().compare("::") != 0)
-    {
-        ERROR_STREAM << "Undulator::stop_phase()  - Error sending stop phase command!"  << endl;
-        Tango::Except::throw_exception("Stop phase command couldn't be sent to DMC.","Stop phase command couldn't be sent to DMC.","Stop phase.",Tango::ERR);
-    }
+	galilFunctions->stop_phase();
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::stop_phase
 
@@ -1753,42 +1478,25 @@ void Undulator::calibrate_gap(const Tango::DevVarDoubleArray *argin)
 	DEBUG_STREAM << "Undulator::CalibrateGap()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(Undulator::calibrate_gap) ENABLED START -----*/
 
-    double encoderA, encoderB, encoderC, encoderD;
-    string delimiter;
+	// Create a vector to fill with aux encoder positions.
+    vector<double> encoderPos;
 
-    // Read aux encoder positions.
-    send_command("TDA;TDB;TDC;TDD", *controlBoxGap);
-    stringstream response(devdata_to_string());
+    galilFunctions->get_gap_auxiliary_encoder_pos(encoderPos);
 
-    response >> encoderA;
-    response >> delimiter;
-    response >> encoderB;
-    response >> delimiter;
-    response >> encoderC;
-    response >> delimiter;
-    response >> encoderD;
+    // Get current offsets.
+    get_offsets_gap();
 
-    // Update new offsets.
+    // Recalculate.
+    double gapCenter = (*argin)[0]/2 + (*argin)[1]; // G/2+center
 
-    offsets[2] = -(*argin)[0]/2 + (*argin)[1] - convert_to_micrometers(encoderC, positionRatioPhase);     // -G/2+center = TDC + offset[2]
-    offsets[3] = -(*argin)[0]/2 + (*argin)[1] - convert_to_micrometers(encoderD, positionRatioPhase);     // -G/2+center = TDD + offset[3]
+    offsetsGapVector[2] = -gapCenter - convert_to_micrometers(encoderPos[2], positionRatioGap);     // -G/2+center = TDC + offset[2]
+    offsetsGapVector[3] = -gapCenter - convert_to_micrometers(encoderPos[3], positionRatioGap);     // -G/2+center = TDD + offset[3]
 
-    offsets[0] = (*argin)[0]/2 + (*argin)[1] - convert_to_micrometers(encoderA, positionRatioPhase) - convert_to_micrometers(encoderC, positionRatioPhase); // G/2+center = TDA + TDC + Offsets[0]
-    offsets[1] = (*argin)[0]/2 + (*argin)[1] - convert_to_micrometers(encoderB, positionRatioPhase) - convert_to_micrometers(encoderD, positionRatioPhase); // G/2+center = TDB + TDC + Offsets[1]
+    offsetsGapVector[0] = gapCenter - convert_to_micrometers(encoderPos[0] - encoderPos[2], positionRatioGap); // G/2+center = TDA + TDC + Offsets[0]
+    offsetsGapVector[1] = gapCenter - convert_to_micrometers(encoderPos[1] - encoderPos[3], positionRatioGap); // G/2+center = TDB + TDC + Offsets[1]
 
-    string attrName = "offset";
-    Tango::DeviceAttribute devattr;
-    devattr.set_name(attrName); // Set the name of attribute.
-
-    // Write offset attributes.
-    devattr << offsets[0]; // Add value.
-    gapA->write_attribute(devattr);
-    devattr << offsets[1]; // Add value.
-    gapB->write_attribute(devattr);
-    devattr << offsets[2]; // Add value.
-    gapC->write_attribute(devattr);
-    devattr << offsets[3]; // Add value.
-    gapD->write_attribute(devattr);
+    // Update offsets.
+    gapAxesGroup->write_attribute("offset", offsetsGapVector, false);
 
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::calibrate_gap
@@ -1809,37 +1517,25 @@ void Undulator::calibrate_phase()
 	DEBUG_STREAM << "Undulator::CalibratePhase()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(Undulator::calibrate_phase) ENABLED START -----*/
 
-	string attrName = "position";
-	double posA,posB,posC,posD;
+    Tango::GroupAttrReplyList replyList = phaseAxesGroup->read_attribute("position", false);
+    if(replyList.has_failed() == 1)
+            Tango::Except::throw_exception("Error in reading phase axes position attribute.",
+                "Read_attribute function failed.","calibrate_phase()", Tango::ERR);
 
-	// Read motor positions.
-    phaseA->read_attribute(attrName) >> posA;
-    phaseB->read_attribute(attrName) >> posB;
-    phaseC->read_attribute(attrName) >> posC;
-    phaseD->read_attribute(attrName) >> posD;
+    // Get current offsets.
+    get_offsets_phase();
 
-    // Offsets are equal to - current positions since we are a 0.
-    // Compensate for current offsets.
+    // Recalculate new offsets.
+    // Offsets are equal to "old offset - current position" since we are a 0.
+    double extractor;
+    for(uint i = 0; i < replyList.size(); i++)
+    {
+        replyList[i] >> extractor;
+        offsetsPhaseVector[i] -= extractor;
+    }
 
-    // Update new offsets.
-    offsets[4] += -posA;
-    offsets[5] += -posB;
-    offsets[6] += -posC;
-    offsets[7] += -posD;
-
-    attrName = "offset";
-    Tango::DeviceAttribute devattr;
-    devattr.set_name(attrName); // Set the name of attribute.
-
-    // Write offset attributes.
-    devattr << offsets[4]; // Add value.
-    phaseA->write_attribute(devattr);
-    devattr << offsets[5]; // Add value.
-    phaseB->write_attribute(devattr);
-    devattr << offsets[6]; // Add value.
-    phaseC->write_attribute(devattr);
-    devattr << offsets[7]; // Add value.
-    phaseD->write_attribute(devattr);
+    // Update offsets.
+    phaseAxesGroup->write_attribute("offset", offsetsPhaseVector, false);
 
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::calibrate_phase
@@ -1849,60 +1545,38 @@ void Undulator::calibrate_phase()
 
 	/*----- PROTECTED REGION ID(Undulator::namespace_ending) ENABLED START -----*/
 
-/**
- * Extracts devdata to string.
- *
- * @return Tango::DevData DMC response in string format.
- */
-string Undulator::devdata_to_string()
-{
-    string temp;
-    devdata >> temp;
-    return temp;
-}
-
-/**
- * Sends low level execute command through control box to DMC.
- * Updates devdata on undulator with DMC response.
- *
- * @param command Command sent to DMC.
- * @param controlBox Reference to receiver controlbox.
- */
-void Undulator::send_command(string command, Tango::DeviceProxy &controlBox )
-{
-    // Send command through controlbox to DMC.
-    devdata << command;
-    devdata = controlBox.command_inout("ExecLowLevelCmd", devdata);
-}
 
 /**
  * Calculates final destinations of phase axes depending on desired phase.
  *
- * @param destinations[] Destinations array to fill.
+ * @param destinations Destinations vector to fill.
  */
-void Undulator::calculate_motor_destinations(double destinations[])
+void Undulator::calculate_motor_destinations(vector<double> &destinations)
 {
+    // Convert desiredOffset to counts.
+    double counts = convert_to_counts(desiredOffset, positionRatioPhase);
+
     switch(desiredPhase)
     {
         // Phase A - X1 and X4 fixed, X2 and X3 move parallel to desired offset.
         case 0:
-            destinations[1] = desiredOffset;
-            destinations[2] = desiredOffset;
+            destinations[1] = counts;
+            destinations[2] = counts;
             break;
         // Phase B - X2 and X3 fixed, X1 and X4 move parallel to desired offset.
         case 1:
-            destinations[0] = desiredOffset;
-            destinations[3] = desiredOffset;
+            destinations[0] = counts;
+            destinations[3] = counts;
             break;
         // Phase C - X1 and X4 fixed, X2 and X3 move antiparallel to desired offset.
         case 2:
-            destinations[1] = desiredOffset;
-            destinations[2] = -desiredOffset;
+            destinations[1] = counts;
+            destinations[2] = -counts;
             break;
         // Phase D - X2 and X3 fixed, X1 and X4 move antiparallel to desired offset.
         case 3:
-            destinations[0] = desiredOffset;
-            destinations[3] = -desiredOffset;
+            destinations[0] = counts;
+            destinations[3] = -counts;
             break;
         // Nothing to change leave all at phase center.
         default:
@@ -1911,34 +1585,46 @@ void Undulator::calculate_motor_destinations(double destinations[])
 }
 
 /**
- *  Gets offsets from all axes and stores them in offsets array.
+ *  Gets offsets from all gap axes and stores them in offsetsGap vector.
  */
-void Undulator::get_offsets()
+void Undulator::get_offsets_gap()
 {
-    // Attribute name.
-    string attr = "offset";
-    Tango::DeviceAttribute devattr; //!< Device attribute
+    Tango::GroupAttrReplyList replyList = gapAxesGroup->read_attribute("offset", false);
+    if(replyList.has_failed() == 1)
+        Tango::Except::throw_exception("Error in reading gap offset attributes.",
+            "Read_attribute function failed.","get_offsets_gap()", Tango::ERR);
 
-    // Read all 8 offsets and put them in array.
+    offsetsGapVector.clear();
+    double extractor;
 
-    devattr = gapA->read_attribute(attr);
-    devattr >> offsets[0];
-    devattr = gapB->read_attribute(attr);
-    devattr >> offsets[1];
-    devattr = gapC->read_attribute(attr);
-    devattr >> offsets[2];
-    devattr = gapD->read_attribute(attr);
-    devattr >> offsets[3];
-
-    devattr = phaseA->read_attribute(attr);
-    devattr >> offsets[4];
-    devattr = phaseB->read_attribute(attr);
-    devattr >> offsets[5];
-    devattr = phaseC->read_attribute(attr);
-    devattr >> offsets[6];
-    devattr = phaseD->read_attribute(attr);
-    devattr >> offsets[7];
+    for(uint i = 0; i < replyList.size(); i++)
+    {
+        replyList[i] >> extractor;
+        offsetsGapVector.push_back(extractor);
+    }
 }
+
+/**
+ *  Gets offsets from all phase axes and stores them in offsetsPhase vector.
+ */
+void Undulator::get_offsets_phase()
+{
+    Tango::GroupAttrReplyList replyList = phaseAxesGroup->read_attribute("offset", false);
+    if(replyList.has_failed() == 1)
+        Tango::Except::throw_exception("Error in reading phase offset attributes.",
+            "Read_attribute function failed.","get_offsets_phase()", Tango::ERR);
+
+    offsetsPhaseVector.clear();
+    double extractor;
+
+    for(uint i = 0; i < replyList.size(); i++)
+    {
+        replyList[i] >> extractor;
+        offsetsPhaseVector.push_back(extractor);
+    }
+}
+
+
 /**
  * Takes user unit and converts it to counts.
  *
@@ -1957,50 +1643,27 @@ double Undulator::convert_to_counts(double number, double ratio)
 void Undulator::set_soft_limits_gap()
 {
     // Calculate current limits depending on center, taper and min/max gap.
-    double switches[8];
-    switches[0] = convert_to_counts(desiredCenter - desiredTaper/4 + maxGap/2 - offsets[0], positionRatioGap); // FLZ1
-    switches[4] = convert_to_counts(desiredCenter - desiredTaper/4 + minGap/2 - offsets[0], positionRatioGap); // BLZ1
+    vector<double> forwardLimits;
+    vector<double> backwardLimits;
 
-    switches[1] = convert_to_counts(desiredCenter + desiredTaper/4 + maxGap/2 - offsets[1], positionRatioGap); // FLZ2
-    switches[5] = convert_to_counts(desiredCenter + desiredTaper/4 + minGap/2 - offsets[1], positionRatioGap); // BLZ2
+    // Update offsets.
+    get_offsets_gap();
 
-    switches[2] = convert_to_counts(desiredCenter + desiredTaper/4 - minGap/2 - offsets[2], positionRatioGap); // FLZ3
-    switches[6] = convert_to_counts(desiredCenter + desiredTaper/4 - maxGap/2 - offsets[2], positionRatioGap); // BLZ3
+    forwardLimits.push_back(convert_to_counts(desiredCenter - desiredTaper/4 + maxGap/2 - offsetsGapVector[0], positionRatioGap)); // FLZ1
+    backwardLimits.push_back(convert_to_counts(desiredCenter - desiredTaper/4 + minGap/2- offsetsGapVector[0], positionRatioGap)); // BLZ1
 
-    switches[3] = convert_to_counts(desiredCenter - desiredTaper/4 - minGap/2 - offsets[3], positionRatioGap); // FLZ4
-    switches[7] = convert_to_counts(desiredCenter - desiredTaper/4 - maxGap/2 - offsets[3], positionRatioGap); // BLZ4
+    forwardLimits.push_back(convert_to_counts(desiredCenter + desiredTaper/4 + maxGap/2 - offsetsGapVector[1], positionRatioGap)); // FLZ2
+    backwardLimits.push_back(convert_to_counts(desiredCenter + desiredTaper/4 + minGap/2 - offsetsGapVector[1], positionRatioGap)); // BLZ2
 
-    stringstream cmd;
+    forwardLimits.push_back(convert_to_counts(desiredCenter + desiredTaper/4 - minGap/2 - offsetsGapVector[2], positionRatioGap)); // FLZ3
+    backwardLimits.push_back(convert_to_counts(desiredCenter + desiredTaper/4 - maxGap/2 - offsetsGapVector[2], positionRatioGap)); // BLZ3
 
-    // Add forward limit command.
-    cmd << "FL ";
-    for(int i = 0; i < 4; i++)
-    {
-        cmd << fixed << switches[i];
+    forwardLimits.push_back(convert_to_counts(desiredCenter - desiredTaper/4 - minGap/2 - offsetsGapVector[3], positionRatioGap)); // FLZ4
+    backwardLimits.push_back(convert_to_counts(desiredCenter - desiredTaper/4 - maxGap/2 - offsetsGapVector[3], positionRatioGap)); // BLZ4
 
-        if (i != 3)
-            cmd << ",";
-    }
+    galilFunctions->set_gap_limits(forwardLimits, backwardLimits);
 
-    // Add backward limit command.
-    cmd << ";BL ";
-    for(int i = 4; i < 8; i++)
-    {
-        cmd << fixed << switches[i];
 
-        if (i != 7)
-            cmd << ",";
-    }
-    // Send to gap DMC.
-    send_command(cmd.str(), *controlBoxGap);
-
-    // Check for errors.
-    if(devdata_to_string().compare("::") != 0)
-    {
-        ERROR_STREAM << "Gap axes soft limit update failed." << endl;
-        Tango::Except::throw_exception("Error in setting soft limits on DMC.","Error in setting soft limits on DMC.","Set soft limits gap.",Tango::ERR);
-
-    }
 }
 /**
  * Calculates software limits for phase and sets them on DMC.
@@ -2008,48 +1671,20 @@ void Undulator::set_soft_limits_gap()
 void Undulator::set_soft_limits_phase()
 {
     // Calculate current limits depending on max operator offset.
-    double switches[8];
+    vector<double> forwardLimits;
+    vector<double> backwardLimits;
+
+    // Update offsets.
+    get_offsets_phase();
 
     // Calculate limits and apply offsets.
     for(int i = 0; i < 4; i++)
     {
-    switches[i] = phaseCenter + maxOpPhase - offsets[i+4];
-    switches[i+4] = phaseCenter - maxOpPhase - offsets[i+4];
+        forwardLimits.push_back(convert_to_counts(maxOpPhase - offsetsPhaseVector[i], positionRatioPhase));
+        backwardLimits.push_back(convert_to_counts(-maxOpPhase - offsetsPhaseVector[i], positionRatioPhase));
     }
 
-    stringstream cmd;
-
-    // Add forward limits command.
-    cmd << "FL ";
-
-    for(int i = 0; i < 4; i++)
-    {
-        cmd << fixed << convert_to_counts(switches[i], positionRatioPhase);
-
-        if(i != 3)
-            cmd << ",";
-    }
-
-    // Add backward limit command.
-    cmd << ";BL ";
-
-    for (int i = 4; i < 8; i++)
-    {
-        cmd << fixed << convert_to_counts(switches[i], positionRatioPhase);
-
-        if(i != 7)
-            cmd << ",";
-    }
-
-    // Send command to phase DMC.
-    send_command(cmd.str(), *controlBoxPhase);
-
-    // Check for errors.
-    if(devdata_to_string().compare("::") != 0)
-    {
-        ERROR_STREAM << "Phase axes soft limit update failed." << endl;
-        Tango::Except::throw_exception("Error in setting soft limits on DMC.","Error in setting soft limits on DMC.","Set soft limits phase.", Tango::ERR);
-    }
+    galilFunctions->set_phase_limits(forwardLimits, backwardLimits);
 }
 
 /**
@@ -2078,47 +1713,22 @@ void Undulator::start_gap()
                     "Move gap not permitted under engineering lock.","Move gap command.",Tango::ERR);
         return;
     }
-    // Create command to send. Send center,gap and taper parameters.
 
-    stringstream cmd;
+    // Update offsets.
+    get_offsets_gap();
 
-    // Offsets update part.
+    // Create vector with offsets in counts.
+    vector<double> countOffsets;
     for(int i = 0; i < 4; i++)
-    {
-        cmd << "Offsets[" << i << "]=" << fixed << convert_to_counts(offsets[i], positionRatioGap) << ";";
-    }
-    // Rest of command.
-    cmd << "GapOfst="
-        << fixed << convert_to_counts(desiredCenter, positionRatioGap)
-        << ";Gap="
-        << fixed << convert_to_counts(desiredGap, positionRatioGap)
-        << ";Taper="
-        << fixed << convert_to_counts(desiredTaper, positionRatioGap)
-        << ";TprSpd="
-        << fixed << convert_to_counts(taperSpeed, positionRatioGap)
-        << ";GapSpd="
-        << fixed << convert_to_counts(gapSpeed, positionRatioGap)
-        << ";GapAcc="
-        << fixed << convert_to_counts(gapAcc ,positionRatioGap)
-        << ";TprAcc="
-        << fixed << convert_to_counts(taperAcc, positionRatioGap)
-        << ";XQ#GAP,7"; // Execute movement on 7th thread.
+        countOffsets.push_back(offsetsGapVector[i]);
 
-    // Send command.
-    send_command(cmd.str(), *controlBoxGap);
+    // Send all needed parameters converted to counts. Speed is not compensated as it represents the speed at which gap is opening or closing.
+    galilFunctions->start_gap_movement(countOffsets, convert_to_counts(desiredCenter, positionRatioGap), convert_to_counts(desiredGap, positionRatioGap),
+            convert_to_counts(desiredTaper, positionRatioGap), convert_to_counts(gapSpeed, positionRatioGap),
+            convert_to_counts(taperSpeed, positionRatioGap), convert_to_counts(gapAcc, positionRatioGap), convert_to_counts(taperAcc, positionRatioGap));
 
-    // If we get positive confirmation of all commands.
-    if (devdata_to_string().compare("::::::::::::") == 0)
-    {
-        gapMoving = true;
-    }
-    else
-    {
-        // Show error in log.
-        ERROR_STREAM << "Error in start gap procedure." << endl;
-        Tango::Except::throw_exception("Error starting gap movement.",
-                "Start gap movement command failed.","Start gap movement.",Tango::ERR);
-    }
+    gapMoving = true;
+
 }
 
 /**
@@ -2135,56 +1745,31 @@ void Undulator::start_phase()
                             "Move phase not permitted under current conditions","Start move phase command.",Tango::WARN);
         return;
     }
-
     // Calculate destinations according to desired phase.
-    double destinations[4] = {0,0,0,0};
+    vector<double> destinations;
+
+    // Initialize 4 vector elements to 0.
+    for(int i=0;i<4;i++)
+        destinations.push_back(0);
+
+    // Calculate final destinations and correct vector.
     calculate_motor_destinations(destinations);
 
-    // Create command to send.
-    stringstream cmd;
+    // Update offsets.
+    get_offsets_phase();
 
-    // Offsets update part.
-
+    // Create vector with offsets in counts.
+    vector<double> countOffsets;
     for(int i = 0; i < 4; i++)
-    {
-        cmd << "Offsets[" << i << "]=" << fixed << convert_to_counts(offsets[i+4], positionRatioPhase) << ";";
-    }
-    // Rest of command.
-    cmd << "PhMdRq="
-        << desiredPhase
-        << ";PhDest[0]="
-        << fixed << convert_to_counts(destinations[0], positionRatioPhase)
-        << ";PhDest[1]="
-        << fixed << convert_to_counts(destinations[1], positionRatioPhase)
-        << ";PhDest[2]="
-        << fixed << convert_to_counts(destinations[2], positionRatioPhase)
-        << ";PhDest[3]="
-        << fixed << convert_to_counts(destinations[3], positionRatioPhase)
-        << ";PhSpd="
-        << fixed << convert_to_counts(phaseSpeed, positionRatioPhase)
-        << ";PhAcc="
-        << fixed << convert_to_counts(phaseAcc, positionRatioPhase)
-        << ";XQ#PHASE,7";
+        countOffsets.push_back(offsetsPhaseVector[i]);
 
-    // Send command.
-    send_command(cmd.str(), *controlBoxPhase);
+    // Send all needed parameters converted to counts. Compensate speed (need to multiply by 1.414... as it represents the speed axis moves at to desired offset)
+    galilFunctions->start_phase_movement(countOffsets, desiredPhase, destinations, convert_to_counts(phaseSpeed*VECTOR_UNIT_TO_INDIVIDUAL, positionRatioPhase), convert_to_counts(phaseAcc*VECTOR_UNIT_TO_INDIVIDUAL,positionRatioPhase));
 
-    // If we get positive confirmation of all commands.
-    if (devdata_to_string().compare("::::::::::::") == 0)
-    {
-        phaseMoving = true;
-    }
-    else
-    {
-        // Show error in log.
-        ERROR_STREAM << "Error in start phase procedure."  << endl;
-        Tango::Except::throw_exception("Error starting phase movement.",
-                        "Start phase movement command failed.","Start phase movement.",Tango::ERR);
-    }
+    phaseMoving = true;
+
 
 }
-
-
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::namespace_ending
 } //	namespace

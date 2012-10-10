@@ -32,6 +32,7 @@
 #include <tango.h>
 #include <string>
 #include <vector>
+#include "GalilCommunicator.h"
 
 
 /*----- PROTECTED REGION END -----*/
@@ -74,7 +75,8 @@ private:
     double desiredOffset; //!< Desired phase offset.
     short desiredPhase; //!< Selected phase mode.
 
-    double offsets[8]; //!< Holds all axes offsets.
+    vector<double> offsetsGapVector; //!< Holds all gap axes offsets.
+    vector<double> offsetsPhaseVector; //!< Holds all phase axes offsets.
 
     UpdaterThread *stateUpdater; //!< Pointer to updater thread.
 
@@ -85,11 +87,10 @@ private:
     double taper; //!< Holds the actual taper in user units.
     double phaseOffset; //!< Current phase offset in user units.
     short phase; //!< Current phase mode.
-    double phaseCenter; //!< Center of phase movement. Default 0.
 
     double taperSpeed; //!< Speed used when adjusting taper.
     double gapSpeed; //!< Speed used when moving gap.
-    double phaseSpeed; //!< Motor speed when moving to phase offset.
+    double phaseSpeed; //!< Speed used when moving to phase offset.
 
     double engineeringGapAxesSpeed; //!< Axes moving gap maximum speed in engineering mode.
     double engineeringPhaseAxesSpeed; //!< Axes moving phase maximum speed in engineering mode.
@@ -115,42 +116,32 @@ private:
 
     bool interlock; //!< Interlock signal.
 
-    Tango::DeviceProxy *gapA; //!< Pointer to gap axis A.
-    Tango::DeviceProxy *gapB; //!< Pointer to gap axis B.
-    Tango::DeviceProxy *gapC; //!< Pointer to gap axis C.
-    Tango::DeviceProxy *gapD; //!< Pointer to gap axis D.
-    Tango::DeviceProxy *phaseA; //!< Pointer to phase axis A.
-    Tango::DeviceProxy *phaseB; //!< Pointer to phase axis B.
-    Tango::DeviceProxy *phaseC; //!< Pointer to phase axis C.
-    Tango::DeviceProxy *phaseD; //!< Pointer to phase axis D.
-
-    Tango::DeviceProxy *controlBoxGap; //!< Pointer to controlbox with gap DMC.
-    Tango::DeviceProxy *controlBoxPhase; //!< Pointer to controlbox with phase DMC.
-
     Tango::DeviceData devdata; //!< Device data when sending command and receiving response.
+
+    GalilCommunicator *galilFunctions; //!< Pointer to class dealing with direct DMC commands.
+
+    Tango::Group *phaseAxesGroup; //!< Group with phase axes.
+    Tango::Group *gapAxesGroup; //!< Group with gap axes.
 
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::Data Members
 
 
 //	Device property data members
-public:		//	ControlBoxGapLink:	Link to ControlBox with gap DMC
-	string	controlBoxGapLink;
-	//	GapAxes:	Links to axes that control gap movement. Order: Z1,Z2,Z3,Z4
+public:		//	ControlBoxGapProxy:	Proxy to ControlBox with gap DMC
+	string	controlBoxGapProxy;
+	//	GapAxes:	Proxy to axes that control gap movement. Order: Z1,Z2,Z3,Z4
 	vector<string>	gapAxes;
-	//	PhaseAxes:	Links to axes that control phase movement.  Order: X1,X2,X3,X4
+	//	PhaseAxes:	Proxy to axes that control phase movement.  Order: X1,X2,X3,X4
 	vector<string>	phaseAxes;
-	//	ControlBoxPhaseLink:	Link to controlbox with phase DMC
-	string	controlBoxPhaseLink;
-	//	GearedAxes:	Links to GalilGearedAxes that control upper and lower girder. Order: Upper girder, Lower girder
+	//	ControlBoxPhaseProxy:	Proxy to controlbox with phase DMC
+	string	controlBoxPhaseProxy;
+	//	GearedAxes:	Proxy to GalilGearedAxes that control upper and lower girder. Order: Upper girder, Lower girder
 	vector<string>	gearedAxes;
 	
 
 //	Attribute data members
 public:
-
-
-
 
 //	Constructors and destructors
 public:
@@ -213,29 +204,17 @@ public:
 
 
 	/**
-	 *	GapReadback attribute related methods.
-	 *	Description: Read-back value for the current gap
-	 *
-	 *	Data type:	Tango::DevDouble
-	 *	Attr type:	Scalar 
-	 */
-	virtual void read_GapReadback(Tango::Attribute &attr);
-	virtual bool is_GapReadback_allowed(Tango::AttReqType type);
-
-
-
-	/**
-	 *	GapSetpoint attribute related methods.
-	 *	Description: Set-point for current gap. 
+	 *	Gap attribute related methods.
+	 *	Description: Read-back and set-point for current gap. 
  *	             Writing to this attribute commences movement for the gap, 
  *	             using the current operator center offset and taper.
 	 *
 	 *	Data type:	Tango::DevDouble
 	 *	Attr type:	Scalar 
 	 */
-	virtual void read_GapSetpoint(Tango::Attribute &attr);
-	virtual void write_GapSetpoint(Tango::WAttribute &attr);
-	virtual bool is_GapSetpoint_allowed(Tango::AttReqType type);
+	virtual void read_Gap(Tango::Attribute &attr);
+	virtual void write_Gap(Tango::WAttribute &attr);
+	virtual bool is_Gap_allowed(Tango::AttReqType type);
 
 
 
@@ -280,32 +259,6 @@ public:
 
 
 	/**
-	 *	OffsetReadback attribute related methods.
-	 *	Description: Read-back value for the current vertical center offset.
-	 *
-	 *	Data type:	Tango::DevDouble
-	 *	Attr type:	Scalar 
-	 */
-	virtual void read_OffsetReadback(Tango::Attribute &attr);
-	virtual bool is_OffsetReadback_allowed(Tango::AttReqType type);
-
-
-
-	/**
-	 *	OffsetSetpoint attribute related methods.
-	 *	Description: Set-point value for the current vertical offset. 
- *	             Will be applied next time the GapSetpoint attribute is modified.
-	 *
-	 *	Data type:	Tango::DevDouble
-	 *	Attr type:	Scalar 
-	 */
-	virtual void read_OffsetSetpoint(Tango::Attribute &attr);
-	virtual void write_OffsetSetpoint(Tango::WAttribute &attr);
-	virtual bool is_OffsetSetpoint_allowed(Tango::AttReqType type);
-
-
-
-	/**
 	 *	PhaseAcceleration attribute related methods.
 	 *	Description: Phase movement average acceleration in um/s^2.
 	 *
@@ -319,55 +272,31 @@ public:
 
 
 	/**
-	 *	PhaseModeReadback attribute related methods.
-	 *	Description: Current phase mode.
+	 *	PhaseMode attribute related methods.
+	 *	Description: Read-back and set-point for desired phase mode. 
+ *	             Will be used next time Phase is written.
 	 *
 	 *	Data type:	Tango::DevShort
 	 *	Attr type:	Scalar 
 	 */
-	virtual void read_PhaseModeReadback(Tango::Attribute &attr);
-	virtual bool is_PhaseModeReadback_allowed(Tango::AttReqType type);
+	virtual void read_PhaseMode(Tango::Attribute &attr);
+	virtual void write_PhaseMode(Tango::WAttribute &attr);
+	virtual bool is_PhaseMode_allowed(Tango::AttReqType type);
 
 
 
 	/**
-	 *	PhaseModeSetpoint attribute related methods.
-	 *	Description: Desired phase mode. 
- *	             Will be used next time PhaseSetpoint is written.
-	 *
-	 *	Data type:	Tango::DevShort
-	 *	Attr type:	Scalar 
-	 */
-	virtual void read_PhaseModeSetpoint(Tango::Attribute &attr);
-	virtual void write_PhaseModeSetpoint(Tango::WAttribute &attr);
-	virtual bool is_PhaseModeSetpoint_allowed(Tango::AttReqType type);
-
-
-
-	/**
-	 *	PhaseReadback attribute related methods.
-	 *	Description: Current phase offset in um.
-	 *
-	 *	Data type:	Tango::DevDouble
-	 *	Attr type:	Scalar 
-	 */
-	virtual void read_PhaseReadback(Tango::Attribute &attr);
-	virtual bool is_PhaseReadback_allowed(Tango::AttReqType type);
-
-
-
-	/**
-	 *	PhaseSetpoint attribute related methods.
-	 *	Description: Requested phase offset in um. 
+	 *	Phase attribute related methods.
+	 *	Description: Read-back and set-point for phase offset.
  *	             When this attribute is written new phase movement commences 
- *	             using phase mode specified in PhaseModeSetpoint.
+ *	             using phase mode specified in PhaseMode attribute.
 	 *
 	 *	Data type:	Tango::DevDouble
 	 *	Attr type:	Scalar 
 	 */
-	virtual void read_PhaseSetpoint(Tango::Attribute &attr);
-	virtual void write_PhaseSetpoint(Tango::WAttribute &attr);
-	virtual bool is_PhaseSetpoint_allowed(Tango::AttReqType type);
+	virtual void read_Phase(Tango::Attribute &attr);
+	virtual void write_Phase(Tango::WAttribute &attr);
+	virtual bool is_Phase_allowed(Tango::AttReqType type);
 
 
 
@@ -398,28 +327,30 @@ public:
 
 
 	/**
-	 *	TaperReadback attribute related methods.
-	 *	Description: Read-back value for the current taper.
-	 *
-	 *	Data type:	Tango::DevDouble
-	 *	Attr type:	Scalar 
-	 */
-	virtual void read_TaperReadback(Tango::Attribute &attr);
-	virtual bool is_TaperReadback_allowed(Tango::AttReqType type);
-
-
-
-	/**
-	 *	TaperSetpoint attribute related methods.
-	 *	Description: Set-point value for the current taper. 
+	 *	Taper attribute related methods.
+	 *	Description: Read-back and set-point value for the current taper. 
  *	             Will be applied next time the GapSetpoint attribute is modified.
 	 *
 	 *	Data type:	Tango::DevDouble
 	 *	Attr type:	Scalar 
 	 */
-	virtual void read_TaperSetpoint(Tango::Attribute &attr);
-	virtual void write_TaperSetpoint(Tango::WAttribute &attr);
-	virtual bool is_TaperSetpoint_allowed(Tango::AttReqType type);
+	virtual void read_Taper(Tango::Attribute &attr);
+	virtual void write_Taper(Tango::WAttribute &attr);
+	virtual bool is_Taper_allowed(Tango::AttReqType type);
+
+
+
+	/**
+	 *	Offset attribute related methods.
+	 *	Description: Read-back and set-point value for the current vertical offset. 
+ *	             Will be applied next time the Gap attribute is modified.
+	 *
+	 *	Data type:	Tango::DevDouble
+	 *	Attr type:	Scalar 
+	 */
+	virtual void read_Offset(Tango::Attribute &attr);
+	virtual void write_Offset(Tango::WAttribute &attr);
+	virtual bool is_Offset_allowed(Tango::AttReqType type);
 
 
 
@@ -606,33 +537,22 @@ protected:
 private:
 
 	/**
-	 * Extracts devdata to string.
-	 *
-	 * @return Tango::DevData DMC response in string format.
-	 */
-	std::string devdata_to_string();
-
-	/**
-	 * Sends low level execute command through control box to DMC.
-	 *
-	 * @param command Command sent to DMC.
-	 * @param controlBox Reference to receiver controlbox.
-	 */
-	void send_command(string command, Tango::DeviceProxy &controlBox);
-
-
-	/**
 	 * Calculates final destinations of phase axes depending on desired phase.
 	 *
-	 * @param destinations[] Destinations array to fill.
+	 * @param destinations Destinations vector to fill.
 	 */
-	void calculate_motor_destinations(double destinations[]);
+	void calculate_motor_destinations(vector<double> &destinations);
 
 
 	/**
-	 *  Gets offsets from all axes and stores them in offsets array.
+	 *  Gets offsets from all gap axes and stores them in offsetsGap array.
 	 */
-	void get_offsets();
+	void get_offsets_gap();
+
+	/**
+     *  Gets offsets from all phase axes and stores them in offsetsPhase array.
+     */
+    void get_offsets_phase();
 
 
 	/**

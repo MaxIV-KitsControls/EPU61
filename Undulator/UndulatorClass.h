@@ -48,34 +48,20 @@ namespace Undulator_ns
 //=========================================
 //	Define classes for attributes
 //=========================================
-//	Attribute GapReadback class definition
-class GapReadbackAttrib: public Tango::Attr
+//	Attribute Gap class definition
+class GapAttrib: public Tango::Attr
 {
 public:
-	GapReadbackAttrib():Attr("GapReadback",
-	                   Tango::DEV_DOUBLE, Tango::READ) {};
-	~GapReadbackAttrib() {};
-	
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<Undulator *>(dev))->read_GapReadback(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<Undulator *>(dev))->is_GapReadback_allowed(ty);}
-};
-
-//	Attribute GapSetpoint class definition
-class GapSetpointAttrib: public Tango::Attr
-{
-public:
-	GapSetpointAttrib():Attr("GapSetpoint",
+	GapAttrib():Attr("Gap",
 	                   Tango::DEV_DOUBLE, Tango::READ_WRITE) {};
-	~GapSetpointAttrib() {};
+	~GapAttrib() {};
 	
 	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<Undulator *>(dev))->read_GapSetpoint(att);}
+		{(static_cast<Undulator *>(dev))->read_Gap(att);}
 	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<Undulator *>(dev))->write_GapSetpoint(att);}
+		{(static_cast<Undulator *>(dev))->write_Gap(att);}
 	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<Undulator *>(dev))->is_GapSetpoint_allowed(ty);}
+		{return (static_cast<Undulator *>(dev))->is_Gap_allowed(ty);}
 };
 
 //	Attribute EngineeringLock class definition
@@ -126,36 +112,6 @@ public:
 		{return (static_cast<Undulator *>(dev))->is_GapSpeed_allowed(ty);}
 };
 
-//	Attribute OffsetReadback class definition
-class OffsetReadbackAttrib: public Tango::Attr
-{
-public:
-	OffsetReadbackAttrib():Attr("OffsetReadback",
-	                   Tango::DEV_DOUBLE, Tango::READ) {};
-	~OffsetReadbackAttrib() {};
-	
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<Undulator *>(dev))->read_OffsetReadback(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<Undulator *>(dev))->is_OffsetReadback_allowed(ty);}
-};
-
-//	Attribute OffsetSetpoint class definition
-class OffsetSetpointAttrib: public Tango::Attr
-{
-public:
-	OffsetSetpointAttrib():Attr("OffsetSetpoint",
-	                   Tango::DEV_DOUBLE, Tango::READ_WRITE) {};
-	~OffsetSetpointAttrib() {};
-	
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<Undulator *>(dev))->read_OffsetSetpoint(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<Undulator *>(dev))->write_OffsetSetpoint(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<Undulator *>(dev))->is_OffsetSetpoint_allowed(ty);}
-};
-
 //	Attribute PhaseAcceleration class definition
 class PhaseAccelerationAttrib: public Tango::Attr
 {
@@ -172,64 +128,36 @@ public:
 		{return (static_cast<Undulator *>(dev))->is_PhaseAcceleration_allowed(ty);}
 };
 
-//	Attribute PhaseModeReadback class definition
-class PhaseModeReadbackAttrib: public Tango::Attr
+//	Attribute PhaseMode class definition
+class PhaseModeAttrib: public Tango::Attr
 {
 public:
-	PhaseModeReadbackAttrib():Attr("PhaseModeReadback",
-	                   Tango::DEV_SHORT, Tango::READ) {};
-	~PhaseModeReadbackAttrib() {};
-	
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<Undulator *>(dev))->read_PhaseModeReadback(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<Undulator *>(dev))->is_PhaseModeReadback_allowed(ty);}
-};
-
-//	Attribute PhaseModeSetpoint class definition
-class PhaseModeSetpointAttrib: public Tango::Attr
-{
-public:
-	PhaseModeSetpointAttrib():Attr("PhaseModeSetpoint",
+	PhaseModeAttrib():Attr("PhaseMode",
 	                   Tango::DEV_SHORT, Tango::READ_WRITE) {};
-	~PhaseModeSetpointAttrib() {};
+	~PhaseModeAttrib() {};
 	
 	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<Undulator *>(dev))->read_PhaseModeSetpoint(att);}
+		{(static_cast<Undulator *>(dev))->read_PhaseMode(att);}
 	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<Undulator *>(dev))->write_PhaseModeSetpoint(att);}
+		{(static_cast<Undulator *>(dev))->write_PhaseMode(att);}
 	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<Undulator *>(dev))->is_PhaseModeSetpoint_allowed(ty);}
+		{return (static_cast<Undulator *>(dev))->is_PhaseMode_allowed(ty);}
 };
 
-//	Attribute PhaseReadback class definition
-class PhaseReadbackAttrib: public Tango::Attr
+//	Attribute Phase class definition
+class PhaseAttrib: public Tango::Attr
 {
 public:
-	PhaseReadbackAttrib():Attr("PhaseReadback",
-	                   Tango::DEV_DOUBLE, Tango::READ) {};
-	~PhaseReadbackAttrib() {};
-	
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<Undulator *>(dev))->read_PhaseReadback(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<Undulator *>(dev))->is_PhaseReadback_allowed(ty);}
-};
-
-//	Attribute PhaseSetpoint class definition
-class PhaseSetpointAttrib: public Tango::Attr
-{
-public:
-	PhaseSetpointAttrib():Attr("PhaseSetpoint",
+	PhaseAttrib():Attr("Phase",
 	                   Tango::DEV_DOUBLE, Tango::READ_WRITE) {};
-	~PhaseSetpointAttrib() {};
+	~PhaseAttrib() {};
 	
 	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<Undulator *>(dev))->read_PhaseSetpoint(att);}
+		{(static_cast<Undulator *>(dev))->read_Phase(att);}
 	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<Undulator *>(dev))->write_PhaseSetpoint(att);}
+		{(static_cast<Undulator *>(dev))->write_Phase(att);}
 	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<Undulator *>(dev))->is_PhaseSetpoint_allowed(ty);}
+		{return (static_cast<Undulator *>(dev))->is_Phase_allowed(ty);}
 };
 
 //	Attribute PhaseSpeed class definition
@@ -264,34 +192,36 @@ public:
 		{return (static_cast<Undulator *>(dev))->is_TaperAcceleration_allowed(ty);}
 };
 
-//	Attribute TaperReadback class definition
-class TaperReadbackAttrib: public Tango::Attr
+//	Attribute Taper class definition
+class TaperAttrib: public Tango::Attr
 {
 public:
-	TaperReadbackAttrib():Attr("TaperReadback",
-	                   Tango::DEV_DOUBLE, Tango::READ) {};
-	~TaperReadbackAttrib() {};
+	TaperAttrib():Attr("Taper",
+	                   Tango::DEV_DOUBLE, Tango::READ_WRITE) {};
+	~TaperAttrib() {};
 	
 	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<Undulator *>(dev))->read_TaperReadback(att);}
+		{(static_cast<Undulator *>(dev))->read_Taper(att);}
+	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
+		{(static_cast<Undulator *>(dev))->write_Taper(att);}
 	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<Undulator *>(dev))->is_TaperReadback_allowed(ty);}
+		{return (static_cast<Undulator *>(dev))->is_Taper_allowed(ty);}
 };
 
-//	Attribute TaperSetpoint class definition
-class TaperSetpointAttrib: public Tango::Attr
+//	Attribute Offset class definition
+class OffsetAttrib: public Tango::Attr
 {
 public:
-	TaperSetpointAttrib():Attr("TaperSetpoint",
+	OffsetAttrib():Attr("Offset",
 	                   Tango::DEV_DOUBLE, Tango::READ_WRITE) {};
-	~TaperSetpointAttrib() {};
+	~OffsetAttrib() {};
 	
 	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<Undulator *>(dev))->read_TaperSetpoint(att);}
+		{(static_cast<Undulator *>(dev))->read_Offset(att);}
 	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<Undulator *>(dev))->write_TaperSetpoint(att);}
+		{(static_cast<Undulator *>(dev))->write_Offset(att);}
 	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<Undulator *>(dev))->is_TaperSetpoint_allowed(ty);}
+		{return (static_cast<Undulator *>(dev))->is_Offset_allowed(ty);}
 };
 
 //	Attribute TaperSpeed class definition

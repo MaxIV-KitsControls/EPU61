@@ -359,8 +359,8 @@ void UndulatorClass::set_default_property()
 
 	//	Set Default Device Properties
 
-	prop_name = "ControlBoxGapLink";
-	prop_desc = "Link to ControlBox with gap DMC";
+	prop_name = "ControlBoxGapProxy";
+	prop_desc = "Proxy to ControlBox with gap DMC";
 	prop_def  = "";
 	vect_data.clear();
 	if (prop_def.length()>0)
@@ -374,7 +374,7 @@ void UndulatorClass::set_default_property()
 		add_wiz_dev_prop(prop_name, prop_desc);
 
 	prop_name = "GapAxes";
-	prop_desc = "Links to axes that control gap movement. Order: Z1,Z2,Z3,Z4";
+	prop_desc = "Proxy to axes that control gap movement. Order: Z1,Z2,Z3,Z4";
 	prop_def  = "";
 	vect_data.clear();
 	if (prop_def.length()>0)
@@ -388,7 +388,7 @@ void UndulatorClass::set_default_property()
 		add_wiz_dev_prop(prop_name, prop_desc);
 
 	prop_name = "PhaseAxes";
-	prop_desc = "Links to axes that control phase movement.  Order: X1,X2,X3,X4";
+	prop_desc = "Proxy to axes that control phase movement.  Order: X1,X2,X3,X4";
 	prop_def  = "";
 	vect_data.clear();
 	if (prop_def.length()>0)
@@ -401,8 +401,8 @@ void UndulatorClass::set_default_property()
 	else
 		add_wiz_dev_prop(prop_name, prop_desc);
 
-	prop_name = "ControlBoxPhaseLink";
-	prop_desc = "Link to controlbox with phase DMC";
+	prop_name = "ControlBoxPhaseProxy";
+	prop_desc = "Proxy to controlbox with phase DMC";
 	prop_def  = "";
 	vect_data.clear();
 	if (prop_def.length()>0)
@@ -416,7 +416,7 @@ void UndulatorClass::set_default_property()
 		add_wiz_dev_prop(prop_name, prop_desc);
 
 	prop_name = "GearedAxes";
-	prop_desc = "Links to GalilGearedAxes that control upper and lower girder. Order: Upper girder, Lower girder";
+	prop_desc = "Proxy to GalilGearedAxes that control upper and lower girder. Order: Upper girder, Lower girder";
 	prop_def  = "";
 	vect_data.clear();
 	if (prop_def.length()>0)
@@ -647,59 +647,32 @@ void UndulatorClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	/*----- PROTECTED REGION END -----*/	//	Undulator::Class::attribute_factory_before
 
 
-	//	Attribute : GapReadback
-	GapReadbackAttrib	*gapreadback = new GapReadbackAttrib();
-	Tango::UserDefaultAttrProp	gapreadback_prop;
-	gapreadback_prop.set_description("Read-back value for the current gap");
-	//	label	not set for	GapReadback
-	gapreadback_prop.set_unit("um");
-	//	standard_unit	not set for	GapReadback
-	//	display_unit	not set for	GapReadback
-	//	format	not set for	GapReadback
-	//	max_value	not set for	GapReadback
-	//	min_value	not set for	GapReadback
-	//	max_alarm	not set for	GapReadback
-	//	min_alarm	not set for	GapReadback
-	//	max_warning	not set for	GapReadback
-	//	min_warning	not set for	GapReadback
-	//	delta_t	not set for	GapReadback
-	//	delta_val	not set for	GapReadback
-	gapreadback->set_default_properties(gapreadback_prop);
-	gapreadback->set_polling_period(2000);
-	gapreadback->set_disp_level(Tango::OPERATOR);
+	//	Attribute : Gap
+	GapAttrib	*gap = new GapAttrib();
+	Tango::UserDefaultAttrProp	gap_prop;
+	gap_prop.set_description("Read-back and set-point for current gap. \nWriting to this attribute commences movement for the gap, \nusing the current operator center offset and taper.");
+	//	label	not set for	Gap
+	gap_prop.set_unit("um");
+	//	standard_unit	not set for	Gap
+	//	display_unit	not set for	Gap
+	//	format	not set for	Gap
+	gap_prop.set_max_value("220000");
+	gap_prop.set_min_value("14000");
+	//	max_alarm	not set for	Gap
+	//	min_alarm	not set for	Gap
+	//	max_warning	not set for	Gap
+	//	min_warning	not set for	Gap
+	//	delta_t	not set for	Gap
+	//	delta_val	not set for	Gap
+	gap->set_default_properties(gap_prop);
+	gap->set_polling_period(2000);
+	gap->set_disp_level(Tango::OPERATOR);
 	//	Not memorized
 
-	//	GapReadback does not fire change event
-	//	GapReadback does not fire archive event
-	//	GapReadback does not fire data_ready event
-	att_list.push_back(gapreadback);
-
-	//	Attribute : GapSetpoint
-	GapSetpointAttrib	*gapsetpoint = new GapSetpointAttrib();
-	Tango::UserDefaultAttrProp	gapsetpoint_prop;
-	gapsetpoint_prop.set_description("Set-point for current gap. \nWriting to this attribute commences movement for the gap, \nusing the current operator center offset and taper.");
-	//	label	not set for	GapSetpoint
-	gapsetpoint_prop.set_unit("um");
-	//	standard_unit	not set for	GapSetpoint
-	//	display_unit	not set for	GapSetpoint
-	//	format	not set for	GapSetpoint
-	gapsetpoint_prop.set_max_value("220000");
-	gapsetpoint_prop.set_min_value("14000");
-	//	max_alarm	not set for	GapSetpoint
-	//	min_alarm	not set for	GapSetpoint
-	//	max_warning	not set for	GapSetpoint
-	//	min_warning	not set for	GapSetpoint
-	//	delta_t	not set for	GapSetpoint
-	//	delta_val	not set for	GapSetpoint
-	gapsetpoint->set_default_properties(gapsetpoint_prop);
-	gapsetpoint->set_polling_period(2000);
-	gapsetpoint->set_disp_level(Tango::OPERATOR);
-	//	Not memorized
-
-	//	GapSetpoint does not fire change event
-	//	GapSetpoint does not fire archive event
-	//	GapSetpoint does not fire data_ready event
-	att_list.push_back(gapsetpoint);
+	//	Gap does not fire change event
+	//	Gap does not fire archive event
+	//	Gap does not fire data_ready event
+	att_list.push_back(gap);
 
 	//	Attribute : EngineeringLock
 	EngineeringLockAttrib	*engineeringlock = new EngineeringLockAttrib();
@@ -782,60 +755,6 @@ void UndulatorClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	GapSpeed does not fire data_ready event
 	att_list.push_back(gapspeed);
 
-	//	Attribute : OffsetReadback
-	OffsetReadbackAttrib	*offsetreadback = new OffsetReadbackAttrib();
-	Tango::UserDefaultAttrProp	offsetreadback_prop;
-	offsetreadback_prop.set_description("Read-back value for the current vertical center offset.");
-	//	label	not set for	OffsetReadback
-	offsetreadback_prop.set_unit("um");
-	//	standard_unit	not set for	OffsetReadback
-	//	display_unit	not set for	OffsetReadback
-	//	format	not set for	OffsetReadback
-	//	max_value	not set for	OffsetReadback
-	//	min_value	not set for	OffsetReadback
-	//	max_alarm	not set for	OffsetReadback
-	//	min_alarm	not set for	OffsetReadback
-	//	max_warning	not set for	OffsetReadback
-	//	min_warning	not set for	OffsetReadback
-	//	delta_t	not set for	OffsetReadback
-	//	delta_val	not set for	OffsetReadback
-	offsetreadback->set_default_properties(offsetreadback_prop);
-	offsetreadback->set_polling_period(2000);
-	offsetreadback->set_disp_level(Tango::EXPERT);
-	//	Not memorized
-
-	//	OffsetReadback does not fire change event
-	//	OffsetReadback does not fire archive event
-	//	OffsetReadback does not fire data_ready event
-	att_list.push_back(offsetreadback);
-
-	//	Attribute : OffsetSetpoint
-	OffsetSetpointAttrib	*offsetsetpoint = new OffsetSetpointAttrib();
-	Tango::UserDefaultAttrProp	offsetsetpoint_prop;
-	offsetsetpoint_prop.set_description("Set-point value for the current vertical offset. \nWill be applied next time the GapSetpoint attribute is modified.");
-	//	label	not set for	OffsetSetpoint
-	offsetsetpoint_prop.set_unit("um");
-	//	standard_unit	not set for	OffsetSetpoint
-	//	display_unit	not set for	OffsetSetpoint
-	//	format	not set for	OffsetSetpoint
-	//	max_value	not set for	OffsetSetpoint
-	//	min_value	not set for	OffsetSetpoint
-	//	max_alarm	not set for	OffsetSetpoint
-	//	min_alarm	not set for	OffsetSetpoint
-	//	max_warning	not set for	OffsetSetpoint
-	//	min_warning	not set for	OffsetSetpoint
-	//	delta_t	not set for	OffsetSetpoint
-	//	delta_val	not set for	OffsetSetpoint
-	offsetsetpoint->set_default_properties(offsetsetpoint_prop);
-	offsetsetpoint->set_polling_period(2000);
-	offsetsetpoint->set_disp_level(Tango::EXPERT);
-	offsetsetpoint->set_memorized();
-	offsetsetpoint->set_memorized_init(true);
-	//	OffsetSetpoint does not fire change event
-	//	OffsetSetpoint does not fire archive event
-	//	OffsetSetpoint does not fire data_ready event
-	att_list.push_back(offsetsetpoint);
-
 	//	Attribute : PhaseAcceleration
 	PhaseAccelerationAttrib	*phaseacceleration = new PhaseAccelerationAttrib();
 	Tango::UserDefaultAttrProp	phaseacceleration_prop;
@@ -863,113 +782,59 @@ void UndulatorClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	PhaseAcceleration does not fire data_ready event
 	att_list.push_back(phaseacceleration);
 
-	//	Attribute : PhaseModeReadback
-	PhaseModeReadbackAttrib	*phasemodereadback = new PhaseModeReadbackAttrib();
-	Tango::UserDefaultAttrProp	phasemodereadback_prop;
-	phasemodereadback_prop.set_description("Current phase mode.");
-	//	label	not set for	PhaseModeReadback
-	//	unit	not set for	PhaseModeReadback
-	//	standard_unit	not set for	PhaseModeReadback
-	//	display_unit	not set for	PhaseModeReadback
-	//	format	not set for	PhaseModeReadback
-	//	max_value	not set for	PhaseModeReadback
-	//	min_value	not set for	PhaseModeReadback
-	//	max_alarm	not set for	PhaseModeReadback
-	//	min_alarm	not set for	PhaseModeReadback
-	//	max_warning	not set for	PhaseModeReadback
-	//	min_warning	not set for	PhaseModeReadback
-	//	delta_t	not set for	PhaseModeReadback
-	//	delta_val	not set for	PhaseModeReadback
-	phasemodereadback->set_default_properties(phasemodereadback_prop);
-	phasemodereadback->set_polling_period(2000);
-	phasemodereadback->set_disp_level(Tango::OPERATOR);
+	//	Attribute : PhaseMode
+	PhaseModeAttrib	*phasemode = new PhaseModeAttrib();
+	Tango::UserDefaultAttrProp	phasemode_prop;
+	phasemode_prop.set_description("Read-back and set-point for desired phase mode. \nWill be used next time Phase is written.");
+	//	label	not set for	PhaseMode
+	//	unit	not set for	PhaseMode
+	//	standard_unit	not set for	PhaseMode
+	//	display_unit	not set for	PhaseMode
+	//	format	not set for	PhaseMode
+	//	max_value	not set for	PhaseMode
+	//	min_value	not set for	PhaseMode
+	//	max_alarm	not set for	PhaseMode
+	//	min_alarm	not set for	PhaseMode
+	//	max_warning	not set for	PhaseMode
+	//	min_warning	not set for	PhaseMode
+	//	delta_t	not set for	PhaseMode
+	//	delta_val	not set for	PhaseMode
+	phasemode->set_default_properties(phasemode_prop);
+	phasemode->set_polling_period(2000);
+	phasemode->set_disp_level(Tango::OPERATOR);
+	phasemode->set_memorized();
+	phasemode->set_memorized_init(true);
+	//	PhaseMode does not fire change event
+	//	PhaseMode does not fire archive event
+	//	PhaseMode does not fire data_ready event
+	att_list.push_back(phasemode);
+
+	//	Attribute : Phase
+	PhaseAttrib	*phase = new PhaseAttrib();
+	Tango::UserDefaultAttrProp	phase_prop;
+	phase_prop.set_description("Read-back and set-point for phase offset.\nWhen this attribute is written new phase movement commences \nusing phase mode specified in PhaseMode attribute.");
+	//	label	not set for	Phase
+	phase_prop.set_unit("um");
+	//	standard_unit	not set for	Phase
+	//	display_unit	not set for	Phase
+	//	format	not set for	Phase
+	phase_prop.set_max_value("30500");
+	phase_prop.set_min_value("-30500");
+	//	max_alarm	not set for	Phase
+	//	min_alarm	not set for	Phase
+	//	max_warning	not set for	Phase
+	//	min_warning	not set for	Phase
+	//	delta_t	not set for	Phase
+	//	delta_val	not set for	Phase
+	phase->set_default_properties(phase_prop);
+	phase->set_polling_period(2000);
+	phase->set_disp_level(Tango::OPERATOR);
 	//	Not memorized
 
-	//	PhaseModeReadback does not fire change event
-	//	PhaseModeReadback does not fire archive event
-	//	PhaseModeReadback does not fire data_ready event
-	att_list.push_back(phasemodereadback);
-
-	//	Attribute : PhaseModeSetpoint
-	PhaseModeSetpointAttrib	*phasemodesetpoint = new PhaseModeSetpointAttrib();
-	Tango::UserDefaultAttrProp	phasemodesetpoint_prop;
-	phasemodesetpoint_prop.set_description("Desired phase mode. \nWill be used next time PhaseSetpoint is written.");
-	//	label	not set for	PhaseModeSetpoint
-	//	unit	not set for	PhaseModeSetpoint
-	//	standard_unit	not set for	PhaseModeSetpoint
-	//	display_unit	not set for	PhaseModeSetpoint
-	//	format	not set for	PhaseModeSetpoint
-	//	max_value	not set for	PhaseModeSetpoint
-	//	min_value	not set for	PhaseModeSetpoint
-	//	max_alarm	not set for	PhaseModeSetpoint
-	//	min_alarm	not set for	PhaseModeSetpoint
-	//	max_warning	not set for	PhaseModeSetpoint
-	//	min_warning	not set for	PhaseModeSetpoint
-	//	delta_t	not set for	PhaseModeSetpoint
-	//	delta_val	not set for	PhaseModeSetpoint
-	phasemodesetpoint->set_default_properties(phasemodesetpoint_prop);
-	phasemodesetpoint->set_polling_period(2000);
-	phasemodesetpoint->set_disp_level(Tango::OPERATOR);
-	phasemodesetpoint->set_memorized();
-	phasemodesetpoint->set_memorized_init(false);
-	//	PhaseModeSetpoint does not fire change event
-	//	PhaseModeSetpoint does not fire archive event
-	//	PhaseModeSetpoint does not fire data_ready event
-	att_list.push_back(phasemodesetpoint);
-
-	//	Attribute : PhaseReadback
-	PhaseReadbackAttrib	*phasereadback = new PhaseReadbackAttrib();
-	Tango::UserDefaultAttrProp	phasereadback_prop;
-	phasereadback_prop.set_description("Current phase offset in um.");
-	//	label	not set for	PhaseReadback
-	phasereadback_prop.set_unit("um");
-	//	standard_unit	not set for	PhaseReadback
-	//	display_unit	not set for	PhaseReadback
-	//	format	not set for	PhaseReadback
-	//	max_value	not set for	PhaseReadback
-	//	min_value	not set for	PhaseReadback
-	//	max_alarm	not set for	PhaseReadback
-	//	min_alarm	not set for	PhaseReadback
-	//	max_warning	not set for	PhaseReadback
-	//	min_warning	not set for	PhaseReadback
-	//	delta_t	not set for	PhaseReadback
-	//	delta_val	not set for	PhaseReadback
-	phasereadback->set_default_properties(phasereadback_prop);
-	phasereadback->set_polling_period(2000);
-	phasereadback->set_disp_level(Tango::OPERATOR);
-	//	Not memorized
-
-	//	PhaseReadback does not fire change event
-	//	PhaseReadback does not fire archive event
-	//	PhaseReadback does not fire data_ready event
-	att_list.push_back(phasereadback);
-
-	//	Attribute : PhaseSetpoint
-	PhaseSetpointAttrib	*phasesetpoint = new PhaseSetpointAttrib();
-	Tango::UserDefaultAttrProp	phasesetpoint_prop;
-	phasesetpoint_prop.set_description("Requested phase offset in um. \nWhen this attribute is written new phase movement commences \nusing phase mode specified in PhaseModeSetpoint.");
-	//	label	not set for	PhaseSetpoint
-	phasesetpoint_prop.set_unit("um");
-	//	standard_unit	not set for	PhaseSetpoint
-	//	display_unit	not set for	PhaseSetpoint
-	//	format	not set for	PhaseSetpoint
-	phasesetpoint_prop.set_max_value("30500");
-	phasesetpoint_prop.set_min_value("-30500");
-	//	max_alarm	not set for	PhaseSetpoint
-	//	min_alarm	not set for	PhaseSetpoint
-	//	max_warning	not set for	PhaseSetpoint
-	//	min_warning	not set for	PhaseSetpoint
-	//	delta_t	not set for	PhaseSetpoint
-	//	delta_val	not set for	PhaseSetpoint
-	phasesetpoint->set_default_properties(phasesetpoint_prop);
-	phasesetpoint->set_polling_period(2000);
-	phasesetpoint->set_disp_level(Tango::OPERATOR);
-	//	Not memorized
-
-	//	PhaseSetpoint does not fire change event
-	//	PhaseSetpoint does not fire archive event
-	//	PhaseSetpoint does not fire data_ready event
-	att_list.push_back(phasesetpoint);
+	//	Phase does not fire change event
+	//	Phase does not fire archive event
+	//	Phase does not fire data_ready event
+	att_list.push_back(phase);
 
 	//	Attribute : PhaseSpeed
 	PhaseSpeedAttrib	*phasespeed = new PhaseSpeedAttrib();
@@ -1025,59 +890,59 @@ void UndulatorClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	TaperAcceleration does not fire data_ready event
 	att_list.push_back(taperacceleration);
 
-	//	Attribute : TaperReadback
-	TaperReadbackAttrib	*taperreadback = new TaperReadbackAttrib();
-	Tango::UserDefaultAttrProp	taperreadback_prop;
-	taperreadback_prop.set_description("Read-back value for the current taper.");
-	//	label	not set for	TaperReadback
-	taperreadback_prop.set_unit("um");
-	//	standard_unit	not set for	TaperReadback
-	//	display_unit	not set for	TaperReadback
-	//	format	not set for	TaperReadback
-	//	max_value	not set for	TaperReadback
-	//	min_value	not set for	TaperReadback
-	//	max_alarm	not set for	TaperReadback
-	//	min_alarm	not set for	TaperReadback
-	//	max_warning	not set for	TaperReadback
-	//	min_warning	not set for	TaperReadback
-	//	delta_t	not set for	TaperReadback
-	//	delta_val	not set for	TaperReadback
-	taperreadback->set_default_properties(taperreadback_prop);
-	taperreadback->set_polling_period(2000);
-	taperreadback->set_disp_level(Tango::EXPERT);
-	//	Not memorized
+	//	Attribute : Taper
+	TaperAttrib	*taper = new TaperAttrib();
+	Tango::UserDefaultAttrProp	taper_prop;
+	taper_prop.set_description("Read-back and set-point value for the current taper. \nWill be applied next time the GapSetpoint attribute is modified.");
+	//	label	not set for	Taper
+	taper_prop.set_unit("um");
+	//	standard_unit	not set for	Taper
+	//	display_unit	not set for	Taper
+	//	format	not set for	Taper
+	//	max_value	not set for	Taper
+	//	min_value	not set for	Taper
+	//	max_alarm	not set for	Taper
+	//	min_alarm	not set for	Taper
+	//	max_warning	not set for	Taper
+	//	min_warning	not set for	Taper
+	//	delta_t	not set for	Taper
+	//	delta_val	not set for	Taper
+	taper->set_default_properties(taper_prop);
+	taper->set_polling_period(2000);
+	taper->set_disp_level(Tango::EXPERT);
+	taper->set_memorized();
+	taper->set_memorized_init(true);
+	//	Taper does not fire change event
+	//	Taper does not fire archive event
+	//	Taper does not fire data_ready event
+	att_list.push_back(taper);
 
-	//	TaperReadback does not fire change event
-	//	TaperReadback does not fire archive event
-	//	TaperReadback does not fire data_ready event
-	att_list.push_back(taperreadback);
-
-	//	Attribute : TaperSetpoint
-	TaperSetpointAttrib	*tapersetpoint = new TaperSetpointAttrib();
-	Tango::UserDefaultAttrProp	tapersetpoint_prop;
-	tapersetpoint_prop.set_description("Set-point value for the current taper. \nWill be applied next time the GapSetpoint attribute is modified.");
-	//	label	not set for	TaperSetpoint
-	tapersetpoint_prop.set_unit("um");
-	//	standard_unit	not set for	TaperSetpoint
-	//	display_unit	not set for	TaperSetpoint
-	//	format	not set for	TaperSetpoint
-	//	max_value	not set for	TaperSetpoint
-	//	min_value	not set for	TaperSetpoint
-	//	max_alarm	not set for	TaperSetpoint
-	//	min_alarm	not set for	TaperSetpoint
-	//	max_warning	not set for	TaperSetpoint
-	//	min_warning	not set for	TaperSetpoint
-	//	delta_t	not set for	TaperSetpoint
-	//	delta_val	not set for	TaperSetpoint
-	tapersetpoint->set_default_properties(tapersetpoint_prop);
-	tapersetpoint->set_polling_period(2000);
-	tapersetpoint->set_disp_level(Tango::EXPERT);
-	tapersetpoint->set_memorized();
-	tapersetpoint->set_memorized_init(true);
-	//	TaperSetpoint does not fire change event
-	//	TaperSetpoint does not fire archive event
-	//	TaperSetpoint does not fire data_ready event
-	att_list.push_back(tapersetpoint);
+	//	Attribute : Offset
+	OffsetAttrib	*offset = new OffsetAttrib();
+	Tango::UserDefaultAttrProp	offset_prop;
+	offset_prop.set_description("Read-back and set-point value for the current vertical offset. \nWill be applied next time the Gap attribute is modified.");
+	//	label	not set for	Offset
+	offset_prop.set_unit("um");
+	//	standard_unit	not set for	Offset
+	//	display_unit	not set for	Offset
+	//	format	not set for	Offset
+	//	max_value	not set for	Offset
+	//	min_value	not set for	Offset
+	//	max_alarm	not set for	Offset
+	//	min_alarm	not set for	Offset
+	//	max_warning	not set for	Offset
+	//	min_warning	not set for	Offset
+	//	delta_t	not set for	Offset
+	//	delta_val	not set for	Offset
+	offset->set_default_properties(offset_prop);
+	offset->set_polling_period(2000);
+	offset->set_disp_level(Tango::EXPERT);
+	offset->set_memorized();
+	offset->set_memorized_init(true);
+	//	Offset does not fire change event
+	//	Offset does not fire archive event
+	//	Offset does not fire data_ready event
+	att_list.push_back(offset);
 
 	//	Attribute : TaperSpeed
 	TaperSpeedAttrib	*taperspeed = new TaperSpeedAttrib();
@@ -1234,8 +1099,8 @@ void UndulatorClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	engineeringgapspeed->set_default_properties(engineeringgapspeed_prop);
 	engineeringgapspeed->set_polling_period(2000);
 	engineeringgapspeed->set_disp_level(Tango::EXPERT);
-	engineeringgapspeed->set_memorized();
-	engineeringgapspeed->set_memorized_init(true);
+	//	Not memorized
+
 	//	EngineeringGapSpeed does not fire change event
 	//	EngineeringGapSpeed does not fire archive event
 	//	EngineeringGapSpeed does not fire data_ready event
@@ -1261,8 +1126,8 @@ void UndulatorClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	engineeringphasespeed->set_default_properties(engineeringphasespeed_prop);
 	engineeringphasespeed->set_polling_period(2000);
 	engineeringphasespeed->set_disp_level(Tango::EXPERT);
-	engineeringphasespeed->set_memorized();
-	engineeringphasespeed->set_memorized_init(true);
+	//	Not memorized
+
 	//	EngineeringPhaseSpeed does not fire change event
 	//	EngineeringPhaseSpeed does not fire archive event
 	//	EngineeringPhaseSpeed does not fire data_ready event
@@ -1288,8 +1153,8 @@ void UndulatorClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	engineeringgapacceleration->set_default_properties(engineeringgapacceleration_prop);
 	engineeringgapacceleration->set_polling_period(2000);
 	engineeringgapacceleration->set_disp_level(Tango::EXPERT);
-	engineeringgapacceleration->set_memorized();
-	engineeringgapacceleration->set_memorized_init(true);
+	//	Not memorized
+
 	//	EngineeringGapAcceleration does not fire change event
 	//	EngineeringGapAcceleration does not fire archive event
 	//	EngineeringGapAcceleration does not fire data_ready event
@@ -1315,8 +1180,8 @@ void UndulatorClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	engineeringphaseacceleration->set_default_properties(engineeringphaseacceleration_prop);
 	engineeringphaseacceleration->set_polling_period(2000);
 	engineeringphaseacceleration->set_disp_level(Tango::EXPERT);
-	engineeringphaseacceleration->set_memorized();
-	engineeringphaseacceleration->set_memorized_init(true);
+	//	Not memorized
+
 	//	EngineeringPhaseAcceleration does not fire change event
 	//	EngineeringPhaseAcceleration does not fire archive event
 	//	EngineeringPhaseAcceleration does not fire data_ready event
