@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>766</width>
-    <height>859</height>
+    <width>1025</width>
+    <height>845</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
    <widget class="QTabWidget" name="tab_2">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>0</x>
       <y>0</y>
       <width>751</width>
       <height>711</height>
@@ -30,7 +30,7 @@
      <string notr="true">background-color: rgb(147, 147, 147);</string>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tabWidgetOPPage1">
      <attribute name="title">
@@ -791,7 +791,7 @@ color: rgb(0, 0, 0);</string>
         </rect>
        </property>
        <property name="model">
-        <string>$gapz2/State</string>
+        <string>$gapz3/State</string>
        </property>
       </widget>
       <widget class="TaurusLed" name="ledMotorD">
@@ -881,9 +881,9 @@ color: rgb(0, 0, 0);</string>
      <widget class="QGroupBox" name="groupBox_2">
       <property name="geometry">
        <rect>
-        <x>290</x>
+        <x>285</x>
         <y>270</y>
-        <width>441</width>
+        <width>451</width>
         <height>391</height>
        </rect>
       </property>
@@ -902,9 +902,9 @@ color: rgb(0, 0, 0);</string>
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>30</y>
-         <width>441</width>
-         <height>351</height>
+         <y>20</y>
+         <width>451</width>
+         <height>371</height>
         </rect>
        </property>
        <property name="pixmap">
@@ -914,10 +914,10 @@ color: rgb(0, 0, 0);</string>
       <widget class="TaurusLed" name="ledAUL">
        <property name="geometry">
         <rect>
-         <x>207</x>
-         <y>31</y>
-         <width>21</width>
-         <height>21</height>
+         <x>222</x>
+         <y>30</y>
+         <width>16</width>
+         <height>16</height>
         </rect>
        </property>
        <property name="model">
@@ -927,10 +927,10 @@ color: rgb(0, 0, 0);</string>
       <widget class="TaurusLed" name="ledALL">
        <property name="geometry">
         <rect>
-         <x>207</x>
-         <y>63</y>
-         <width>21</width>
-         <height>21</height>
+         <x>222</x>
+         <y>75</y>
+         <width>16</width>
+         <height>16</height>
         </rect>
        </property>
        <property name="model">
@@ -940,10 +940,10 @@ color: rgb(0, 0, 0);</string>
       <widget class="TaurusLed" name="ledBUL">
        <property name="geometry">
         <rect>
-         <x>378</x>
-         <y>30</y>
-         <width>21</width>
-         <height>21</height>
+         <x>394</x>
+         <y>27</y>
+         <width>16</width>
+         <height>16</height>
         </rect>
        </property>
        <property name="model">
@@ -953,10 +953,10 @@ color: rgb(0, 0, 0);</string>
       <widget class="TaurusLed" name="ledBLL">
        <property name="geometry">
         <rect>
-         <x>378</x>
-         <y>60</y>
-         <width>21</width>
-         <height>21</height>
+         <x>394</x>
+         <y>72</y>
+         <width>16</width>
+         <height>16</height>
         </rect>
        </property>
        <property name="model">
@@ -966,10 +966,10 @@ color: rgb(0, 0, 0);</string>
       <widget class="TaurusLed" name="ledFLL">
        <property name="geometry">
         <rect>
-         <x>101</x>
+         <x>105</x>
          <y>110</y>
-         <width>21</width>
-         <height>21</height>
+         <width>16</width>
+         <height>16</height>
         </rect>
        </property>
        <property name="model">
@@ -979,10 +979,10 @@ color: rgb(0, 0, 0);</string>
       <widget class="TaurusLed" name="ledFUL">
        <property name="geometry">
         <rect>
-         <x>416</x>
-         <y>109</y>
-         <width>21</width>
-         <height>21</height>
+         <x>350</x>
+         <y>110</y>
+         <width>16</width>
+         <height>16</height>
         </rect>
        </property>
        <property name="model">
@@ -992,23 +992,23 @@ color: rgb(0, 0, 0);</string>
       <widget class="TaurusLed" name="ledTiltUp">
        <property name="geometry">
         <rect>
-         <x>237</x>
-         <y>148</y>
+         <x>242</x>
+         <y>147</y>
          <width>21</width>
          <height>21</height>
         </rect>
        </property>
        <property name="model">
-        <string>$opc/TiltUpper</string>
+        <string>$opc/tiltUpperGirder</string>
        </property>
       </widget>
       <widget class="TaurusLed" name="ledELL">
        <property name="geometry">
         <rect>
-         <x>95</x>
+         <x>105</x>
          <y>172</y>
-         <width>21</width>
-         <height>21</height>
+         <width>16</width>
+         <height>16</height>
         </rect>
        </property>
        <property name="model">
@@ -1018,10 +1018,10 @@ color: rgb(0, 0, 0);</string>
       <widget class="TaurusLed" name="ledEUL">
        <property name="geometry">
         <rect>
-         <x>400</x>
-         <y>170</y>
-         <width>21</width>
-         <height>21</height>
+         <x>350</x>
+         <y>172</y>
+         <width>16</width>
+         <height>16</height>
         </rect>
        </property>
        <property name="model">
@@ -1031,10 +1031,10 @@ color: rgb(0, 0, 0);</string>
       <widget class="TaurusLed" name="ledHLL">
        <property name="geometry">
         <rect>
-         <x>109</x>
-         <y>226</y>
-         <width>21</width>
-         <height>21</height>
+         <x>105</x>
+         <y>230</y>
+         <width>16</width>
+         <height>16</height>
         </rect>
        </property>
        <property name="model">
@@ -1044,10 +1044,10 @@ color: rgb(0, 0, 0);</string>
       <widget class="TaurusLed" name="ledHUL">
        <property name="geometry">
         <rect>
-         <x>420</x>
-         <y>227</y>
-         <width>21</width>
-         <height>21</height>
+         <x>350</x>
+         <y>230</y>
+         <width>16</width>
+         <height>16</height>
         </rect>
        </property>
        <property name="model">
@@ -1057,23 +1057,23 @@ color: rgb(0, 0, 0);</string>
       <widget class="TaurusLed" name="ledTiltDown">
        <property name="geometry">
         <rect>
-         <x>246</x>
-         <y>265</y>
+         <x>252</x>
+         <y>266</y>
          <width>21</width>
          <height>21</height>
         </rect>
        </property>
        <property name="model">
-        <string>$opc/TiltLower</string>
+        <string>$opc/tiltLowerGirder</string>
        </property>
       </widget>
       <widget class="TaurusLed" name="ledGLL">
        <property name="geometry">
         <rect>
-         <x>102</x>
-         <y>288</y>
-         <width>21</width>
-         <height>21</height>
+         <x>105</x>
+         <y>290</y>
+         <width>16</width>
+         <height>16</height>
         </rect>
        </property>
        <property name="model">
@@ -1083,10 +1083,10 @@ color: rgb(0, 0, 0);</string>
       <widget class="TaurusLed" name="ledGUL">
        <property name="geometry">
         <rect>
-         <x>404</x>
-         <y>287</y>
-         <width>21</width>
-         <height>21</height>
+         <x>350</x>
+         <y>290</y>
+         <width>16</width>
+         <height>16</height>
         </rect>
        </property>
        <property name="model">
@@ -1096,10 +1096,10 @@ color: rgb(0, 0, 0);</string>
       <widget class="TaurusLed" name="ledCLL">
        <property name="geometry">
         <rect>
-         <x>197</x>
-         <y>328</y>
-         <width>21</width>
-         <height>21</height>
+         <x>222</x>
+         <y>325</y>
+         <width>16</width>
+         <height>16</height>
         </rect>
        </property>
        <property name="model">
@@ -1109,10 +1109,10 @@ color: rgb(0, 0, 0);</string>
       <widget class="TaurusLed" name="ledDLL">
        <property name="geometry">
         <rect>
-         <x>374</x>
+         <x>394</x>
          <y>325</y>
-         <width>21</width>
-         <height>21</height>
+         <width>16</width>
+         <height>16</height>
         </rect>
        </property>
        <property name="model">
@@ -1122,10 +1122,10 @@ color: rgb(0, 0, 0);</string>
       <widget class="TaurusLed" name="ledCUL">
        <property name="geometry">
         <rect>
-         <x>198</x>
-         <y>360</y>
-         <width>21</width>
-         <height>21</height>
+         <x>222</x>
+         <y>365</y>
+         <width>16</width>
+         <height>16</height>
         </rect>
        </property>
        <property name="model">
@@ -1135,14 +1135,475 @@ color: rgb(0, 0, 0);</string>
       <widget class="TaurusLed" name="ledDUL">
        <property name="geometry">
         <rect>
-         <x>374</x>
-         <y>356</y>
-         <width>21</width>
-         <height>21</height>
+         <x>394</x>
+         <y>365</y>
+         <width>16</width>
+         <height>16</height>
         </rect>
        </property>
        <property name="model">
         <string>$gapz4/backwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_7">
+       <property name="geometry">
+        <rect>
+         <x>205</x>
+         <y>30</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/z1ForwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_15">
+       <property name="geometry">
+        <rect>
+         <x>205</x>
+         <y>75</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/z1BackwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_20">
+       <property name="geometry">
+        <rect>
+         <x>377</x>
+         <y>27</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/z2ForwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_24">
+       <property name="geometry">
+        <rect>
+         <x>377</x>
+         <y>72</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/z2BackwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_36">
+       <property name="geometry">
+        <rect>
+         <x>330</x>
+         <y>110</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/x1ForwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_37">
+       <property name="geometry">
+        <rect>
+         <x>330</x>
+         <y>290</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/x4ForwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_38">
+       <property name="geometry">
+        <rect>
+         <x>205</x>
+         <y>325</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/z3ForwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_40">
+       <property name="geometry">
+        <rect>
+         <x>205</x>
+         <y>365</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/z3BackwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_42">
+       <property name="geometry">
+        <rect>
+         <x>377</x>
+         <y>325</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/z4ForwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_43">
+       <property name="geometry">
+        <rect>
+         <x>377</x>
+         <y>365</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/z4BackwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_44">
+       <property name="geometry">
+        <rect>
+         <x>85</x>
+         <y>290</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/x4BackwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_45">
+       <property name="geometry">
+        <rect>
+         <x>85</x>
+         <y>230</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/x3BackwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_46">
+       <property name="geometry">
+        <rect>
+         <x>330</x>
+         <y>230</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/x3ForwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_47">
+       <property name="geometry">
+        <rect>
+         <x>85</x>
+         <y>172</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/x2BackwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_48">
+       <property name="geometry">
+        <rect>
+         <x>330</x>
+         <y>172</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/x2ForwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_49">
+       <property name="geometry">
+        <rect>
+         <x>85</x>
+         <y>110</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_17">
+       <property name="geometry">
+        <rect>
+         <x>125</x>
+         <y>108</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>x1-BL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_27">
+       <property name="geometry">
+        <rect>
+         <x>125</x>
+         <y>170</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>x2-BL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_39">
+       <property name="geometry">
+        <rect>
+         <x>125</x>
+         <y>228</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>x3-BL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_49">
+       <property name="geometry">
+        <rect>
+         <x>125</x>
+         <y>288</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>x4-BL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_53">
+       <property name="geometry">
+        <rect>
+         <x>370</x>
+         <y>108</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>x1-FL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_61">
+       <property name="geometry">
+        <rect>
+         <x>370</x>
+         <y>170</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>x2-FL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_65">
+       <property name="geometry">
+        <rect>
+         <x>370</x>
+         <y>228</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>x3-FL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_102">
+       <property name="geometry">
+        <rect>
+         <x>370</x>
+         <y>288</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>x4-FL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_105">
+       <property name="geometry">
+        <rect>
+         <x>242</x>
+         <y>73</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>z1-BL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_106">
+       <property name="geometry">
+        <rect>
+         <x>242</x>
+         <y>30</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>z1-FL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_107">
+       <property name="geometry">
+        <rect>
+         <x>412</x>
+         <y>70</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>z2-BL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_108">
+       <property name="geometry">
+        <rect>
+         <x>412</x>
+         <y>27</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>z2-FL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_117">
+       <property name="geometry">
+        <rect>
+         <x>242</x>
+         <y>363</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>z3-BL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_118">
+       <property name="geometry">
+        <rect>
+         <x>242</x>
+         <y>324</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>z3-FL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_119">
+       <property name="geometry">
+        <rect>
+         <x>412</x>
+         <y>363</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>z4-BL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_120">
+       <property name="geometry">
+        <rect>
+         <x>412</x>
+         <y>324</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>z4-FL</string>
        </property>
       </widget>
      </widget>
@@ -3164,9 +3625,7 @@ color: rgb(0, 0, 0);</string>
         <string>DisableLimits</string>
        </property>
        <property name="Parameters">
-        <stringlist>
-         <string>False</string>
-        </stringlist>
+        <stringlist/>
        </property>
        <property name="CustomText">
         <string>Enable</string>
@@ -3178,421 +3637,6 @@ color: rgb(0, 0, 0);</string>
      <attribute name="title">
       <string>Calibration</string>
      </attribute>
-     <widget class="QGroupBox" name="groupBox_6">
-      <property name="geometry">
-       <rect>
-        <x>300</x>
-        <y>20</y>
-        <width>441</width>
-        <height>471</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgba(222, 222, 222, 222);</string>
-      </property>
-      <property name="title">
-       <string>Motor limits</string>
-      </property>
-      <widget class="QPixmapWidget" name="qPixmapWidget_2">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>30</y>
-         <width>441</width>
-         <height>351</height>
-        </rect>
-       </property>
-       <property name="pixmap">
-        <pixmap>und.gif</pixmap>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledAUL_2">
-       <property name="geometry">
-        <rect>
-         <x>207</x>
-         <y>30</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$gapz1/forwardLimitSwitch</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledALL_2">
-       <property name="geometry">
-        <rect>
-         <x>207</x>
-         <y>62</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$gapz1/backwardLimitSwitch</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledBUL_2">
-       <property name="geometry">
-        <rect>
-         <x>378</x>
-         <y>30</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$gapz2/forwardLimitSwitch</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledBLL_2">
-       <property name="geometry">
-        <rect>
-         <x>378</x>
-         <y>60</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$gapz2/backwardLimitSwitch</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledFLL_2">
-       <property name="geometry">
-        <rect>
-         <x>102</x>
-         <y>108</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$phasex1/backwardLimitSwitch</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledFUL_2">
-       <property name="geometry">
-        <rect>
-         <x>416</x>
-         <y>108</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$phasex1/forwardLimitSwitch</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledTiltUp_2">
-       <property name="geometry">
-        <rect>
-         <x>237</x>
-         <y>148</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$opc/TiltUpper</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledELL_2">
-       <property name="geometry">
-        <rect>
-         <x>95</x>
-         <y>172</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$phasex2/backwardLimitSwitch</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledEUL_2">
-       <property name="geometry">
-        <rect>
-         <x>400</x>
-         <y>170</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$phasex2/forwardLimitSwitch</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledHLL_2">
-       <property name="geometry">
-        <rect>
-         <x>109</x>
-         <y>228</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$phasex3/backwardLimitSwitch</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledHUL_2">
-       <property name="geometry">
-        <rect>
-         <x>420</x>
-         <y>226</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$phasex3/forwardLimitSwitch</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledTiltDown_2">
-       <property name="geometry">
-        <rect>
-         <x>246</x>
-         <y>265</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$opc/TiltLower</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledGLL_2">
-       <property name="geometry">
-        <rect>
-         <x>101</x>
-         <y>288</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$phasex4/backwardLimitSwitch</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledGUL_2">
-       <property name="geometry">
-        <rect>
-         <x>404</x>
-         <y>287</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$phasex4/forwardLimitSwitch</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledCLL_2">
-       <property name="geometry">
-        <rect>
-         <x>197</x>
-         <y>328</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$gapz3/forwardLimitSwitch</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledDLL_2">
-       <property name="geometry">
-        <rect>
-         <x>374</x>
-         <y>325</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$gapz4/forwardLimitSwitch</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledCUL_2">
-       <property name="geometry">
-        <rect>
-         <x>198</x>
-         <y>360</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$gapz3/backwardLimitSwitch</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledDUL_2">
-       <property name="geometry">
-        <rect>
-         <x>374</x>
-         <y>356</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$gapz4/backwardLimitSwitch</string>
-       </property>
-      </widget>
-      <widget class="TaurusGroupBox" name="taurusGroupBox_20">
-       <property name="geometry">
-        <rect>
-         <x>25</x>
-         <y>430</y>
-         <width>391</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(242, 242, 242);</string>
-       </property>
-       <property name="title">
-        <string>Limits disabled</string>
-       </property>
-       <property name="model">
-        <string/>
-       </property>
-       <widget class="TaurusLed" name="taurusLed_41">
-        <property name="geometry">
-         <rect>
-          <x>130</x>
-          <y>5</y>
-          <width>21</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="model">
-         <string>$undulator/LimitsDisabled</string>
-        </property>
-       </widget>
-       <widget class="TaurusCommandButton" name="taurusCommandButton_5">
-        <property name="geometry">
-         <rect>
-          <x>280</x>
-          <y>5</y>
-          <width>91</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(177, 177, 177);</string>
-        </property>
-        <property name="Model">
-         <string>$undulator</string>
-        </property>
-        <property name="Command">
-         <string>DisableLimits</string>
-        </property>
-        <property name="Parameters">
-         <stringlist>
-          <string>True</string>
-         </stringlist>
-        </property>
-        <property name="CustomText">
-         <string>Disable</string>
-        </property>
-       </widget>
-       <widget class="TaurusCommandButton" name="taurusCommandButton_6">
-        <property name="geometry">
-         <rect>
-          <x>180</x>
-          <y>5</y>
-          <width>91</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(177, 177, 177);</string>
-        </property>
-        <property name="text">
-         <string>Enable</string>
-        </property>
-        <property name="Model">
-         <string>$undulator</string>
-        </property>
-        <property name="Command">
-         <string>DisableLimits</string>
-        </property>
-        <property name="Parameters">
-         <stringlist>
-          <string>False</string>
-         </stringlist>
-        </property>
-        <property name="CustomText">
-         <string>Enable</string>
-        </property>
-       </widget>
-      </widget>
-      <widget class="TaurusGroupBox" name="taurusGroupBox_21">
-       <property name="geometry">
-        <rect>
-         <x>60</x>
-         <y>390</y>
-         <width>311</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(242, 242, 242);</string>
-       </property>
-       <property name="title">
-        <string>Engineering lock</string>
-       </property>
-       <widget class="TaurusLed" name="taurusLed_39">
-        <property name="geometry">
-         <rect>
-          <x>150</x>
-          <y>5</y>
-          <width>21</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="model">
-         <string>$undulator/EngineeringLock</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="btnLock2">
-        <property name="geometry">
-         <rect>
-          <x>200</x>
-          <y>4</y>
-          <width>91</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(177, 177, 177);</string>
-        </property>
-        <property name="text">
-         <string>LOCK</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </widget>
-     </widget>
      <widget class="TaurusGroupBox" name="taurusGroupBox_18">
       <property name="geometry">
        <rect>
@@ -3851,7 +3895,7 @@ color: rgb(0, 0, 0);</string>
         <double>9999.000000000000000</double>
        </property>
        <property name="model">
-        <string>$phasex2/offset</string>
+        <string>$gapz2/offset</string>
        </property>
       </widget>
       <widget class="TaurusValueSpinBox" name="vsbGap_4">
@@ -3884,7 +3928,7 @@ color: rgb(0, 0, 0);</string>
         <double>1.000000000000000</double>
        </property>
        <property name="model">
-        <string>$phasex2/offset</string>
+        <string>$gapz2/offset</string>
        </property>
        <property name="autoApply">
         <bool>true</bool>
@@ -4402,7 +4446,7 @@ color: rgb(0, 0, 0);</string>
         <double>999999.000000000000000</double>
        </property>
        <property name="model">
-        <string>$undulator/GapReadback</string>
+        <string>$undulator/Gap</string>
        </property>
       </widget>
       <widget class="TaurusValueSpinBox" name="vspGapRef">
@@ -4475,7 +4519,7 @@ color: rgb(0, 0, 0);</string>
         <double>999999.000000000000000</double>
        </property>
        <property name="model">
-        <string>$undulator/OffsetReadback</string>
+        <string>$undulator/Offset</string>
        </property>
       </widget>
       <widget class="TaurusValueSpinBox" name="vspCenterRef">
@@ -4508,7 +4552,7 @@ color: rgb(0, 0, 0);</string>
         <double>1.000000000000000</double>
        </property>
        <property name="model">
-        <string>$undulator/OffsetSetpoint</string>
+        <string>$undulator/Offset</string>
        </property>
        <property name="autoApply">
         <bool>true</bool>
@@ -4557,6 +4601,880 @@ color: rgb(0, 0, 0);</string>
        <property name="CustomText">
         <string>Phase to zero reference</string>
        </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_6">
+      <property name="geometry">
+       <rect>
+        <x>295</x>
+        <y>20</y>
+        <width>449</width>
+        <height>471</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(222, 222, 222, 222);</string>
+      </property>
+      <property name="title">
+       <string>Motor limits</string>
+      </property>
+      <widget class="QPixmapWidget" name="qPixmapWidget_4">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>20</y>
+         <width>451</width>
+         <height>371</height>
+        </rect>
+       </property>
+       <property name="pixmap">
+        <pixmap>und.gif</pixmap>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledAUL_3">
+       <property name="geometry">
+        <rect>
+         <x>222</x>
+         <y>30</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$gapz1/forwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledALL_3">
+       <property name="geometry">
+        <rect>
+         <x>222</x>
+         <y>75</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$gapz1/backwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledBUL_3">
+       <property name="geometry">
+        <rect>
+         <x>394</x>
+         <y>27</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$gapz2/forwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledBLL_3">
+       <property name="geometry">
+        <rect>
+         <x>394</x>
+         <y>72</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$gapz2/backwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledFLL_3">
+       <property name="geometry">
+        <rect>
+         <x>105</x>
+         <y>110</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$phasex1/backwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledFUL_3">
+       <property name="geometry">
+        <rect>
+         <x>350</x>
+         <y>110</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$phasex1/forwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledTiltUp_3">
+       <property name="geometry">
+        <rect>
+         <x>242</x>
+         <y>147</y>
+         <width>21</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/tiltUpperGirder</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledELL_3">
+       <property name="geometry">
+        <rect>
+         <x>105</x>
+         <y>172</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$phasex2/backwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledEUL_3">
+       <property name="geometry">
+        <rect>
+         <x>350</x>
+         <y>172</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$phasex2/forwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledHLL_3">
+       <property name="geometry">
+        <rect>
+         <x>105</x>
+         <y>230</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$phasex3/backwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledHUL_3">
+       <property name="geometry">
+        <rect>
+         <x>350</x>
+         <y>230</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$phasex3/forwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledTiltDown_3">
+       <property name="geometry">
+        <rect>
+         <x>252</x>
+         <y>266</y>
+         <width>21</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/tiltLowerGirder</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledGLL_3">
+       <property name="geometry">
+        <rect>
+         <x>105</x>
+         <y>290</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$phasex4/backwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledGUL_3">
+       <property name="geometry">
+        <rect>
+         <x>350</x>
+         <y>290</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$phasex4/forwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledCLL_3">
+       <property name="geometry">
+        <rect>
+         <x>222</x>
+         <y>325</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$gapz3/forwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledDLL_3">
+       <property name="geometry">
+        <rect>
+         <x>394</x>
+         <y>325</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$gapz4/forwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledCUL_3">
+       <property name="geometry">
+        <rect>
+         <x>222</x>
+         <y>365</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$gapz3/backwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledDUL_3">
+       <property name="geometry">
+        <rect>
+         <x>394</x>
+         <y>365</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$gapz4/backwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_64">
+       <property name="geometry">
+        <rect>
+         <x>205</x>
+         <y>30</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/z1ForwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_65">
+       <property name="geometry">
+        <rect>
+         <x>205</x>
+         <y>75</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/z1BackwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_66">
+       <property name="geometry">
+        <rect>
+         <x>377</x>
+         <y>27</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/z2ForwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_67">
+       <property name="geometry">
+        <rect>
+         <x>377</x>
+         <y>72</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/z2BackwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_68">
+       <property name="geometry">
+        <rect>
+         <x>330</x>
+         <y>110</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/x1ForwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_69">
+       <property name="geometry">
+        <rect>
+         <x>330</x>
+         <y>290</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/x4ForwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_70">
+       <property name="geometry">
+        <rect>
+         <x>205</x>
+         <y>325</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/z3ForwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_71">
+       <property name="geometry">
+        <rect>
+         <x>205</x>
+         <y>365</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/z3BackwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_72">
+       <property name="geometry">
+        <rect>
+         <x>377</x>
+         <y>325</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/z4ForwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_73">
+       <property name="geometry">
+        <rect>
+         <x>377</x>
+         <y>365</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/z4BackwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_74">
+       <property name="geometry">
+        <rect>
+         <x>85</x>
+         <y>290</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/x4BackwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_75">
+       <property name="geometry">
+        <rect>
+         <x>85</x>
+         <y>230</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/x3BackwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_76">
+       <property name="geometry">
+        <rect>
+         <x>330</x>
+         <y>230</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/x3ForwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_77">
+       <property name="geometry">
+        <rect>
+         <x>85</x>
+         <y>172</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/x2BackwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_78">
+       <property name="geometry">
+        <rect>
+         <x>330</x>
+         <y>172</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/x2ForwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_79">
+       <property name="geometry">
+        <rect>
+         <x>85</x>
+         <y>110</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_153">
+       <property name="geometry">
+        <rect>
+         <x>125</x>
+         <y>108</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>x1-BL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_154">
+       <property name="geometry">
+        <rect>
+         <x>125</x>
+         <y>170</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>x2-BL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_155">
+       <property name="geometry">
+        <rect>
+         <x>125</x>
+         <y>228</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>x3-BL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_156">
+       <property name="geometry">
+        <rect>
+         <x>125</x>
+         <y>288</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>x4-BL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_157">
+       <property name="geometry">
+        <rect>
+         <x>370</x>
+         <y>108</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>x1-FL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_158">
+       <property name="geometry">
+        <rect>
+         <x>370</x>
+         <y>170</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>x2-FL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_159">
+       <property name="geometry">
+        <rect>
+         <x>370</x>
+         <y>228</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>x3-FL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_160">
+       <property name="geometry">
+        <rect>
+         <x>370</x>
+         <y>288</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>x4-FL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_161">
+       <property name="geometry">
+        <rect>
+         <x>242</x>
+         <y>73</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>z1-BL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_162">
+       <property name="geometry">
+        <rect>
+         <x>242</x>
+         <y>30</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>z1-FL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_163">
+       <property name="geometry">
+        <rect>
+         <x>412</x>
+         <y>70</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>z2-BL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_164">
+       <property name="geometry">
+        <rect>
+         <x>412</x>
+         <y>27</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>z2-FL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_165">
+       <property name="geometry">
+        <rect>
+         <x>242</x>
+         <y>363</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>z3-BL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_166">
+       <property name="geometry">
+        <rect>
+         <x>242</x>
+         <y>324</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>z3-FL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_167">
+       <property name="geometry">
+        <rect>
+         <x>412</x>
+         <y>363</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>z4-BL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_168">
+       <property name="geometry">
+        <rect>
+         <x>412</x>
+         <y>324</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>z4-FL</string>
+       </property>
+      </widget>
+      <widget class="TaurusGroupBox" name="taurusGroupBox_25">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>390</y>
+         <width>311</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(242, 242, 242);</string>
+       </property>
+       <property name="title">
+        <string>Engineering lock</string>
+       </property>
+       <widget class="TaurusLed" name="taurusLed_101">
+        <property name="geometry">
+         <rect>
+          <x>150</x>
+          <y>5</y>
+          <width>21</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="model">
+         <string>$undulator/EngineeringLock</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnLock2">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>4</y>
+          <width>91</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(177, 177, 177);</string>
+        </property>
+        <property name="text">
+         <string>LOCK</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </widget>
+      <widget class="TaurusGroupBox" name="taurusGroupBox_24">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>430</y>
+         <width>391</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(242, 242, 242);</string>
+       </property>
+       <property name="title">
+        <string>Limits disabled</string>
+       </property>
+       <property name="model">
+        <string/>
+       </property>
+       <widget class="TaurusCommandButton" name="taurusCommandButton_6">
+        <property name="geometry">
+         <rect>
+          <x>280</x>
+          <y>5</y>
+          <width>91</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(177, 177, 177);</string>
+        </property>
+        <property name="Model">
+         <string>$undulator</string>
+        </property>
+        <property name="Command">
+         <string>DisableLimits</string>
+        </property>
+        <property name="Parameters">
+         <stringlist>
+          <string>True</string>
+         </stringlist>
+        </property>
+        <property name="CustomText">
+         <string>Disable</string>
+        </property>
+       </widget>
+       <widget class="TaurusCommandButton" name="btnDisableLimits_1">
+        <property name="geometry">
+         <rect>
+          <x>180</x>
+          <y>5</y>
+          <width>91</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(177, 177, 177);</string>
+        </property>
+        <property name="text">
+         <string>Enable</string>
+        </property>
+        <property name="Model">
+         <string>$undulator</string>
+        </property>
+        <property name="Command">
+         <string>DisableLimits</string>
+        </property>
+        <property name="Parameters">
+         <stringlist/>
+        </property>
+        <property name="CustomText">
+         <string>Enable</string>
+        </property>
+       </widget>
+       <widget class="TaurusLed" name="taurusLed_100">
+        <property name="geometry">
+         <rect>
+          <x>125</x>
+          <y>5</y>
+          <width>21</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="model">
+         <string>$undulator/LimitsDisabled</string>
+        </property>
+       </widget>
       </widget>
      </widget>
     </widget>
@@ -5093,7 +6011,7 @@ color: rgb(0, 0, 0);</string>
      <widget class="TaurusGroupBox" name="taurusGroupBox_15">
       <property name="geometry">
        <rect>
-        <x>5</x>
+        <x>2</x>
         <y>280</y>
         <width>291</width>
         <height>141</height>
@@ -5299,7 +6217,7 @@ color: rgb(0, 0, 0);</string>
      <widget class="QGroupBox" name="groupBox_7">
       <property name="geometry">
        <rect>
-        <x>5</x>
+        <x>2</x>
         <y>430</y>
         <width>291</width>
         <height>241</height>
@@ -5593,274 +6511,6 @@ color: rgb(0, 0, 0);</string>
        </property>
        <property name="maximum">
         <number>999999</number>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_8">
-      <property name="geometry">
-       <rect>
-        <x>300</x>
-        <y>280</y>
-        <width>441</width>
-        <height>391</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgba(222, 222, 222, 222);</string>
-      </property>
-      <property name="title">
-       <string>Motor limits</string>
-      </property>
-      <widget class="QPixmapWidget" name="qPixmapWidget_3">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>30</y>
-         <width>441</width>
-         <height>351</height>
-        </rect>
-       </property>
-       <property name="pixmap">
-        <pixmap>und.gif</pixmap>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledAUL_3">
-       <property name="geometry">
-        <rect>
-         <x>207</x>
-         <y>31</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$gapz1/forwardLimitSwitch</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledALL_3">
-       <property name="geometry">
-        <rect>
-         <x>207</x>
-         <y>63</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$gapz1/backwardLimitSwitch</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledBUL_3">
-       <property name="geometry">
-        <rect>
-         <x>378</x>
-         <y>30</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$gapz2/forwardLimitSwitch</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledBLL_3">
-       <property name="geometry">
-        <rect>
-         <x>378</x>
-         <y>60</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$gapz2/backwardLimitSwitch</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledFLL_3">
-       <property name="geometry">
-        <rect>
-         <x>102</x>
-         <y>108</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$phasex1/backwardLimitSwitch</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledFUL_3">
-       <property name="geometry">
-        <rect>
-         <x>416</x>
-         <y>108</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$phasex1/forwardLimitSwitch</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledTiltUp_3">
-       <property name="geometry">
-        <rect>
-         <x>237</x>
-         <y>148</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$opc/TiltUpper</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledELL_3">
-       <property name="geometry">
-        <rect>
-         <x>95</x>
-         <y>172</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$phasex2/backwardLimitSwitch</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledEUL_3">
-       <property name="geometry">
-        <rect>
-         <x>400</x>
-         <y>170</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$phasex2/forwardLimitSwitch</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledHLL_3">
-       <property name="geometry">
-        <rect>
-         <x>108</x>
-         <y>227</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$phasex3/backwardLimitSwitch</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledHUL_3">
-       <property name="geometry">
-        <rect>
-         <x>419</x>
-         <y>226</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$phasex3/forwardLimitSwitch</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledTiltDown_3">
-       <property name="geometry">
-        <rect>
-         <x>246</x>
-         <y>265</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$opc/TiltLower</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledGLL_3">
-       <property name="geometry">
-        <rect>
-         <x>101</x>
-         <y>288</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$phasex4/backwardLimitSwitch</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledGUL_3">
-       <property name="geometry">
-        <rect>
-         <x>404</x>
-         <y>287</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$phasex4/forwardLimitSwitch</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledCLL_3">
-       <property name="geometry">
-        <rect>
-         <x>197</x>
-         <y>328</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$gapz3/forwardLimitSwitch</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledDLL_3">
-       <property name="geometry">
-        <rect>
-         <x>374</x>
-         <y>325</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$gapz4/forwardLimitSwitch</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledCUL_3">
-       <property name="geometry">
-        <rect>
-         <x>198</x>
-         <y>360</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$gapz3/backwardLimitSwitch</string>
-       </property>
-      </widget>
-      <widget class="TaurusLed" name="ledDUL_3">
-       <property name="geometry">
-        <rect>
-         <x>374</x>
-         <y>355</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="model">
-        <string>$gapz4/backwardLimitSwitch</string>
        </property>
       </widget>
      </widget>
@@ -6390,6 +7040,735 @@ color: rgb(0, 0, 0);</string>
        </property>
       </widget>
      </widget>
+     <widget class="QGroupBox" name="groupBox_3">
+      <property name="geometry">
+       <rect>
+        <x>295</x>
+        <y>280</y>
+        <width>449</width>
+        <height>391</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(222, 222, 222, 222);</string>
+      </property>
+      <property name="title">
+       <string>Motor limits</string>
+      </property>
+      <widget class="QPixmapWidget" name="qPixmapWidget_2">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>20</y>
+         <width>451</width>
+         <height>371</height>
+        </rect>
+       </property>
+       <property name="pixmap">
+        <pixmap>und.gif</pixmap>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledAUL_2">
+       <property name="geometry">
+        <rect>
+         <x>222</x>
+         <y>30</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$gapz1/forwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledALL_2">
+       <property name="geometry">
+        <rect>
+         <x>222</x>
+         <y>75</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$gapz1/backwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledBUL_2">
+       <property name="geometry">
+        <rect>
+         <x>394</x>
+         <y>27</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$gapz2/forwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledBLL_2">
+       <property name="geometry">
+        <rect>
+         <x>394</x>
+         <y>72</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$gapz2/backwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledFLL_2">
+       <property name="geometry">
+        <rect>
+         <x>105</x>
+         <y>110</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$phasex1/backwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledFUL_2">
+       <property name="geometry">
+        <rect>
+         <x>350</x>
+         <y>110</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$phasex1/forwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledTiltUp_2">
+       <property name="geometry">
+        <rect>
+         <x>242</x>
+         <y>147</y>
+         <width>21</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/tiltUpperGirder</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledELL_2">
+       <property name="geometry">
+        <rect>
+         <x>105</x>
+         <y>172</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$phasex2/backwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledEUL_2">
+       <property name="geometry">
+        <rect>
+         <x>350</x>
+         <y>172</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$phasex2/forwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledHLL_2">
+       <property name="geometry">
+        <rect>
+         <x>105</x>
+         <y>230</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$phasex3/backwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledHUL_2">
+       <property name="geometry">
+        <rect>
+         <x>350</x>
+         <y>230</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$phasex3/forwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledTiltDown_2">
+       <property name="geometry">
+        <rect>
+         <x>252</x>
+         <y>266</y>
+         <width>21</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/tiltLowerGirder</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledGLL_2">
+       <property name="geometry">
+        <rect>
+         <x>105</x>
+         <y>290</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$phasex4/backwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledGUL_2">
+       <property name="geometry">
+        <rect>
+         <x>350</x>
+         <y>290</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$phasex4/forwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledCLL_2">
+       <property name="geometry">
+        <rect>
+         <x>222</x>
+         <y>325</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$gapz3/forwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledDLL_2">
+       <property name="geometry">
+        <rect>
+         <x>394</x>
+         <y>325</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$gapz4/forwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledCUL_2">
+       <property name="geometry">
+        <rect>
+         <x>222</x>
+         <y>365</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$gapz3/backwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="ledDUL_2">
+       <property name="geometry">
+        <rect>
+         <x>394</x>
+         <y>365</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$gapz4/backwardLimitSwitch</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_39">
+       <property name="geometry">
+        <rect>
+         <x>205</x>
+         <y>30</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/z1ForwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_41">
+       <property name="geometry">
+        <rect>
+         <x>205</x>
+         <y>75</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/z1BackwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_50">
+       <property name="geometry">
+        <rect>
+         <x>377</x>
+         <y>27</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/z2ForwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_51">
+       <property name="geometry">
+        <rect>
+         <x>377</x>
+         <y>72</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/z2BackwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_52">
+       <property name="geometry">
+        <rect>
+         <x>330</x>
+         <y>110</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/x1ForwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_53">
+       <property name="geometry">
+        <rect>
+         <x>330</x>
+         <y>290</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/x4ForwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_54">
+       <property name="geometry">
+        <rect>
+         <x>205</x>
+         <y>325</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/z3ForwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_55">
+       <property name="geometry">
+        <rect>
+         <x>205</x>
+         <y>365</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/z3BackwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_56">
+       <property name="geometry">
+        <rect>
+         <x>377</x>
+         <y>325</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/z4ForwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_57">
+       <property name="geometry">
+        <rect>
+         <x>377</x>
+         <y>365</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/z4BackwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_58">
+       <property name="geometry">
+        <rect>
+         <x>85</x>
+         <y>290</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/x4BackwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_59">
+       <property name="geometry">
+        <rect>
+         <x>85</x>
+         <y>230</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/x3BackwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_60">
+       <property name="geometry">
+        <rect>
+         <x>330</x>
+         <y>230</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/x3ForwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_61">
+       <property name="geometry">
+        <rect>
+         <x>85</x>
+         <y>172</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/x2BackwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_62">
+       <property name="geometry">
+        <rect>
+         <x>330</x>
+         <y>172</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="model">
+        <string>$opc/x2ForwardKillSwitch</string>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="TaurusLed" name="taurusLed_63">
+       <property name="geometry">
+        <rect>
+         <x>85</x>
+         <y>110</y>
+         <width>16</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="onColor">
+        <string>red</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_121">
+       <property name="geometry">
+        <rect>
+         <x>125</x>
+         <y>108</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>x1-BL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_122">
+       <property name="geometry">
+        <rect>
+         <x>125</x>
+         <y>170</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>x2-BL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_123">
+       <property name="geometry">
+        <rect>
+         <x>125</x>
+         <y>228</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>x3-BL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_124">
+       <property name="geometry">
+        <rect>
+         <x>125</x>
+         <y>288</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>x4-BL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_125">
+       <property name="geometry">
+        <rect>
+         <x>370</x>
+         <y>108</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>x1-FL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_126">
+       <property name="geometry">
+        <rect>
+         <x>370</x>
+         <y>170</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>x2-FL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_127">
+       <property name="geometry">
+        <rect>
+         <x>370</x>
+         <y>228</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>x3-FL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_128">
+       <property name="geometry">
+        <rect>
+         <x>370</x>
+         <y>288</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>x4-FL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_129">
+       <property name="geometry">
+        <rect>
+         <x>242</x>
+         <y>73</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>z1-BL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_130">
+       <property name="geometry">
+        <rect>
+         <x>242</x>
+         <y>30</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>z1-FL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_131">
+       <property name="geometry">
+        <rect>
+         <x>412</x>
+         <y>70</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>z2-BL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_132">
+       <property name="geometry">
+        <rect>
+         <x>412</x>
+         <y>27</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>z2-FL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_133">
+       <property name="geometry">
+        <rect>
+         <x>242</x>
+         <y>363</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>z3-BL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_134">
+       <property name="geometry">
+        <rect>
+         <x>242</x>
+         <y>324</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>z3-FL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_135">
+       <property name="geometry">
+        <rect>
+         <x>412</x>
+         <y>363</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>z4-BL</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_136">
+       <property name="geometry">
+        <rect>
+         <x>412</x>
+         <y>324</y>
+         <width>41</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>z4-FL</string>
+       </property>
+      </widget>
+     </widget>
     </widget>
    </widget>
    <widget class="QGroupBox" name="groupBox_5">
@@ -6410,7 +7789,7 @@ color: rgb(0, 0, 0);</string>
      <string notr="true">background-color: rgb(222, 222, 222);</string>
     </property>
     <property name="title">
-     <string>Emergency</string>
+     <string>STOP ALL</string>
     </property>
     <widget class="TaurusCommandButton" name="btnStopAll">
      <property name="geometry">
@@ -6533,8 +7912,8 @@ color: rgb(255, 0, 0);</string>
     <widget class="QLabel" name="label_75">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>45</y>
+       <x>190</x>
+       <y>10</y>
        <width>131</width>
        <height>17</height>
       </rect>
@@ -6546,8 +7925,8 @@ color: rgb(255, 0, 0);</string>
     <widget class="QLabel" name="label_76">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>75</y>
+       <x>190</x>
+       <y>40</y>
        <width>131</width>
        <height>17</height>
       </rect>
@@ -6559,34 +7938,34 @@ color: rgb(255, 0, 0);</string>
     <widget class="TaurusLed" name="ledInterlock">
      <property name="geometry">
       <rect>
-       <x>140</x>
-       <y>40</y>
+       <x>330</x>
+       <y>5</y>
        <width>24</width>
        <height>24</height>
       </rect>
      </property>
      <property name="model">
-      <string>$undulator/Interlock</string>
+      <string>$undulator/interlock</string>
      </property>
     </widget>
     <widget class="TaurusLed" name="ledInterlockOverride">
      <property name="geometry">
       <rect>
-       <x>140</x>
-       <y>70</y>
+       <x>330</x>
+       <y>35</y>
        <width>24</width>
        <height>24</height>
       </rect>
      </property>
      <property name="model">
-      <string>$opc/InterlockOverride</string>
+      <string>$opc/interlockOverride</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_77">
      <property name="geometry">
       <rect>
-       <x>200</x>
-       <y>45</y>
+       <x>10</x>
+       <y>40</y>
        <width>131</width>
        <height>17</height>
       </rect>
@@ -6598,8 +7977,8 @@ color: rgb(255, 0, 0);</string>
     <widget class="TaurusLed" name="taurusLed_28">
      <property name="geometry">
       <rect>
-       <x>330</x>
-       <y>40</y>
+       <x>140</x>
+       <y>35</y>
        <width>24</width>
        <height>24</height>
       </rect>
@@ -6611,8 +7990,8 @@ color: rgb(255, 0, 0);</string>
     <widget class="QLabel" name="label_79">
      <property name="geometry">
       <rect>
-       <x>200</x>
-       <y>75</y>
+       <x>10</x>
+       <y>70</y>
        <width>101</width>
        <height>17</height>
       </rect>
@@ -6624,14 +8003,40 @@ color: rgb(255, 0, 0);</string>
     <widget class="TaurusLed" name="taurusLed_35">
      <property name="geometry">
       <rect>
-       <x>330</x>
-       <y>70</y>
+       <x>140</x>
+       <y>65</y>
        <width>24</width>
        <height>24</height>
       </rect>
      </property>
      <property name="model">
       <string>$undulator/State</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_14">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>70</y>
+       <width>121</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Emergency stop</string>
+     </property>
+    </widget>
+    <widget class="TaurusLed" name="taurusLed_82">
+     <property name="geometry">
+      <rect>
+       <x>330</x>
+       <y>65</y>
+       <width>24</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="model">
+      <string>$opc/emergencyStop</string>
      </property>
     </widget>
    </widget>

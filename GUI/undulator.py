@@ -188,14 +188,18 @@ def connections(ui):
 	QtCore.QObject.connect(ui.setMaxGap, QtCore.SIGNAL("valueChanged(int)"), setMaxGap)
 	QtCore.QObject.connect(ui.setMinGap, QtCore.SIGNAL("valueChanged(int)"), setMinGap)
 	QtCore.QObject.connect(ui.setMaxPhase, QtCore.SIGNAL("valueChanged(int)"), setMaxPhase)
+	ui.btnDisableLimits_1.setParameters(False)
+	ui.btnDisableLimits_2.setParameters(False)
 
 
 if __name__ == "__main__":
 	import sys
 	import undulatorDesigner
-	from array import *
-	import taurus.core
-	taurus.core.changeDefaultPollingPeriod(300)
+	from array import *	
+	import taurus.core.util.argparse as argparse
+    
+	parser, options, args = argparse.init_taurus_args()
+	
 	app = QtGui.QApplication(sys.argv)
 	Main = QtGui.QMainWindow()
 	ui = undulatorDesigner.Ui_Main()
