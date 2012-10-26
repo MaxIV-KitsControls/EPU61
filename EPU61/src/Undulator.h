@@ -33,9 +33,8 @@
 #include <string>
 #include <vector>
 #include "GalilCommunicator.h"
-#include <boost/scoped_array.hpp>
 #include "correction/DataItem.h"
-#include "powersupply/PowerSupply.h"
+#include "powersupply/PowerSupplyThread.h"
 
 /*----- PROTECTED REGION END -----*/
 
@@ -127,17 +126,17 @@ private:
     Tango::Group *phaseAxesGroup; //!< Group with phase axes.
     Tango::Group *gapAxesGroup; //!< Group with gap axes.
 
-    double currentCoil1;
-    double currentCoil2;
-    double currentCoil3;
-    double currentCoil4;
+    double currentCoil1; //!< Current for first coil.
+    double currentCoil2; //!< Current for second coil.
+    double currentCoil3; //!< Current for third coil.
+    double currentCoil4; //!< CUrrent for forth coil.
 
-    vector<double> desiredCurrent;
+    vector<double> desiredCurrent; //!< Desired current for 4 coils. Manual mode.
 
-    bool coilCorrectionEnabled;
-    bool dataFileLoaded;
+    bool coilCorrectionEnabled; //!< Switch for automatic and manual coil correction. (true=automatic)
+    bool dataFileLoaded; //!< Data file for automatic compensation loaded.
 
-    boost::scoped_array<PowerSupply> supplies; //!< 4 power supplies
+    PowerSupplyThread *supplies; //!< Pointer to class controlling power supplies.
 
     vector<DataItem> data;  //!< Interpolation table, straight entries
     PollerThread *pollerThread; //!< Pointer to pooling thread
@@ -158,11 +157,14 @@ public:		//	ControlBoxGapProxy:	Proxy to ControlBox with gap DMC
 	vector<string>	gearedAxes;
 	//	DataFile:	Filename containing interpolation data.
 	string	dataFile;
+	//	PowerSupplyProxy:	Proxy server where power supply will read and write current.
+	string	powerSupplyProxy;
+	//	PowerSupplyAttributeNames:	Attribute name for each power supply to read from and write to.
+	vector<string>	powerSupplyAttributeNames;
 	
 
 //	Attribute data members
 public:
-
 
 
 //	Constructors and destructors
@@ -689,7 +691,14 @@ private:
      */
     void start_phase();
 
+    /**
+     * Switches to manual coil correction.
+     */
     void start_coils_manual();
+
+    /**
+     * Switches to automatic coil correction.
+     */
     void start_coils_automatic();
 
 

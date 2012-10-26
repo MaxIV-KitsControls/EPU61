@@ -1,10 +1,3 @@
-/*
- * GalilCommunicator.h
- *
- *  Created on: Sep 19, 2012
- *      Author: thumar
- */
-
 #ifndef GALILCOMMUNICATOR_H_
 #define GALILCOMMUNICATOR_H_
 

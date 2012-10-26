@@ -133,7 +133,12 @@ SVC_OBJS =      \
             $(OBJDIR)/$(PACKAGE_NAME)StateMachine.o \
             $(OBJDIR)/ClassFactory.o  \
             $(OBJDIR)/main.o \
-            $(OBJDIR)/UpdaterThread.o \
+            $(OBJDIR)/insertion/UpdaterThread.o \
+            $(OBJDIR)/correction/DataItem.o \
+            $(OBJDIR)/correction/PollerThread.o \
+            $(OBJDIR)/GalilCommunicator.o \
+            $(OBJDIR)/powersupply/PowerSupply.o \
+            $(OBJDIR)/powersupply/PowerSupplyThread.o \
             $(ADDITIONAL_OBJS) 
 
 

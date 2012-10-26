@@ -156,6 +156,11 @@ void UpdaterThread::check_axes_state()
 		{
 			// Stay in fault.
 		}
+		else if(!dev.supplies->isRunning())
+		{
+		    dev.set_state(Tango::FAULT);
+		    ERROR_STREAM << dev.supplies->getError() << endl;
+		}
 		// If all motors are in standby we set the state to standby.
 		else if( (stateA == Tango::STANDBY) && (stateB == Tango::STANDBY) && (stateC == Tango::STANDBY)
 			&& (stateD == Tango::STANDBY) && (stateE == Tango::STANDBY) && (stateF == Tango::STANDBY)

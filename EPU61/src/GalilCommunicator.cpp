@@ -1,9 +1,3 @@
-/*
- * GalilCommunicator.cpp
- *
- *  Created on: Sep 19, 2012
- *      Author: thumar
- */
 #include "GalilCommunicator.h"
 
 

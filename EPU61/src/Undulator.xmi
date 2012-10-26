@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <pogoDsl:PogoSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pogoDsl="http://www.esrf.fr/tango/pogo/PogoDsl">
   <classes name="Undulator">
-    <description description="Device server for controling movement of undulator axes. &#xA;It features gap movement and phase movement in 4 modes.&#xA;In expert mode, user can configure the behaviour of axes and restrict certain actions." title="" sourcePath="/home/thumar/workspace/Undulator/src" language="Cpp" filestogenerate="XMI   file,Code files" hasAbstractCommand="false" hasAbstractAttribute="false">
+    <description description="Device server for controling movement of undulator axes. &#xA;It features gap movement and phase movement in 4 modes.&#xA;In expert mode, user can configure the behaviour of axes and restrict certain actions." title="" sourcePath="/home/thumar/workspace/Undulator/src" language="Cpp" filestogenerate="XMI   file,Code files,html Pages" hasAbstractCommand="false" hasAbstractAttribute="false">
       <inheritances classname="Device_Impl" sourcePath=""/>
       <identification contact="at cosylab.com - tadej.humar" author="tadej.humar" emailDomain="cosylab.com" classFamily="Motion" siteSpecific="" platform="Unix Like" bus="Ethernet" manufacturer="none" reference=""/>
       <comments commandsTable="//================================================================&#xA;//&#xA;//  The following table gives the correspondence&#xA;//  between command and method names.&#xA;//&#xA;//  Command name        |  Method name&#xA;//----------------------------------------------------------------&#xA;//  State               |  Inherited (no method)&#xA;//  Status              |  Inherited (no method)&#xA;//  StopGap             |  stop_gap&#xA;//  ToggleStopAll       |  toggle_stop_all&#xA;//  DisableLimits       |  disable_limits&#xA;//  StopPhase           |  stop_phase&#xA;//  CalibrateGap        |  calibrate_gap&#xA;//  CalibratePhase      |  calibrate_phase&#xA;//  LoadCorrectionData  |  load_correction_data&#xA;//================================================================"/>
@@ -28,6 +28,14 @@
     </deviceProperties>
     <deviceProperties name="DataFile" description="Filename containing interpolation data.">
       <type xsi:type="pogoDsl:StringType"/>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </deviceProperties>
+    <deviceProperties name="PowerSupplyProxy" description="Proxy server where power supply will read and write current.">
+      <type xsi:type="pogoDsl:StringType"/>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </deviceProperties>
+    <deviceProperties name="PowerSupplyAttributeNames" description="Attribute name for each power supply to read from and write to.">
+      <type xsi:type="pogoDsl:StringVectorType"/>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
     </deviceProperties>
     <commands name="State" description="This command gets the device state (stored in its device_state data member) and returns it to the caller." execMethod="dev_state" displayLevel="OPERATOR">

@@ -140,7 +140,13 @@ void Undulator::delete_device()
 	    pollerThread->join(0);
 	    pollerThread = 0;
 	}
-	supplies.reset(0);
+
+	if (supplies)
+    {
+	    supplies->abort();
+	    supplies->join(0);
+	    supplies = 0;
+    }
 
     if (galilFunctions) delete galilFunctions;
     if (phaseAxesGroup) delete phaseAxesGroup;
@@ -240,14 +246,17 @@ void Undulator::init_device()
 	    // Set tango state to ON.
 	    this->set_state(Tango::ON);
 
+	    supplies = new PowerSupplyThread(powerSupplyProxy, powerSupplyAttributeNames);
+	    supplies->go();
+
 	    // Start thread for state and position updates.
 	    stateUpdater = new UpdaterThread(*this, 1000, gapAxes, phaseAxes, gearedAxes);
 	    stateUpdater->go();
 
-	    supplies.reset(new PowerSupply[4]);
 
 	    pollerThread = new PollerThread(*this, controlBoxGapProxy, controlBoxPhaseProxy);
 	    pollerThread->go();
+
 
 	}
 	catch(Tango::DevFailed& err)
@@ -278,8 +287,9 @@ void Undulator::init_device()
     }
     catch (...)
     {
-        ERROR_STREAM << "Couldn't load data file from property." << endl;
+        WARN_STREAM << "Couldn't load data file from property." << endl;
     }
+
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::init_device
 }
@@ -309,6 +319,8 @@ void Undulator::get_device_property()
 	dev_prop.push_back(Tango::DbDatum("ControlBoxPhaseProxy"));
 	dev_prop.push_back(Tango::DbDatum("GearedAxes"));
 	dev_prop.push_back(Tango::DbDatum("DataFile"));
+	dev_prop.push_back(Tango::DbDatum("PowerSupplyProxy"));
+	dev_prop.push_back(Tango::DbDatum("PowerSupplyAttributeNames"));
 
 	//	is there at least one property to be read ?
 	if (dev_prop.size()>0)
@@ -388,6 +400,28 @@ void Undulator::get_device_property()
 		}
 		//	And try to extract DataFile value from database
 		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  dataFile;
+
+		//	Try to initialize PowerSupplyProxy from class property
+		cl_prop = ds_class->get_class_property(dev_prop[++i].name);
+		if (cl_prop.is_empty()==false)	cl_prop  >>  powerSupplyProxy;
+		else {
+			//	Try to initialize PowerSupplyProxy from default device value
+			def_prop = ds_class->get_default_device_property(dev_prop[i].name);
+			if (def_prop.is_empty()==false)	def_prop  >>  powerSupplyProxy;
+		}
+		//	And try to extract PowerSupplyProxy value from database
+		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  powerSupplyProxy;
+
+		//	Try to initialize PowerSupplyAttributeNames from class property
+		cl_prop = ds_class->get_class_property(dev_prop[++i].name);
+		if (cl_prop.is_empty()==false)	cl_prop  >>  powerSupplyAttributeNames;
+		else {
+			//	Try to initialize PowerSupplyAttributeNames from default device value
+			def_prop = ds_class->get_default_device_property(dev_prop[i].name);
+			if (def_prop.is_empty()==false)	def_prop  >>  powerSupplyAttributeNames;
+		}
+		//	And try to extract PowerSupplyAttributeNames value from database
+		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  powerSupplyAttributeNames;
 
 
 	}
@@ -908,7 +942,6 @@ void Undulator::write_Taper(Tango::WAttribute &attr)
 
 	desiredTaper = w_val;
 
-
     // Taper changed, set new gap limits.
     if (!limitsDisabled)
 	    set_soft_limits_gap();
@@ -957,7 +990,6 @@ void Undulator::write_Offset(Tango::WAttribute &attr)
 	/*----- PROTECTED REGION ID(Undulator::write_Offset) ENABLED START -----*/
 
 	desiredCenter = w_val;
-
 
 	// Center changed, set new gap limits.
 	if (!limitsDisabled)
@@ -1123,13 +1155,14 @@ void Undulator::read_EngineeringGapSpeed(Tango::Attribute &attr)
             // Extract others and compare. If all are the same show speed otherwise show zero.
             replyList[i] >> tempSpeed;
             if(engineeringGapAxesSpeed != tempSpeed)
+            {
                 engineeringGapAxesSpeed = 0;
+                break;
+            }
         }
-
         attr.set_quality(Tango::ATTR_VALID);
     }
-
-
+    //  Set the attribute value
 	attr.set_value(&engineeringGapAxesSpeed);
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::read_EngineeringGapSpeed
@@ -1153,9 +1186,7 @@ void Undulator::write_EngineeringGapSpeed(Tango::WAttribute &attr)
 	
 	/*----- PROTECTED REGION ID(Undulator::write_EngineeringGapSpeed) ENABLED START -----*/
 
-	Tango::DeviceAttribute devattr;
-	devattr.set_name("velocity"); // Set the name of attribute.
-    devattr << w_val; // Add value.
+	Tango::DeviceAttribute devattr("velocity", w_val);
 
 	// Write attributes.
     gapAxesGroup->write_attribute(devattr, false);
@@ -1198,12 +1229,13 @@ void Undulator::read_EngineeringPhaseSpeed(Tango::Attribute &attr)
             // Extract others and compare. If all are the same show speed otherwise show zero.
             replyList[i] >> tempSpeed;
             if(engineeringPhaseAxesSpeed != tempSpeed)
+            {
                 engineeringPhaseAxesSpeed = 0;
+                break;
+            }
         }
         attr.set_quality(Tango::ATTR_VALID);
     }
-
-
     //  Set the attribute value
 	attr.set_value(&engineeringPhaseAxesSpeed);
 
@@ -1228,9 +1260,7 @@ void Undulator::write_EngineeringPhaseSpeed(Tango::WAttribute &attr)
 	
 	/*----- PROTECTED REGION ID(Undulator::write_EngineeringPhaseSpeed) ENABLED START -----*/
 
-    Tango::DeviceAttribute devattr;
-    devattr.set_name("velocity"); // Set the name of attribute.
-    devattr << w_val; // Add value.
+    Tango::DeviceAttribute devattr("velocity", w_val);
 
     // Write attributes.
     phaseAxesGroup->write_attribute(devattr);
@@ -1275,11 +1305,13 @@ void Undulator::read_EngineeringGapAcceleration(Tango::Attribute &attr)
         {
             replyList[i] >> tempAcc;
             if(engineeringGapAxesAcceleration != tempAcc)
+            {
                 engineeringGapAxesAcceleration = 0;
+                break;
+            }
         }
         attr.set_quality(Tango::ATTR_VALID);
     }
-
     //  Set the attribute value
 	attr.set_value(&engineeringGapAxesAcceleration);
 
@@ -1304,9 +1336,7 @@ void Undulator::write_EngineeringGapAcceleration(Tango::WAttribute &attr)
 	
 	/*----- PROTECTED REGION ID(Undulator::write_EngineeringGapAcceleration) ENABLED START -----*/
 
-	Tango::DeviceAttribute devattr;
-	devattr.set_name("acceleration"); // Set the name of attribute.
-	devattr << w_val; // Add value.
+	Tango::DeviceAttribute devattr("acceleration", w_val);
 
     // Write acceleration attributes.
     gapAxesGroup->write_attribute(devattr);
@@ -1353,11 +1383,13 @@ void Undulator::read_EngineeringPhaseAcceleration(Tango::Attribute &attr)
         {
             replyList[i] >> tempAcc;
             if(engineeringPhaseAxesAcceleration != tempAcc)
+            {
                 engineeringPhaseAxesAcceleration = 0;
+                break;
+            }
         }
         attr.set_quality(Tango::ATTR_VALID);
     }
-
     //  Set the attribute value
     attr.set_value(&engineeringPhaseAxesAcceleration);
 
@@ -1382,9 +1414,7 @@ void Undulator::write_EngineeringPhaseAcceleration(Tango::WAttribute &attr)
 	
 	/*----- PROTECTED REGION ID(Undulator::write_EngineeringPhaseAcceleration) ENABLED START -----*/
 
-    Tango::DeviceAttribute devattr;
-    devattr.set_name("acceleration"); // Set the name of attribute.
-    devattr << w_val; // Add value.
+    Tango::DeviceAttribute devattr("acceleration", w_val);
 
     // Write acceleration attributes.
     phaseAxesGroup->write_attribute(devattr);
@@ -1435,7 +1465,7 @@ void Undulator::read_Coil1(Tango::Attribute &attr)
 	/*----- PROTECTED REGION ID(Undulator::read_Coil1) ENABLED START -----*/
 
 	//	Set the attribute value
-	currentCoil1 = supplies[0].get_current();
+	currentCoil1 = supplies->get_current(0);
 	attr.set_value(&currentCoil1);
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::read_Coil1
@@ -1462,8 +1492,8 @@ void Undulator::write_Coil1(Tango::WAttribute &attr)
 	    Tango::Except::throw_exception("Can't set current when running in automatic mode.","",__PRETTY_FUNCTION__);
 
 	desiredCurrent[0] = w_val;
-	supplies[0].set_current(w_val);
 
+	supplies->set_current(w_val,0);
 	/*----- PROTECTED REGION END -----*/	//	Undulator::write_Coil1
 }
 
@@ -1482,7 +1512,7 @@ void Undulator::read_Coil2(Tango::Attribute &attr)
 	/*----- PROTECTED REGION ID(Undulator::read_Coil2) ENABLED START -----*/
 
 	//	Set the attribute value
-	currentCoil2 = supplies[1].get_current();
+	currentCoil2 = supplies->get_current(1);
 	attr.set_value(&currentCoil2);
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::read_Coil2
@@ -1509,7 +1539,7 @@ void Undulator::write_Coil2(Tango::WAttribute &attr)
 	    Tango::Except::throw_exception("Can't set current when running in automatic mode.","",__PRETTY_FUNCTION__);
 
 	desiredCurrent[1] = w_val;
-	supplies[1].set_current(w_val);
+	supplies->set_current(w_val, 1);
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::write_Coil2
 }
@@ -1529,7 +1559,7 @@ void Undulator::read_Coil3(Tango::Attribute &attr)
 	/*----- PROTECTED REGION ID(Undulator::read_Coil3) ENABLED START -----*/
 
 	//	Set the attribute value
-	currentCoil3 = supplies[2].get_current();
+	currentCoil3 = supplies->get_current(2);
 	attr.set_value(&currentCoil3);
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::read_Coil3
@@ -1556,7 +1586,7 @@ void Undulator::write_Coil3(Tango::WAttribute &attr)
 	    Tango::Except::throw_exception("Can't set current when running in automatic mode.","",__PRETTY_FUNCTION__);
 
 	desiredCurrent[2] = w_val;
-	supplies[2].set_current(w_val);
+	supplies->set_current(w_val, 2);
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::write_Coil3
 }
@@ -1575,8 +1605,9 @@ void Undulator::read_Coil4(Tango::Attribute &attr)
 	DEBUG_STREAM << "Undulator::read_Coil4(Tango::Attribute &attr) entering... " << endl;
 	/*----- PROTECTED REGION ID(Undulator::read_Coil4) ENABLED START -----*/
 
+
 	//	Set the attribute value
-	currentCoil4 = supplies[3].get_current();
+	currentCoil4 = supplies->get_current(3);
 	attr.set_value(&currentCoil4);
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::read_Coil4
@@ -1603,7 +1634,7 @@ void Undulator::write_Coil4(Tango::WAttribute &attr)
 	    Tango::Except::throw_exception("Can't set current when running in automatic mode.","",__PRETTY_FUNCTION__);
 
 	desiredCurrent[3] = w_val;
-	supplies[3].set_current(w_val);
+	supplies->set_current(w_val,3);
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::write_Coil4
 }
@@ -1915,15 +1946,10 @@ void Undulator::load_correction_data(Tango::DevString argin)
 
     dataFileLoaded = true;
 
-
-
 	/*----- PROTECTED REGION END -----*/	//	Undulator::load_correction_data
 
 }
-
-
 	/*----- PROTECTED REGION ID(Undulator::namespace_ending) ENABLED START -----*/
-
 
 /**
  * Calculates final destinations of phase axes depending on desired phase.
@@ -2046,9 +2072,8 @@ void Undulator::set_soft_limits_gap()
     backwardLimits.push_back(convert_to_counts(desiredCenter - desiredTaper/4 - maxGap/2 - offsetsGapVector[3], positionRatioGap)); // BLZ4
 
     galilFunctions->set_gap_limits(forwardLimits, backwardLimits);
-
-
 }
+
 /**
  * Calculates software limits for phase and sets them on DMC.
  */
@@ -2167,10 +2192,8 @@ void Undulator::start_coils_manual()
     pollerThread->set_compensate(false);
 
     for (int i =0; i < 4; i++)
-    {
-        supplies[i].on();
-        supplies[i].set_current(desiredCurrent[i]);
-    }
+        supplies->set_current(desiredCurrent[i], i);
+
 }
 
 void Undulator::start_coils_automatic()
@@ -2178,13 +2201,8 @@ void Undulator::start_coils_automatic()
     if(!dataFileLoaded)
         Tango::Except::throw_exception("Data file is not loaded.","",__PRETTY_FUNCTION__);
 
-    // Turn on the power supplies
-    for (int i = 0; i < 4; i++)
-        supplies[i].on();
-
     // Turn on compensation
     pollerThread->set_compensate(true);
-
 
 }
 

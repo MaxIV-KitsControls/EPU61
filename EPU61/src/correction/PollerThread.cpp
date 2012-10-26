@@ -141,7 +141,8 @@ void PollerThread::apply_correction(const DataItem &active)
 	 */
 	// Apply the correction on the devices
 	for (int i=0;i<4;i++)
-	    undulator.supplies[i].set_current( undulator.data[minItem].coils[i] );
+	    //undulator.supplies[i]->set_current( undulator.data[minItem].coils[i] );
+	    undulator.supplies->set_current(undulator.data[minItem].coils[i], i);
 }
 
 }
