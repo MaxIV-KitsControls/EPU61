@@ -1,0 +1,246 @@
+#=============================================================================
+#
+# file :	Makefile.h
+#
+# description : Makefile for DeviceServer
+#
+# $Author: buteau $
+#
+# $Revision: 1.21 $
+#
+# $Log: Makefile.linux,v $
+# Revision 1.21  2011/07/15 09:47:43  buteau
+# MANTIS 19368
+#
+# Revision 1.20  2011/07/15 09:40:53  buteau
+# MANTIS 19368
+#
+# Revision 1.19  2010/02/01 09:52:10  coquet
+# changed the galil_support path
+#
+# Revision 1.18  2009/01/21 13:24:50  coquet
+# compilation under linux added GapPositionSlit
+# * some function prototypes update for linux compilation
+#
+# Revision 1.17  2008/09/16 08:55:52  coquet
+# bug fix (Merci Frederic Ier) sur Independant Slit :
+# * plantage quand on fait des demandes rapides sur la position
+# * affichage correct de la commande refusée dans l'exception
+#
+# Revision 1.16  2008/05/28 12:06:27  coquet
+# added GalilGearedAxes Tango Class to add suppport for geared axes with user ratio capability
+#
+# Revision 1.15  2007/11/30 09:57:15  coquet
+# added slit support :
+# now supports independant moving (not geared moving) for better positionning accuracy for "bad mecanics" slits
+# very minor change to CoupledAxes class (linux compilation warning correction)
+#
+# Revision 1.14  2007/11/16 09:38:22  leclercq
+# no message
+#
+# Revision 1.13  2007/06/22 08:36:37  dupuy
+# - correction erreur de compil dues à YAT
+#
+# Revision 1.12  2007/06/07 10:23:15  leclercq
+# Switched to yat::ClientSocket
+#
+# Revision 1.11  2007/05/24 07:56:31  leclercq
+# Switched to YAT & Yat4Tango (linux)
+#
+# Revision 1.10  2007/03/16 14:43:40  coquet
+# changed paths for ADTB
+#
+# Revision 1.9	2007/01/31 13:14:33  leclercq
+# Added more Slit support
+#
+# Revision 1.8	2007/01/26 15:41:50  leclercq
+# Added (partial) Slit support
+#
+# Revision 1.7	2007/01/15 16:05:23  leclercq
+# Fixed a bug in GalilAxis.cpp (m_axis mamber was not intialized to null)
+#
+# Revision 1.6	2007/01/08 15:56:14  leclercq
+# Small changes in Makefile.linux
+#
+# Revision 1.5	2007/01/08 15:35:58  leclercq
+# Small changes in Makefile.linux
+#
+# Revision 1.4	2007/01/08 11:24:56  coquet
+# added AxisRawDataReader device
+# this devices offers read-only acces to raw data of an axis (selected by an attribute)
+# added the files AxisRawDataReader*.*,
+# modified ClassFactory, Makefile.vc, Makefile.linux, DevicesGalilV2.dsp Visual Studio project file
+#
+# Revision 1.3	2007/01/05 16:58:57  ounsy
+# -portage linux
+#
+# Revision 1.2	2007/01/05 08:37:51  coquet
+# * bug corrections
+# * now supports negative AxisPositionRatio use it to have a positive move direction opposite to the positive move direction defined by motorist
+# * added ControlBox:GetFirmwareRevision, view the firmware revision command <CTRL>R<CTRL>V
+#
+# Revision 1.1	2006/11/16 15:03:30  coquet
+# Makefile.linux initial import, not tested.
+# might not work.
+#
+# Revision 1.3	2006/03/21 16:59:13  hardion
+# * Add Software Support to Makefile process
+#
+# Revision 1.2	2006/03/21 15:25:20  hardion
+# * Update Pogo
+# * fix bug in Makefile process
+#
+# Revision 1.3	2006/03/14 14:57:34  hardion
+# * Update Makefile process to allow compilation of library
+#
+# Revision 1.2	2006/01/05 16:51:30  hardion
+# * Update Makefile.linux and tango.opt for library use
+#
+#
+#=============================================================================
+
+
+
+#=============================================================================
+# OUTPUT_TYPE can be one of the following :
+#   - 'STATIC_LIB' for a static library (.a)
+#   - 'DYNAMIC_LIB' for a dynamic library (.so)
+#   - 'DEVICE' for a device server (will automatically include and link
+#	     with Tango dependencies)
+#   - 'SIMPLE_EXE' for an executable with no dependency (for exemple the test tool
+#		 of a library with no Tango dependencies)
+#
+OUTPUT_TYPE = DEVICE
+
+#=============================================================================
+# OUTPUT_DIR  is the directory which contains the build result.
+# if not set, the standard location is :
+#	- $HOME/DeviceServers if OUTPUT_TYPE is DEVICE
+#	- ../bin for others
+#
+OUTPUT_DIR =
+
+
+#=============================================================================
+# PACKAGE_NAME is the name of the library/device/exe you want to build
+#   - for a device server, PACKAGE_NAME will be prefixed by 'ds_'
+#   - for a library (static or dynamic), PACKAGE_NAME will be prefixed by 'lib'
+#   - for a simple executable, PACKAGE_NAME will be the name of the executable
+#
+PACKAGE_NAME = ControlBox
+
+#=============================================================================
+# INC_DIR_USER is the list of all include path needed by your sources
+#   - for a device server, tango dependencies are automatically appended
+#   - '-I ../include' and '-I .' are automatically appended in all cases
+#
+# -I$(SOLEIL_ROOT)/hw-support/ace/include for ACE library
+# -I$(SOLEIL_ROOT)/hw-support/asl/include for ASL library
+#-I/hkl/include for HKL library
+# ...etc
+#
+INC_DIR_USER= -I$(SOLEIL_ROOT)/sw-support/YAT4tango/include -I$(SOLEIL_ROOT)/sw-support/YAT/include -I./galil_support
+
+#=============================================================================
+# LIB_DIR_USER is the list of user library directories
+#   - for a device server, tango libraries directories are automatically appended
+#   - '-L ../lib' is automatically appended in all cases
+# -L $(SOLEIL_ROOT)/hw-support/ace/lib for ACE library
+# -L $(SOLEIL_ROOT)/hw-support/asl/lib for ASL library
+# -L $(SOLEIL_ROOT)/sw-support/hkl/lib for HKL library
+# ...etc
+#
+LIB_DIR_USER= -L $(SOLEIL_ROOT)/sw-support/YAT4tango/lib/static/linux -L $(SOLEIL_ROOT)/sw-support/YAT/lib/static/linux
+
+#=============================================================================
+# LFLAGS_USR is the list of user link flags
+#   - for a device server, tango libraries directories are automatically appended
+#   - '-ldl -lpthread' is automatically appended in all cases
+#
+# !!! ATTENTION !!!
+# Be aware that the order matters. 
+# For example if you must link with libA, and if libA depends itself on libB
+# you must use '-lA -lB' in this order as link flags, otherwise you will get
+# 'undefined reference' errors
+#
+# -lACE for ACE
+# -lASL for ASL
+# -lHKL for HKL
+#
+LFLAGS_USR= -lYAT -lYAT4Tango
+
+#=============================================================================
+# CXXFLAGS_USR lists the compilation flags specific for your library/device/exe
+# This is the place where to put your compile-time macros using '-Dmy_macro'
+#
+# -DACE_HAS_EXCEPTIONS -D__ACE_INLINE__ for ACE
+#
+#CXXFLAGS_USR=-D_DEBUG -DYAT_ENABLE_LOG -DYAT_ENABLE_TRACE
+# to turn debug on only on device CXXFLAGS_USR=-g
+#
+#	include Standard TANGO compilation options
+#
+include $(SOLEIL_ROOT)/env/tango.opt
+
+#=============================================================================
+# SVC_OBJS is the list of all objects needed to make the output
+#	
+#		$(OBJDIR)/ClassFactory.o  \
+#		$(OBJDIR)/main.o  \
+#		$(OBJDIR)/$(PACKAGE_NAME)Class.o \
+#		$(OBJDIR)/$(PACKAGE_NAME).o \
+#		$(OBJDIR)/$(PACKAGE_NAME)StateMachine.o
+# 
+# other CPP source file path : 
+CPPDIRUSER=./galil_support
+
+SVC_OBJS =  \
+   $(OBJDIR)/Axis.o\
+   $(OBJDIR)/CoupledAxes.o\
+	 $(OBJDIR)/GearedAxes.o\
+	 $(OBJDIR)/AxisFactory.o\
+	 $(OBJDIR)/AxisStateManager.o\
+	 $(OBJDIR)/Box.o\
+	 $(OBJDIR)/AbstractSlit.o\
+	 $(OBJDIR)/GearedSlit.o\
+	 $(OBJDIR)/IndependantSlit.o\
+	 $(OBJDIR)/GapPositionSlit.o\
+	 $(OBJDIR)/HwIO.o\
+	 $(OBJDIR)/HwStatusProxy.o\
+	 $(OBJDIR)/ObjectManager.o\
+	 $(OBJDIR)/UnsolicitedMsgReader.o\
+	 $(OBJDIR)/ClassFactory.o\
+	 $(OBJDIR)/main.o\
+	 $(OBJDIR)/$(PACKAGE_NAME).o\
+	 $(OBJDIR)/$(PACKAGE_NAME)Class.o\
+	 $(OBJDIR)/$(PACKAGE_NAME)StateMachine.o\
+	 $(OBJDIR)/InitTypeParser.o\
+	 $(OBJDIR)/GalilAxisClass.o\
+	 $(OBJDIR)/GalilAxis.o\
+	 $(OBJDIR)/GalilAxisStateMachine.o\
+	 $(OBJDIR)/GalilCoupledAxesClass.o\
+	 $(OBJDIR)/GalilCoupledAxes.o\
+	 $(OBJDIR)/GalilCoupledAxesStateMachine.o\
+	 $(OBJDIR)/GalilGearedAxesClass.o\
+	 $(OBJDIR)/GalilGearedAxes.o\
+	 $(OBJDIR)/GalilGearedAxesStateMachine.o\
+	 $(OBJDIR)/GalilSlitClass.o\
+	 $(OBJDIR)/GalilSlit.o\
+	 $(OBJDIR)/GalilSlitStateMachine.o\
+	 $(OBJDIR)/AxisRawDataReaderClass.o\
+	 $(OBJDIR)/AxisRawDataReader.o\
+	 $(OBJDIR)/AxisRawDataReaderStateMachine.o
+
+#
+# Verbose mode
+#
+#.SILENT:
+
+#
+#	include common targets
+#
+include $(SOLEIL_ROOT)/env/common_target.opt
+ 
+
+
+

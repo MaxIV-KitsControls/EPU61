@@ -22,7 +22,9 @@
 #=============================================================================
 # MAKE_ENV is the path to find common environment to buil project
 #
-MAKE_ENV = /usr/local/share/pogo/preferences
+ifndef MAKE_ENV
+	MAKE_ENV = /usr/local/share/pogo/preferences
+endif
 
 #=============================================================================
 # PACKAGE_NAME is the name of the library/device/exe you want to build
@@ -37,7 +39,9 @@ RELEASE      = Release_$(MAJOR_VERS)_$(MINOR_VERS)
 # # - DEBUG     : debug symbols - no optimization
 # # - OPTIMIZED : no debug symbols - optimization level set to O2
 # #-----------------------------------------------------------------------------
+ifndef RELEASE_TYPE
 RELEASE_TYPE = DEBUG
+endif
 
 #=============================================================================
 # OUTPUT_TYPE can be one of the following :
@@ -133,12 +137,14 @@ SVC_OBJS =      \
             $(OBJDIR)/$(PACKAGE_NAME)StateMachine.o \
             $(OBJDIR)/ClassFactory.o  \
             $(OBJDIR)/main.o \
-            $(OBJDIR)/insertion/UpdaterThread.o \
+            $(OBJDIR)/insertion/PollerThread.o \
+            $(OBJDIR)/insertion/Communicator.o \
+            $(OBJDIR)/insertion/GalilCommunicator.o \
+            $(OBJDIR)/insertion/StateProcessor.o \
+            $(OBJDIR)/insertion/FlagsProcessor.o \
             $(OBJDIR)/correction/DataItem.o \
-            $(OBJDIR)/correction/PollerThread.o \
-            $(OBJDIR)/GalilCommunicator.o \
-            $(OBJDIR)/powersupply/PowerSupply.o \
-            $(OBJDIR)/powersupply/PowerSupplyThread.o \
+            $(OBJDIR)/correction/CorrectionCoils.o \
+            $(OBJDIR)/powersupply/PowerSupplies.o \
             $(ADDITIONAL_OBJS) 
 
 

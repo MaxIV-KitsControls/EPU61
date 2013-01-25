@@ -1,0 +1,209 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+<Title> Tango Device Server User's Guide </Title>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#7F00FF" ALINK="#FF0000">
+
+<P><!-------TITLE------></P>
+
+<TABLE BORDER="0" WIDTH="100%">
+    <TR>
+        <TD ALIGN="left">
+			<A HREF="http://www.esrf.fr/" TARGET=new>
+			<IMG SRC="http://controle/icons/esrf_logo.gif" BORDER=0></A>
+		</Td>
+        <TD ALIGN="center">
+			<A HREF="http://www.elettra.trieste.it/" TARGET=new>
+			<IMG SRC="http://controle/icons/elettra_logo.gif" BORDER=0></A>
+
+		</Td>
+        <TD ALIGN="center">
+			<A HREF="http://www.synchrotron-soleil.fr/" TARGET=new>
+			<IMG SRC="http://controle/icons/soleil_logo.gif" BORDER=0></A>
+		</Td>
+        <TD ALIGN="right">
+			<A HREF="http://www.cells.es/" TARGET=new>
+			<IMG SRC="http://controle/icons/alba_logo.gif" BORDER=0></A>
+		</Td>
+    	 <Td>
+			<H2><FONT COLOR="#7F00FF">
+			<Center><A HREF="http://www.esrf.fr/Infrastructure/Computing/tango/" TARGET="_top">
+					 TANGO </a> <Br> Device Server
+			</Center></FONT>
+    	</Td>
+    </TR>
+</TABLE>
+
+<HR WIDTH="100%"></H5>
+<Br>
+<center>
+<h1>
+GalilSlit		<Br>
+Device Commands Description 		<Br> <Br>
+GalilSlit Class	<Br>
+</h1>
+<b>
+Revision:  - Author: coquet
+</b>
+</center>
+
+
+<Br>
+<Br>
+<Br>
+<A NAME="Init"><!-- --></A>
+<A NAME="Init"><!-- --></A>
+<h2>1 - Init</h2>
+<ul>
+<Li><Strong>Description: </Strong> This commands re-initialise a device keeping the same network connection.<Br>
+After an Init command executed on a device, it is not necessary for client to re-connect to the device.<Br>
+This command first calls the device <i> delete_device() </i>method and then execute its <i> init_device()</i> method.<Br>
+For C++ device server, all the memory allocated in the <i> nit_device() </i> method must be freed in the <i> delete_device() </i> method.<Br>
+The language device desctructor automatically calls the <i> delete_device() </i> method.<Br>&nbsp
+<Li><Strong>Argin:<Br>DEV_VOID</Strong>
+ : none.<Br>&nbsp
+<Li><Strong>Argout:<Br>DEV_VOID</Strong>
+ : none.<Br>&nbsp
+<Li><Strong>Command allowed for: </Strong><Ul>
+<Li>Tango::MOVING<Li>Tango::STANDBY<Li>Tango::FAULT<Li>Tango::ALARM<Li>Tango::OFF</Ul>
+<Br>&nbsp
+</ul><Br>
+<Br>
+<A NAME="State"><!-- --></A>
+<A NAME="State"><!-- --></A>
+<h2>2 - State</h2>
+<ul>
+<Li><Strong>Description: </Strong> This command gets the device state (stored in its <i>device_state</i> data member) and returns it to the caller.<Br>&nbsp
+<Li><Strong>Argin:<Br>DEV_VOID</Strong>
+ : none.<Br>&nbsp
+<Li><Strong>Argout:<Br>DEV_STATE</Strong>
+ : State Code<Br>&nbsp
+<Li><Strong>Command allowed for: </Strong><Ul>
+<Li>Tango::MOVING<Li>Tango::STANDBY<Li>Tango::FAULT<Li>Tango::ALARM<Li>Tango::OFF</Ul>
+<Br>&nbsp
+</ul><Br>
+<Br>
+<A NAME="Status"><!-- --></A>
+<A NAME="Status"><!-- --></A>
+<h2>3 - Status</h2>
+<ul>
+<Li><Strong>Description: </Strong> This command gets the device status (stored in its <i>device_status</i> data member) and returns it to the caller.<Br>&nbsp
+<Li><Strong>Argin:<Br>DEV_VOID</Strong>
+ : none.<Br>&nbsp
+<Li><Strong>Argout:<Br>CONST_DEV_STRING</Strong>
+ : Status description<Br>&nbsp
+<Li><Strong>Command allowed for: </Strong><Ul>
+<Li>Tango::MOVING<Li>Tango::STANDBY<Li>Tango::FAULT<Li>Tango::ALARM<Li>Tango::OFF</Ul>
+<Br>&nbsp
+</ul><Br>
+<Br>
+<A NAME="Stop"><!-- --></A>
+<A NAME="Stop"><!-- --></A>
+<h2>4 - Stop</h2>
+<ul>
+<Li><Strong>Description: </Strong> stops any movement on the slit<Br>&nbsp
+<Li><Strong>Argin:<Br>DEV_VOID</Strong>
+ : <Br>&nbsp
+<Li><Strong>Argout:<Br>DEV_VOID</Strong>
+ : <Br>&nbsp
+<Li><Strong>Command allowed for: </Strong><Ul>
+<Li>Tango::MOVING<Li>Tango::STANDBY<Li>Tango::FAULT<Li>Tango::ALARM<Li>Tango::OFF</Ul>
+<Br>&nbsp
+</ul><Br>
+<Br>
+<A NAME="SetIndependantMode"><!-- --></A>
+<A NAME="SetIndependantMode"><!-- --></A>
+<h2>5 - SetIndependantMode</h2>
+<ul>
+<Li><Strong>Description: </Strong> For slits with independant motorized blades,allow motors to move independantly.
+To be called before moving motors with their respective GalilAxis Device Servers<Br>&nbsp
+<Li><Strong>Argin:<Br>DEV_VOID</Strong>
+ : <Br>&nbsp
+<Li><Strong>Argout:<Br>DEV_VOID</Strong>
+ : <Br>&nbsp
+<Li><Strong>Command allowed for: </Strong><Ul>
+<Li>Tango::STANDBY<Li>Tango::FAULT<Li>Tango::ALARM<Li>Tango::OFF</Ul>
+<Br>&nbsp
+</ul><Br>
+<Br>
+<A NAME="Off"><!-- --></A>
+<A NAME="Off"><!-- --></A>
+<h2>6 - Off</h2>
+<ul>
+<Li><Strong>Description: </Strong> turns Off the 2 motors of the slit if allowed (not running,... same conditions as GalilAxis)<Br>&nbsp
+<Li><Strong>Argin:<Br>DEV_VOID</Strong>
+ : <Br>&nbsp
+<Li><Strong>Argout:<Br>DEV_VOID</Strong>
+ : <Br>&nbsp
+<Li><Strong>Command allowed for: </Strong><Ul>
+<Li>Tango::MOVING<Li>Tango::STANDBY<Li>Tango::FAULT<Li>Tango::ALARM<Li>Tango::OFF</Ul>
+<Br>&nbsp
+</ul><Br>
+<Br>
+<A NAME="On"><!-- --></A>
+<A NAME="On"><!-- --></A>
+<h2>7 - On</h2>
+<ul>
+<Li><Strong>Description: </Strong> turns On the 2 motors if allowed (same conditions as GalilAxis)<Br>&nbsp
+<Li><Strong>Argin:<Br>DEV_VOID</Strong>
+ : <Br>&nbsp
+<Li><Strong>Argout:<Br>DEV_VOID</Strong>
+ : <Br>&nbsp
+<Li><Strong>Command allowed for: </Strong><Ul>
+<Li>Tango::MOVING<Li>Tango::STANDBY<Li>Tango::FAULT<Li>Tango::ALARM<Li>Tango::OFF</Ul>
+<Br>&nbsp
+</ul><Br>
+<Br>
+<A NAME="ComputeNewGapOffset"><!-- --></A>
+<A NAME="ComputeNewGapOffset"><!-- --></A>
+<h2>8 - ComputeNewGapOffset</h2>
+<ul>
+<Li><Strong>Description: </Strong> computes and sets the gap offset as you want to see it here and now
+eg you have a gap = 10 and offset = 0
+you want it to be 9
+it will set the gapOffset to -1 and you will see gap = 9
+acts only on gapOffset
+does not modify motors offsets
+
+
+<Br>&nbsp
+<Li><Strong>Argin:<Br>DEV_DOUBLE</Strong>
+ : the gap you want to have here and now<Br>&nbsp
+<Li><Strong>Argout:<Br>DEV_VOID</Strong>
+ : <Br>&nbsp
+<Li><Strong>Command allowed for: </Strong><Ul>
+<Li>Tango::MOVING<Li>Tango::STANDBY<Li>Tango::FAULT<Li>Tango::ALARM<Li>Tango::OFF</Ul>
+<Br>&nbsp
+</ul><Br>
+<Br>
+<A NAME="ComputeNewPositionOffset"><!-- --></A>
+<A NAME="ComputeNewPositionOffset"><!-- --></A>
+<h2>9 - ComputeNewPositionOffset</h2>
+<ul>
+<Li><Strong>Description: </Strong> computes and sets the position offset as you want to see it here and now
+eg you have a position = 10 and offset = 0
+you want it to be 9
+it will set the positionOffset to -1 and you will see position = 9
+acts only on positionOffset
+does not modify motors offsets
+
+
+<Br>&nbsp
+<Li><Strong>Argin:<Br>DEV_DOUBLE</Strong>
+ : the position you want to have here and now<Br>&nbsp
+<Li><Strong>Argout:<Br>DEV_VOID</Strong>
+ : <Br>&nbsp
+<Li><Strong>Command allowed for: </Strong><Ul>
+<Li>Tango::MOVING<Li>Tango::STANDBY<Li>Tango::FAULT<Li>Tango::ALARM<Li>Tango::OFF</Ul>
+<Br>&nbsp
+</ul><Br>
+<Br>
+
+<Center>
+<Br>
+<HR WIDTH="100%"></H5>
+<H3> ESRF - Software Engineering Group </H3>
+</Center>
+</body>
+</html>

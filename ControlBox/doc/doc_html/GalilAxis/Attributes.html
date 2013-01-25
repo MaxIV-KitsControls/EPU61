@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+<Title> Tango Device Server User's Guide </Title>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#7F00FF" ALINK="#FF0000">
+
+<P><!-------TITLE------></P>
+
+<TABLE BORDER="0" WIDTH="100%">
+    <TR>
+        <TD ALIGN="left">
+			<A HREF="http://www.esrf.fr/" TARGET=new>
+			<IMG SRC="http://controle/icons/esrf_logo.gif" BORDER=0></A>
+		</Td>
+        <TD ALIGN="center">
+			<A HREF="http://www.elettra.trieste.it/" TARGET=new>
+			<IMG SRC="http://controle/icons/elettra_logo.gif" BORDER=0></A>
+
+		</Td>
+        <TD ALIGN="center">
+			<A HREF="http://www.synchrotron-soleil.fr/" TARGET=new>
+			<IMG SRC="http://controle/icons/soleil_logo.gif" BORDER=0></A>
+		</Td>
+        <TD ALIGN="right">
+			<A HREF="http://www.cells.es/" TARGET=new>
+			<IMG SRC="http://controle/icons/alba_logo.gif" BORDER=0></A>
+		</Td>
+    	 <Td>
+			<H2><FONT COLOR="#7F00FF">
+			<Center><A HREF="http://www.esrf.fr/Infrastructure/Computing/tango/" TARGET="_top">
+					 TANGO </a> <Br> Device Server
+			</Center></FONT>
+    	</Td>
+    </TR>
+</TABLE>
+
+<HR WIDTH="100%"></H5>
+<Br>
+<center>
+<h1>
+Axis		<Br>
+Device Attributes Description 		<Br> <Br>
+GalilAxis Class	<Br>
+</h1>
+<b>
+Revision:  - Author: 
+</b>
+</center>
+
+
+<Br>
+<Table Border=2 Cellpadding=3 CELLSPACING=0 WIDTH="100%">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<Td COLSPAN=4> <Font Size=+2><Center><b>Scalar Attributes</b></td></Font></Center>
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<Td><Center><b>Attribute name</b></td></Center>
+<Td><Center><b>Data Type</b></td></Center>
+<Td><Center><b>R/W Type</b></td></Center>
+<Td><Center><b>Expert</b></td></Center>
+<Font Size=-1>
+<Tr><Td><b>position</b>: <Font Size=-1>read : position of Axis in UserUnits write : setpoint, absolute position to reach</Font></Td>
+<Td><Center><Font Size=-1>DEV_DOUBLE</Font></Center></Td><Td><Center><Font Size=-1>READ_WRITE</Font></Center></Td><Td><Center><Font Size=-1>No</Font></Center></Td></Tr>
+
+<Font Size=-1>
+<Tr><Td><b>acceleration</b>: <Font Size=-1>Acceleration for all movements in UserUnits /sec²</Font></Td>
+<Td><Center><Font Size=-1>DEV_DOUBLE</Font></Center></Td><Td><Center><Font Size=-1>READ_WRITE</Font></Center></Td><Td><Center><Font Size=-1>Yes</Font></Center></Td></Tr>
+
+<Font Size=-1>
+<Tr><Td><b>deceleration</b>: <Font Size=-1>Deceleration for all movements in UserUnits /sec²</Font></Td>
+<Td><Center><Font Size=-1>DEV_DOUBLE</Font></Center></Td><Td><Center><Font Size=-1>READ_WRITE</Font></Center></Td><Td><Center><Font Size=-1>Yes</Font></Center></Td></Tr>
+
+<Font Size=-1>
+<Tr><Td><b>velocity</b>: <Font Size=-1>Velocity for all movements in UserUnits /sec</Font></Td>
+<Td><Center><Font Size=-1>DEV_DOUBLE</Font></Center></Td><Td><Center><Font Size=-1>READ_WRITE</Font></Center></Td><Td><Center><Font Size=-1>Yes</Font></Center></Td></Tr>
+
+<Font Size=-1>
+<Tr><Td><b>accuracy</b>: <Font Size=-1>Accuracy of a movement: e.g: AxisMotionAccuracy=13;  AxisCurrentPosition= 150  if AxisGoToPosition(160): No move because: 160 - 150 < 13</Font></Td>
+<Td><Center><Font Size=-1>DEV_DOUBLE</Font></Center></Td><Td><Center><Font Size=-1>READ_WRITE</Font></Center></Td><Td><Center><Font Size=-1>Yes</Font></Center></Td></Tr>
+
+<Font Size=-1>
+<Tr><Td><b>backlash</b>: <Font Size=-1>Compensation for mechanical backlash by doing final move in the direction defined by sign of backlash</Font></Td>
+<Td><Center><Font Size=-1>DEV_DOUBLE</Font></Center></Td><Td><Center><Font Size=-1>READ_WRITE</Font></Center></Td><Td><Center><Font Size=-1>Yes</Font></Center></Td></Tr>
+
+<Font Size=-1>
+<Tr><Td><b>offset</b>: <Font Size=-1>adds an Offset in user units to AxisCurrentPosition Lets unchanged AxisCurrentEncoderPosition and AxisCurrentMotorPosition Offset in user unit  added to the value read on hardware   Default : 0 </Font></Td>
+<Td><Center><Font Size=-1>DEV_DOUBLE</Font></Center></Td><Td><Center><Font Size=-1>READ_WRITE</Font></Center></Td><Td><Center><Font Size=-1>Yes</Font></Center></Td></Tr>
+
+<Font Size=-1>
+<Tr><Td><b>backwardLimitSwitch</b>: <Font Size=-1>Backward limit switch state</Font></Td>
+<Td><Center><Font Size=-1>DEV_BOOLEAN</Font></Center></Td><Td><Center><Font Size=-1>READ</Font></Center></Td><Td><Center><Font Size=-1>No</Font></Center></Td></Tr>
+
+<Font Size=-1>
+<Tr><Td><b>forwardLimitSwitch</b>: <Font Size=-1>Forward limit switch state</Font></Td>
+<Td><Center><Font Size=-1>DEV_BOOLEAN</Font></Center></Td><Td><Center><Font Size=-1>READ</Font></Center></Td><Td><Center><Font Size=-1>No</Font></Center></Td></Tr>
+
+</Table>
+</Center>
+<Br><Br><Br><Br><Br>
+
+<Center>
+<Br>
+<HR WIDTH="100%"></H5>
+<H3> ESRF - Software Engineering Group </H3>
+</Center>
+</body>
+</html>

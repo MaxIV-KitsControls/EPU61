@@ -1,0 +1,6 @@
+$undulator  ---- link to undulator device server (tango/maxlab/undulator)
+$gapz1 - $gapz4  ---- links to axes moving gap on controlbox  (tango/maxlab/gapaxis1)
+$phasex1 - $phasex4 ---- links to axes moving phase on controlbox (tango/maxlab/phaseaxis1)
+$gearUp ---- link to GalilGearedAxes moving upper girder  (tango/maxlab/upper)
+$gearLow ---- link to GalilGearedAxes moving lower girder (tango/maxlab/lower)
+$opc ---- link to OPC-bridge device server

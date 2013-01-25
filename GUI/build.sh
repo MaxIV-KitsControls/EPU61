@@ -1,9 +1,14 @@
 #!/bin/bash
 
+
 CD=`dirname $0`
 
-. $CD/setup.opt
 
+taurusuic4  -o undulatorDesigner.py Undulator.ui
+
+. $1
+
+rm gui
 rm -rf out
 mkdir out
 
@@ -22,3 +27,6 @@ do
 		-e "s!\$gearLow!$GEARDOWN!g" \
 		-e "s!\$opc!$OPC!g"  < $file > ./out/$file
 done
+
+chmod a+x ./out/undulator.py
+ln -s ./out/undulator.py ./gui

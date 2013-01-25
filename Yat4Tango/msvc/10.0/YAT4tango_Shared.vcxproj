@@ -1,0 +1,280 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{8D4E6048-08F3-4524-A441-89C904AE3BBB}</ProjectGuid>
+    <RootNamespace>YAT4tango</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>Windows7.1SDK</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>Windows7.1SDK</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>Windows7.1SDK</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>Windows7.1SDK</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">x86-build\bin\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">x64-build\bin\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">debugx86\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">debugx64\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</GenerateManifest>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">x86-build\bin\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">x64-build\bin\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">releasex86\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">releasex64\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</GenerateManifest>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</GenerateManifest>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">yat4tango</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">yat4tangod</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">yat4tangod</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">yat4tango</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <BuildLog>
+      <Path>$(IntDir)BuildLog.htm</Path>
+    </BuildLog>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\src;..\..\include;$(YAT_BASE)\include;$(LOG4TANGO_BASE)\include;$(TANGO_BASE)\include;$(OMNIORB_BASE)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32_LEAN_AND_MEAN;WIN32;_DEBUG;_WINDOWS;_USRDLL;YAT_DLL;YAT4TANGO_BUILD;YAT4TANGO_DLL;TANGO_HAS_DLL;LOG4TANGO_HAS_DLL;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>x86-build\bin\yat4tangod.pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>omniORB416_rt.lib;omniDynamic416_rt.lib;omnithread34_rt.lib;log4tango.lib;tango726.lib;yat.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>x86-build\bin\yat4tangod.dll</OutputFile>
+      <AdditionalLibraryDirectories>$(YAT_BASE)\lib\shared;$(TANGO_BASE)\lib\shared;$(LOG4TANGO_BASE)\lib\shared;$(OMNIORB_BASE)\lib\shared;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>x86-build\bin\yat4tangod.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>x86-build\lib\shared\yat4tangod.lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+      <ShowProgress>LinkVerboseLib</ShowProgress>
+    </Link>
+    <Bscmake>
+      <SuppressStartupBanner>false</SuppressStartupBanner>
+    </Bscmake>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <BuildLog>
+      <Path>$(IntDir)BuildLog.htm</Path>
+    </BuildLog>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\src;..\..\include;$(YAT_BASE)\include;$(LOG4TANGO_BASE)\include;$(TANGO_BASE)\include;$(OMNIORB_BASE)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;WIN64;WIN32_LEAN_AND_MEAN;_DEBUG;_WINDOWS;_USRDLL;YAT_DLL;YAT4TANGO_BUILD;YAT4TANGO_DLL;TANGO_HAS_DLL;LOG4TANGO_HAS_DLL;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>x64-build\bin\yat4tangod.pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>omniORB416_rt.lib;omniDynamic416_rt.lib;omnithread34_rt.lib;log4tango.lib;tango726.lib;yat.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>x64-build\bin\yat4tangod.dll</OutputFile>
+      <AdditionalLibraryDirectories>$(YAT_BASE)\lib\shared;$(TANGO_BASE)\lib\shared;$(LOG4TANGO_BASE)\lib\shared;$(OMNIORB_BASE)\lib\shared;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>x64-build\bin\yat4tangod.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>x64-build\lib\shared\yat4tangod.lib</ImportLibrary>
+      <ShowProgress>LinkVerboseLib</ShowProgress>
+    </Link>
+    <Bscmake>
+      <SuppressStartupBanner>false</SuppressStartupBanner>
+    </Bscmake>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <BuildLog>
+      <Path>$(IntDir)BuildLog.htm</Path>
+    </BuildLog>
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\src;..\..\include;$(YAT_BASE)\include;$(LOG4TANGO_BASE)\include;$(TANGO_BASE)\include;$(OMNIORB_BASE)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32_LEAN_AND_MEAN;WIN32;NDEBUG;_WINDOWS;_USRDLL;YAT_DLL;YAT4TANGO_BUILD;YAT4TANGO_DLL;TANGO_HAS_DLL;LOG4TANGO_HAS_DLL;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>x86-build\bin\yat4tango.pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>omniORB416_rt.lib;omniDynamic416_rt.lib;omnithread34_rt.lib;log4tango.lib;tango726.lib;yat.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>x86-build\bin\yat4tango.dll</OutputFile>
+      <AdditionalLibraryDirectories>$(YAT_BASE)\lib\shared;$(TANGO_BASE)\lib\shared;$(LOG4TANGO_BASE)\lib\shared;$(OMNIORB_BASE)\lib\shared;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>x86-build\bin\yat4tango.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>x86-build\lib\shared\yat4tango.lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+      <ShowProgress>LinkVerboseLib</ShowProgress>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <BuildLog>
+      <Path>$(IntDir)BuildLog.htm</Path>
+    </BuildLog>
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\src;..\..\include;$(YAT_BASE)\include;$(LOG4TANGO_BASE)\include;$(TANGO_BASE)\include;$(OMNIORB_BASE)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;WIN64;WIN32_LEAN_AND_MEAN;NDEBUG;_WINDOWS;_USRDLL;YAT_DLL;YAT4TANGO_BUILD;YAT4TANGO_DLL;TANGO_HAS_DLL;LOG4TANGO_HAS_DLL;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>x64-build\bin\yat4tango.pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>omniORB416_rt.lib;omniDynamic416_rt.lib;omnithread34_rt.lib;log4tango.lib;tango726.lib;yat.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>x64-build\bin\yat4tango.dll</OutputFile>
+      <AdditionalLibraryDirectories>$(YAT_BASE)\lib\shared;$(TANGO_BASE)\lib\shared;$(LOG4TANGO_BASE)\lib\shared;$(OMNIORB_BASE)\lib\shared;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>x64-build\bin\yat4tango.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>x64-build\lib\shared\yat4tango.lib</ImportLibrary>
+      <ShowProgress>LinkVerboseLib</ShowProgress>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\yat4tango\AttributeGroup.h" />
+    <ClInclude Include="..\..\include\yat4tango\CommonHeader.h" />
+    <ClInclude Include="..\..\include\yat4tango\DeviceTask.h" />
+    <ClInclude Include="..\..\include\yat4tango\DynamicAttr.h" />
+    <ClInclude Include="..\..\include\yat4tango\DynamicAttrHelper.h" />
+    <ClInclude Include="..\..\include\yat4tango\DynamicAttribute.h" />
+    <ClInclude Include="..\..\include\yat4tango\DynamicAttributeManager.h" />
+    <ClInclude Include="..\..\include\yat4tango\ExceptionHelper.h" />
+    <ClInclude Include="..\..\include\yat4tango\Export.h" />
+    <ClInclude Include="..\..\include\yat4tango\InnerAppender.h" />
+    <ClInclude Include="..\..\include\yat4tango\LogHelper.h" />
+    <ClInclude Include="..\..\include\yat4tango\MonitoredDeviceTask.h" />
+    <ClInclude Include="..\..\include\yat4tango\PlugInAttr.h" />
+    <ClInclude Include="..\..\include\yat4tango\PlugInHelper.h" />
+    <ClInclude Include="..\..\include\yat4tango\ThreadSafeDeviceProxy.h" />
+    <ClInclude Include="..\..\include\yat4tango\ThreadSafeDeviceProxyHelper.h" />
+    <ClInclude Include="..\..\include\yat4tango\Types.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\include\yat4tango\DynamicAttr.tpp">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\include\yat4tango\DynamicAttrHelper.i" />
+    <None Include="..\..\include\yat4tango\PlugInAttr.i" />
+    <None Include="..\..\include\yat4tango\PlugInAttr.tpp" />
+    <None Include="..\..\include\yat4tango\PlugInHelper.i" />
+    <None Include="..\..\include\yat4tango\ThreadSafeDeviceProxy.i" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\AttributeGroup.cpp" />
+    <ClCompile Include="..\..\src\DeviceTask.cpp" />
+    <ClCompile Include="..\..\src\DynamicAttr.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\src\DynamicAttrHelper.cpp" />
+    <ClCompile Include="..\..\src\DynamicAttribute.cpp" />
+    <ClCompile Include="..\..\src\DynamicAttributeManager.cpp" />
+    <ClCompile Include="..\..\src\ExceptionHelper.cpp" />
+    <ClCompile Include="..\..\src\InnerAppender.cpp" />
+    <ClCompile Include="..\..\src\MonitoredAttribute.cpp" />
+    <ClCompile Include="..\..\src\MonitoredDevice.cpp" />
+    <ClCompile Include="..\..\src\MonitoredDeviceTask.cpp" />
+    <ClCompile Include="..\..\src\PlugInAttr.cpp" />
+    <ClCompile Include="..\..\src\PlugInHelper.cpp" />
+    <ClCompile Include="..\..\src\ThreadSafeDeviceProxy.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

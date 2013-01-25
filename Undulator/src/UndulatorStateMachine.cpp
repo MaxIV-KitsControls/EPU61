@@ -103,12 +103,17 @@ bool Undulator::is_EngineeringLock_allowed(Tango::AttReqType type)
 	//	Check if access type.
 	if ( type!=Tango::READ_REQ )
 	{
-			//	Not any excluded states for EngineeringLock attribute in WRITE access.
+		if (	//	Compare device state with not allowed states for WRITE 
+			get_state() == Tango::FAULT	|| 
+			get_state() == Tango::MOVING)
+		{
 		
 	/*----- PROTECTED REGION ID(Undulator::EngineeringLockStateAllowed_WRITE) ENABLED START -----*/
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::EngineeringLockStateAllowed_WRITE
 
+			return false;
+		}
 		return true;
 	}
 	else
@@ -133,12 +138,17 @@ bool Undulator::is_GapAcceleration_allowed(Tango::AttReqType type)
 	//	Check if access type.
 	if ( type!=Tango::READ_REQ )
 	{
-			//	Not any excluded states for GapAcceleration attribute in WRITE access.
+		if (	//	Compare device state with not allowed states for WRITE 
+			get_state() == Tango::FAULT	|| 
+			get_state() == Tango::MOVING)
+		{
 		
 	/*----- PROTECTED REGION ID(Undulator::GapAccelerationStateAllowed_WRITE) ENABLED START -----*/
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::GapAccelerationStateAllowed_WRITE
 
+			return false;
+		}
 		return true;
 	}
 	else
@@ -163,12 +173,17 @@ bool Undulator::is_GapSpeed_allowed(Tango::AttReqType type)
 	//	Check if access type.
 	if ( type!=Tango::READ_REQ )
 	{
-			//	Not any excluded states for GapSpeed attribute in WRITE access.
+		if (	//	Compare device state with not allowed states for WRITE 
+			get_state() == Tango::FAULT	|| 
+			get_state() == Tango::MOVING)
+		{
 		
 	/*----- PROTECTED REGION ID(Undulator::GapSpeedStateAllowed_WRITE) ENABLED START -----*/
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::GapSpeedStateAllowed_WRITE
 
+			return false;
+		}
 		return true;
 	}
 	else
@@ -193,12 +208,17 @@ bool Undulator::is_PhaseAcceleration_allowed(Tango::AttReqType type)
 	//	Check if access type.
 	if ( type!=Tango::READ_REQ )
 	{
-			//	Not any excluded states for PhaseAcceleration attribute in WRITE access.
+		if (	//	Compare device state with not allowed states for WRITE 
+			get_state() == Tango::FAULT	|| 
+			get_state() == Tango::MOVING)
+		{
 		
 	/*----- PROTECTED REGION ID(Undulator::PhaseAccelerationStateAllowed_WRITE) ENABLED START -----*/
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::PhaseAccelerationStateAllowed_WRITE
 
+			return false;
+		}
 		return true;
 	}
 	else
@@ -223,12 +243,17 @@ bool Undulator::is_PhaseMode_allowed(Tango::AttReqType type)
 	//	Check if access type.
 	if ( type!=Tango::READ_REQ )
 	{
-			//	Not any excluded states for PhaseMode attribute in WRITE access.
+		if (	//	Compare device state with not allowed states for WRITE 
+			get_state() == Tango::FAULT	|| 
+			get_state() == Tango::MOVING)
+		{
 		
 	/*----- PROTECTED REGION ID(Undulator::PhaseModeStateAllowed_WRITE) ENABLED START -----*/
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::PhaseModeStateAllowed_WRITE
 
+			return false;
+		}
 		return true;
 	}
 	else
@@ -290,12 +315,17 @@ bool Undulator::is_PhaseSpeed_allowed(Tango::AttReqType type)
 	//	Check if access type.
 	if ( type!=Tango::READ_REQ )
 	{
-			//	Not any excluded states for PhaseSpeed attribute in WRITE access.
+		if (	//	Compare device state with not allowed states for WRITE 
+			get_state() == Tango::FAULT	|| 
+			get_state() == Tango::MOVING)
+		{
 		
 	/*----- PROTECTED REGION ID(Undulator::PhaseSpeedStateAllowed_WRITE) ENABLED START -----*/
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::PhaseSpeedStateAllowed_WRITE
 
+			return false;
+		}
 		return true;
 	}
 	else
@@ -320,12 +350,17 @@ bool Undulator::is_TaperAcceleration_allowed(Tango::AttReqType type)
 	//	Check if access type.
 	if ( type!=Tango::READ_REQ )
 	{
-			//	Not any excluded states for TaperAcceleration attribute in WRITE access.
+		if (	//	Compare device state with not allowed states for WRITE 
+			get_state() == Tango::FAULT	|| 
+			get_state() == Tango::MOVING)
+		{
 		
 	/*----- PROTECTED REGION ID(Undulator::TaperAccelerationStateAllowed_WRITE) ENABLED START -----*/
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::TaperAccelerationStateAllowed_WRITE
 
+			return false;
+		}
 		return true;
 	}
 	else
@@ -350,12 +385,17 @@ bool Undulator::is_Taper_allowed(Tango::AttReqType type)
 	//	Check if access type.
 	if ( type!=Tango::READ_REQ )
 	{
-			//	Not any excluded states for Taper attribute in WRITE access.
+		if (	//	Compare device state with not allowed states for WRITE 
+			get_state() == Tango::FAULT	|| 
+			get_state() == Tango::MOVING)
+		{
 		
 	/*----- PROTECTED REGION ID(Undulator::TaperStateAllowed_WRITE) ENABLED START -----*/
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::TaperStateAllowed_WRITE
 
+			return false;
+		}
 		return true;
 	}
 	else
@@ -380,12 +420,17 @@ bool Undulator::is_Offset_allowed(Tango::AttReqType type)
 	//	Check if access type.
 	if ( type!=Tango::READ_REQ )
 	{
-			//	Not any excluded states for Offset attribute in WRITE access.
+		if (	//	Compare device state with not allowed states for WRITE 
+			get_state() == Tango::FAULT	|| 
+			get_state() == Tango::MOVING)
+		{
 		
 	/*----- PROTECTED REGION ID(Undulator::OffsetStateAllowed_WRITE) ENABLED START -----*/
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::OffsetStateAllowed_WRITE
 
+			return false;
+		}
 		return true;
 	}
 	else
@@ -410,12 +455,17 @@ bool Undulator::is_TaperSpeed_allowed(Tango::AttReqType type)
 	//	Check if access type.
 	if ( type!=Tango::READ_REQ )
 	{
-			//	Not any excluded states for TaperSpeed attribute in WRITE access.
+		if (	//	Compare device state with not allowed states for WRITE 
+			get_state() == Tango::FAULT	|| 
+			get_state() == Tango::MOVING)
+		{
 		
 	/*----- PROTECTED REGION ID(Undulator::TaperSpeedStateAllowed_WRITE) ENABLED START -----*/
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::TaperSpeedStateAllowed_WRITE
 
+			return false;
+		}
 		return true;
 	}
 	else
@@ -424,24 +474,6 @@ bool Undulator::is_TaperSpeed_allowed(Tango::AttReqType type)
 	/*----- PROTECTED REGION ID(Undulator::read_TaperSpeedStateAllowed_READ) ENABLED START -----*/
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::read_TaperSpeedStateAllowed_READ
-
-	return true;
-}
-
-//--------------------------------------------------------
-/**
- *	Method      : Undulator::is_LimitsDisabledState_allowed()
- *	Description : Execution allowed for LimitsDisabled attribute.
- */
-//--------------------------------------------------------
-
-bool Undulator::is_LimitsDisabled_allowed(Tango::AttReqType type)
-{
-		//	Not any excluded states for LimitsDisabled attribute in READ access.
-	
-	/*----- PROTECTED REGION ID(Undulator::read_LimitsDisabledStateAllowed_READ) ENABLED START -----*/
-
-	/*----- PROTECTED REGION END -----*/	//	Undulator::read_LimitsDisabledStateAllowed_READ
 
 	return true;
 }
@@ -512,12 +544,17 @@ bool Undulator::is_EngineeringGapSpeed_allowed(Tango::AttReqType type)
 	//	Check if access type.
 	if ( type!=Tango::READ_REQ )
 	{
-			//	Not any excluded states for EngineeringGapSpeed attribute in WRITE access.
+		if (	//	Compare device state with not allowed states for WRITE 
+			get_state() == Tango::FAULT	|| 
+			get_state() == Tango::MOVING)
+		{
 		
 	/*----- PROTECTED REGION ID(Undulator::EngineeringGapSpeedStateAllowed_WRITE) ENABLED START -----*/
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::EngineeringGapSpeedStateAllowed_WRITE
 
+			return false;
+		}
 		return true;
 	}
 	else
@@ -542,12 +579,17 @@ bool Undulator::is_EngineeringPhaseSpeed_allowed(Tango::AttReqType type)
 	//	Check if access type.
 	if ( type!=Tango::READ_REQ )
 	{
-			//	Not any excluded states for EngineeringPhaseSpeed attribute in WRITE access.
+		if (	//	Compare device state with not allowed states for WRITE 
+			get_state() == Tango::FAULT	|| 
+			get_state() == Tango::MOVING)
+		{
 		
 	/*----- PROTECTED REGION ID(Undulator::EngineeringPhaseSpeedStateAllowed_WRITE) ENABLED START -----*/
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::EngineeringPhaseSpeedStateAllowed_WRITE
 
+			return false;
+		}
 		return true;
 	}
 	else
@@ -572,12 +614,17 @@ bool Undulator::is_EngineeringGapAcceleration_allowed(Tango::AttReqType type)
 	//	Check if access type.
 	if ( type!=Tango::READ_REQ )
 	{
-			//	Not any excluded states for EngineeringGapAcceleration attribute in WRITE access.
+		if (	//	Compare device state with not allowed states for WRITE 
+			get_state() == Tango::FAULT	|| 
+			get_state() == Tango::MOVING)
+		{
 		
 	/*----- PROTECTED REGION ID(Undulator::EngineeringGapAccelerationStateAllowed_WRITE) ENABLED START -----*/
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::EngineeringGapAccelerationStateAllowed_WRITE
 
+			return false;
+		}
 		return true;
 	}
 	else
@@ -602,12 +649,17 @@ bool Undulator::is_EngineeringPhaseAcceleration_allowed(Tango::AttReqType type)
 	//	Check if access type.
 	if ( type!=Tango::READ_REQ )
 	{
-			//	Not any excluded states for EngineeringPhaseAcceleration attribute in WRITE access.
+		if (	//	Compare device state with not allowed states for WRITE 
+			get_state() == Tango::FAULT	|| 
+			get_state() == Tango::MOVING)
+		{
 		
 	/*----- PROTECTED REGION ID(Undulator::EngineeringPhaseAccelerationStateAllowed_WRITE) ENABLED START -----*/
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::EngineeringPhaseAccelerationStateAllowed_WRITE
 
+			return false;
+		}
 		return true;
 	}
 	else
@@ -640,126 +692,6 @@ bool Undulator::is_Interlock_allowed(Tango::AttReqType type)
 
 //--------------------------------------------------------
 /**
- *	Method      : Undulator::is_Coil1State_allowed()
- *	Description : Execution allowed for Coil1 attribute.
- */
-//--------------------------------------------------------
-
-bool Undulator::is_Coil1_allowed(Tango::AttReqType type)
-{
-	//	Check if access type.
-	if ( type!=Tango::READ_REQ )
-	{
-			//	Not any excluded states for Coil1 attribute in WRITE access.
-		
-	/*----- PROTECTED REGION ID(Undulator::Coil1StateAllowed_WRITE) ENABLED START -----*/
-
-	/*----- PROTECTED REGION END -----*/	//	Undulator::Coil1StateAllowed_WRITE
-
-		return true;
-	}
-	else
-		//	Not any excluded states for Coil1 attribute in READ access.
-	
-	/*----- PROTECTED REGION ID(Undulator::read_Coil1StateAllowed_READ) ENABLED START -----*/
-
-	/*----- PROTECTED REGION END -----*/	//	Undulator::read_Coil1StateAllowed_READ
-
-	return true;
-}
-
-//--------------------------------------------------------
-/**
- *	Method      : Undulator::is_Coil2State_allowed()
- *	Description : Execution allowed for Coil2 attribute.
- */
-//--------------------------------------------------------
-
-bool Undulator::is_Coil2_allowed(Tango::AttReqType type)
-{
-	//	Check if access type.
-	if ( type!=Tango::READ_REQ )
-	{
-			//	Not any excluded states for Coil2 attribute in WRITE access.
-		
-	/*----- PROTECTED REGION ID(Undulator::Coil2StateAllowed_WRITE) ENABLED START -----*/
-
-	/*----- PROTECTED REGION END -----*/	//	Undulator::Coil2StateAllowed_WRITE
-
-		return true;
-	}
-	else
-		//	Not any excluded states for Coil2 attribute in READ access.
-	
-	/*----- PROTECTED REGION ID(Undulator::read_Coil2StateAllowed_READ) ENABLED START -----*/
-
-	/*----- PROTECTED REGION END -----*/	//	Undulator::read_Coil2StateAllowed_READ
-
-	return true;
-}
-
-//--------------------------------------------------------
-/**
- *	Method      : Undulator::is_Coil3State_allowed()
- *	Description : Execution allowed for Coil3 attribute.
- */
-//--------------------------------------------------------
-
-bool Undulator::is_Coil3_allowed(Tango::AttReqType type)
-{
-	//	Check if access type.
-	if ( type!=Tango::READ_REQ )
-	{
-			//	Not any excluded states for Coil3 attribute in WRITE access.
-		
-	/*----- PROTECTED REGION ID(Undulator::Coil3StateAllowed_WRITE) ENABLED START -----*/
-
-	/*----- PROTECTED REGION END -----*/	//	Undulator::Coil3StateAllowed_WRITE
-
-		return true;
-	}
-	else
-		//	Not any excluded states for Coil3 attribute in READ access.
-	
-	/*----- PROTECTED REGION ID(Undulator::read_Coil3StateAllowed_READ) ENABLED START -----*/
-
-	/*----- PROTECTED REGION END -----*/	//	Undulator::read_Coil3StateAllowed_READ
-
-	return true;
-}
-
-//--------------------------------------------------------
-/**
- *	Method      : Undulator::is_Coil4State_allowed()
- *	Description : Execution allowed for Coil4 attribute.
- */
-//--------------------------------------------------------
-
-bool Undulator::is_Coil4_allowed(Tango::AttReqType type)
-{
-	//	Check if access type.
-	if ( type!=Tango::READ_REQ )
-	{
-			//	Not any excluded states for Coil4 attribute in WRITE access.
-		
-	/*----- PROTECTED REGION ID(Undulator::Coil4StateAllowed_WRITE) ENABLED START -----*/
-
-	/*----- PROTECTED REGION END -----*/	//	Undulator::Coil4StateAllowed_WRITE
-
-		return true;
-	}
-	else
-		//	Not any excluded states for Coil4 attribute in READ access.
-	
-	/*----- PROTECTED REGION ID(Undulator::read_Coil4StateAllowed_READ) ENABLED START -----*/
-
-	/*----- PROTECTED REGION END -----*/	//	Undulator::read_Coil4StateAllowed_READ
-
-	return true;
-}
-
-//--------------------------------------------------------
-/**
  *	Method      : Undulator::is_CorrectionEnabledState_allowed()
  *	Description : Execution allowed for CorrectionEnabled attribute.
  */
@@ -770,12 +702,17 @@ bool Undulator::is_CorrectionEnabled_allowed(Tango::AttReqType type)
 	//	Check if access type.
 	if ( type!=Tango::READ_REQ )
 	{
-			//	Not any excluded states for CorrectionEnabled attribute in WRITE access.
+		if (	//	Compare device state with not allowed states for WRITE 
+			get_state() == Tango::FAULT	|| 
+			get_state() == Tango::MOVING)
+		{
 		
 	/*----- PROTECTED REGION ID(Undulator::CorrectionEnabledStateAllowed_WRITE) ENABLED START -----*/
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::CorrectionEnabledStateAllowed_WRITE
 
+			return false;
+		}
 		return true;
 	}
 	else
@@ -784,6 +721,42 @@ bool Undulator::is_CorrectionEnabled_allowed(Tango::AttReqType type)
 	/*----- PROTECTED REGION ID(Undulator::read_CorrectionEnabledStateAllowed_READ) ENABLED START -----*/
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::read_CorrectionEnabledStateAllowed_READ
+
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : Undulator::is_AxesFlagsState_allowed()
+ *	Description : Execution allowed for AxesFlags attribute.
+ */
+//--------------------------------------------------------
+
+bool Undulator::is_AxesFlags_allowed(Tango::AttReqType type)
+{
+		//	Not any excluded states for AxesFlags attribute in READ access.
+	
+	/*----- PROTECTED REGION ID(Undulator::read_AxesFlagsStateAllowed_READ) ENABLED START -----*/
+
+	/*----- PROTECTED REGION END -----*/	//	Undulator::read_AxesFlagsStateAllowed_READ
+
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : Undulator::is_CycleTimeState_allowed()
+ *	Description : Execution allowed for CycleTime attribute.
+ */
+//--------------------------------------------------------
+
+bool Undulator::is_CycleTime_allowed(Tango::AttReqType type)
+{
+		//	Not any excluded states for CycleTime attribute in READ access.
+	
+	/*----- PROTECTED REGION ID(Undulator::read_CycleTimeStateAllowed_READ) ENABLED START -----*/
+
+	/*----- PROTECTED REGION END -----*/	//	Undulator::read_CycleTimeStateAllowed_READ
 
 	return true;
 }
@@ -812,7 +785,8 @@ bool Undulator::is_StopGap_allowed(const CORBA::Any &any)
 {
 	if (	//	Compare device state with not allowed states for command 
 		get_state() == Tango::FAULT	|| 
-		get_state() == Tango::DISABLE)
+		get_state() == Tango::DISABLE	|| 
+		get_state() == Tango::ALARM)
 	{
 
 	/*----- PROTECTED REGION ID(Undulator::StopGapStateAllowed) ENABLED START -----*/
@@ -834,35 +808,13 @@ bool Undulator::is_StopGap_allowed(const CORBA::Any &any)
 bool Undulator::is_ToggleStopAll_allowed(const CORBA::Any &any)
 {
 	if (	//	Compare device state with not allowed states for command 
-		get_state() == Tango::FAULT)
+		get_state() == Tango::FAULT	|| 
+		get_state() == Tango::ALARM)
 	{
 
 	/*----- PROTECTED REGION ID(Undulator::ToggleStopAllStateAllowed) ENABLED START -----*/
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::ToggleStopAllStateAllowed
-
-		return false;
-	}
-	return true;
-}
-
-//--------------------------------------------------------
-/**
- *	Method      : Undulator::is_DisableLimitsState_allowed()
- *	Description : Execution allowed for DisableLimits command.
- */
-//--------------------------------------------------------
-
-bool Undulator::is_DisableLimits_allowed(const CORBA::Any &any)
-{
-	if (	//	Compare device state with not allowed states for command 
-		get_state() == Tango::FAULT	|| 
-		get_state() == Tango::MOVING)
-	{
-
-	/*----- PROTECTED REGION ID(Undulator::DisableLimitsStateAllowed) ENABLED START -----*/
-
-	/*----- PROTECTED REGION END -----*/	//	Undulator::DisableLimitsStateAllowed
 
 		return false;
 	}
@@ -880,7 +832,8 @@ bool Undulator::is_StopPhase_allowed(const CORBA::Any &any)
 {
 	if (	//	Compare device state with not allowed states for command 
 		get_state() == Tango::FAULT	|| 
-		get_state() == Tango::DISABLE)
+		get_state() == Tango::DISABLE	|| 
+		get_state() == Tango::ALARM)
 	{
 
 	/*----- PROTECTED REGION ID(Undulator::StopPhaseStateAllowed) ENABLED START -----*/
@@ -904,7 +857,7 @@ bool Undulator::is_CalibrateGap_allowed(const CORBA::Any &any)
 	if (	//	Compare device state with not allowed states for command 
 		get_state() == Tango::FAULT	|| 
 		get_state() == Tango::MOVING	|| 
-		get_state() == Tango::DISABLE)
+		get_state() == Tango::ALARM)
 	{
 
 	/*----- PROTECTED REGION ID(Undulator::CalibrateGapStateAllowed) ENABLED START -----*/
@@ -928,7 +881,7 @@ bool Undulator::is_CalibratePhase_allowed(const CORBA::Any &any)
 	if (	//	Compare device state with not allowed states for command 
 		get_state() == Tango::FAULT	|| 
 		get_state() == Tango::MOVING	|| 
-		get_state() == Tango::DISABLE)
+		get_state() == Tango::ALARM)
 	{
 
 	/*----- PROTECTED REGION ID(Undulator::CalibratePhaseStateAllowed) ENABLED START -----*/
@@ -949,12 +902,42 @@ bool Undulator::is_CalibratePhase_allowed(const CORBA::Any &any)
 
 bool Undulator::is_LoadCorrectionData_allowed(const CORBA::Any &any)
 {
-	//	Not any excluded states for LoadCorrectionData command.
+	if (	//	Compare device state with not allowed states for command 
+		get_state() == Tango::FAULT	|| 
+		get_state() == Tango::MOVING	|| 
+		get_state() == Tango::ALARM)
+	{
 
 	/*----- PROTECTED REGION ID(Undulator::LoadCorrectionDataStateAllowed) ENABLED START -----*/
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::LoadCorrectionDataStateAllowed
 
+		return false;
+	}
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : Undulator::is_ResetDriveState_allowed()
+ *	Description : Execution allowed for ResetDrive command.
+ */
+//--------------------------------------------------------
+
+bool Undulator::is_ResetDrive_allowed(const CORBA::Any &any)
+{
+	if (	//	Compare device state with not allowed states for command 
+		get_state() == Tango::STANDBY	|| 
+		get_state() == Tango::FAULT	|| 
+		get_state() == Tango::MOVING)
+	{
+
+	/*----- PROTECTED REGION ID(Undulator::ResetDriveStateAllowed) ENABLED START -----*/
+
+	/*----- PROTECTED REGION END -----*/	//	Undulator::ResetDriveStateAllowed
+
+		return false;
+	}
 	return true;
 }
 

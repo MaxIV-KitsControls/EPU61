@@ -32,26 +32,29 @@
 #include <tango.h>
 #include <string>
 #include <vector>
-#include "GalilCommunicator.h"
-#include "correction/DataItem.h"
-#include "powersupply/PowerSupplyThread.h"
+#include <insertion/EPUData.h>
+
 
 /*----- PROTECTED REGION END -----*/
 
 
 /**
  *	Undulator class Description:
- *	Device server for controling movement of undulator axes. 
- *	It features gap movement and phase movement in 4 modes.
- *	In expert mode, user can configure the behaviour of axes and restrict certain actions.
+ *	Device server for control of  EPU61 insertion device with Galil DMC 4080 controllers.
+ *	
  */
 
 namespace Undulator_ns
 {
 	/*----- PROTECTED REGION ID(Undulator::Additional Class Declarations) ENABLED START -----*/
 
-    class UpdaterThread;
+
+    class Communicator;
+
     class PollerThread;
+    class CorrectionCoils;
+    class FlagsProcessor;
+    class StateProcessor;
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::Additional Class Declarations
 
@@ -61,35 +64,22 @@ class Undulator : public Tango::Device_4Impl
 
 
 	/*----- PROTECTED REGION ID(Undulator::Data Members) ENABLED START -----*/
-    friend class UpdaterThread;
-    friend class PollerThread;
-
-public:
-
-protected:
-    omni_mutex deviceLock; //!< Lock for shared variables.
-
-
 private:
+ 	omni_mutex deviceLock; //!< Lock for shared variables.
 
     double desiredGap; //!< Target gap in user units.
     double desiredTaper; //!< Target taper in user units.
     double desiredCenter; //!< Target center in user units.
     double desiredOffset; //!< Desired phase offset.
-    short desiredPhase; //!< Selected phase mode.
+    short desiredPhaseMode; //!< Selected phase mode.
 
     vector<double> offsetsGapVector; //!< Holds all gap axes offsets.
     vector<double> offsetsPhaseVector; //!< Holds all phase axes offsets.
 
-    UpdaterThread *stateUpdater; //!< Pointer to updater thread.
+    bool engineeringLock; 	//!< Engineering mode lock.
 
-    bool engineeringLock; //!< Engineering mode lock.
-
-    double gap; //!< Holds the actual gap in user units.
-    double center; //!< Center line in user units. Default 0
-    double taper; //!< Holds the actual taper in user units.
-    double phaseOffset; //!< Current phase offset in user units.
-    short phase; //!< Current phase mode.
+	IDPosition idPosition; 	//!< Current insertion device position
+	IDStatus   idStatus;	//!< Current insertion device status
 
     double taperSpeed; //!< Speed used when adjusting taper.
     double gapSpeed; //!< Speed used when moving gap.
@@ -112,34 +102,20 @@ private:
     double minGap; //!< Minimal gap allowed.
     double maxOpPhase; //!< Maximal phase offset allowed.
 
-    bool limitsDisabled; //!< Limits disabled flag.
-    bool stopAll; //!< Stop all flag.
-    bool gapMoving; //!< Gap axes are moving.
-    bool phaseMoving; //!< Phase axes are moving.
+    double cycleTime; //!< Poller thread cycle time
 
-    bool interlock; //!< Interlock signal.
+    Communicator *comm; 		//!< Pointer to class that does the actual communication. This instance will be used from Tango threaded calls.
 
-    Tango::DeviceData devdata; //!< Device data when sending command and receiving response.
+    PollerThread 	*poller; 				//!< Pointer to poller thread that handles hardware accesses.
+    StateProcessor 	*stateProc; 			//!< Pointer to poller thread processor that handles undulator state based on individual axes state
+    CorrectionCoils *correctionCoils; 		//!< Pointer to coils correction thread processor - updates coils and undulator position
+    FlagsProcessor 	*flagProc;				//!< Pointer to poller thread processor that polls for IDStatus flags
 
-    GalilCommunicator *galilFunctions; //!< Pointer to class dealing with direct DMC commands.
+    bool coilCorrectionEnabled;	//!< Flag indicating whether coil correction is running
 
     Tango::Group *phaseAxesGroup; //!< Group with phase axes.
     Tango::Group *gapAxesGroup; //!< Group with gap axes.
 
-    double currentCoil1; //!< Current for first coil.
-    double currentCoil2; //!< Current for second coil.
-    double currentCoil3; //!< Current for third coil.
-    double currentCoil4; //!< CUrrent for forth coil.
-
-    vector<double> desiredCurrent; //!< Desired current for 4 coils. Manual mode.
-
-    bool coilCorrectionEnabled; //!< Switch for automatic and manual coil correction. (true=automatic)
-    bool dataFileLoaded; //!< Data file for automatic compensation loaded.
-
-    PowerSupplyThread *supplies; //!< Pointer to class controlling power supplies.
-
-    vector<DataItem> data;  //!< Interpolation table, straight entries
-    PollerThread *pollerThread; //!< Pointer to pooling thread
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::Data Members
 
@@ -161,10 +137,42 @@ public:		//	ControlBoxGapProxy:	Proxy to ControlBox with gap DMC
 	string	powerSupplyProxy;
 	//	PowerSupplyAttributeNames:	Attribute name for each power supply to read from and write to.
 	vector<string>	powerSupplyAttributeNames;
+	//	PollerCycleDelay:	Delay, in microseconds, between poller thread cycles
+	Tango::DevULong	pollerCycleDelay;
+	//	StateProcMultiplier:	State processing takes place each N-th poller thread cycle
+	Tango::DevULong	stateProcMultiplier;
+	//	CoilProcMultiplier:	Coil processing takes place every N-th poller cycle
+	Tango::DevULong	coilProcMultiplier;
+	//	FlagsProcMultiplier:	Flags processing happens every N-th poller thread cycle
+	Tango::DevULong	flagsProcMultiplier;
 	
 
 //	Attribute data members
 public:
+	Tango::DevDouble	*attr_Gap_read;
+	Tango::DevBoolean	*attr_EngineeringLock_read;
+	Tango::DevDouble	*attr_GapAcceleration_read;
+	Tango::DevDouble	*attr_GapSpeed_read;
+	Tango::DevDouble	*attr_PhaseAcceleration_read;
+	Tango::DevShort	*attr_PhaseMode_read;
+	Tango::DevDouble	*attr_Phase_read;
+	Tango::DevDouble	*attr_PhaseSpeed_read;
+	Tango::DevDouble	*attr_TaperAcceleration_read;
+	Tango::DevDouble	*attr_Taper_read;
+	Tango::DevDouble	*attr_Offset_read;
+	Tango::DevDouble	*attr_TaperSpeed_read;
+	Tango::DevBoolean	*attr_StopAll_read;
+	Tango::DevBoolean	*attr_GapMoving_read;
+	Tango::DevBoolean	*attr_PhaseMoving_read;
+	Tango::DevDouble	*attr_EngineeringGapSpeed_read;
+	Tango::DevDouble	*attr_EngineeringPhaseSpeed_read;
+	Tango::DevDouble	*attr_EngineeringGapAcceleration_read;
+	Tango::DevDouble	*attr_EngineeringPhaseAcceleration_read;
+	Tango::DevBoolean	*attr_Interlock_read;
+	Tango::DevBoolean	*attr_CorrectionEnabled_read;
+	Tango::DevULong	*attr_AxesFlags_read;
+	Tango::DevDouble	*attr_CycleTime_read;
+
 
 
 //	Constructors and destructors
@@ -392,19 +400,6 @@ public:
 
 
 	/**
-	 *	LimitsDisabled attribute related methods.
-	 *	Description: Indicates that the software limits on the DMCs are disabled. 
- *	             Useful for commissioning and engineering movements.
-	 *
-	 *	Data type:	Tango::DevBoolean
-	 *	Attr type:	Scalar 
-	 */
-	virtual void read_LimitsDisabled(Tango::Attribute &attr);
-	virtual bool is_LimitsDisabled_allowed(Tango::AttReqType type);
-
-
-
-	/**
 	 *	StopAll attribute related methods.
 	 *	Description: Indicates that the undulator is in StopAll state inhibiting all motion.
 	 *
@@ -507,58 +502,6 @@ public:
 
 
 	/**
-	 *	Coil1 attribute related methods.
-	 *	Description: Coil1 Current Setpoint/Readback
-	 *
-	 *	Data type:	Tango::DevDouble
-	 *	Attr type:	Scalar 
-	 */
-	virtual void read_Coil1(Tango::Attribute &attr);
-	virtual void write_Coil1(Tango::WAttribute &attr);
-	virtual bool is_Coil1_allowed(Tango::AttReqType type);
-
-
-
-	/**
-	 *	Coil2 attribute related methods.
-	 *	Description: Coil2 Current Setpoint/Readback
-	 *
-	 *	Data type:	Tango::DevDouble
-	 *	Attr type:	Scalar 
-	 */
-	virtual void read_Coil2(Tango::Attribute &attr);
-	virtual void write_Coil2(Tango::WAttribute &attr);
-	virtual bool is_Coil2_allowed(Tango::AttReqType type);
-
-
-
-	/**
-	 *	Coil3 attribute related methods.
-	 *	Description: Coil3 Current Setpoint/Readback
-	 *
-	 *	Data type:	Tango::DevDouble
-	 *	Attr type:	Scalar 
-	 */
-	virtual void read_Coil3(Tango::Attribute &attr);
-	virtual void write_Coil3(Tango::WAttribute &attr);
-	virtual bool is_Coil3_allowed(Tango::AttReqType type);
-
-
-
-	/**
-	 *	Coil4 attribute related methods.
-	 *	Description: Coil4 Current Setpoint/Readback
-	 *
-	 *	Data type:	Tango::DevDouble
-	 *	Attr type:	Scalar 
-	 */
-	virtual void read_Coil4(Tango::Attribute &attr);
-	virtual void write_Coil4(Tango::WAttribute &attr);
-	virtual bool is_Coil4_allowed(Tango::AttReqType type);
-
-
-
-	/**
 	 *	CorrectionEnabled attribute related methods.
 	 *	Description: Enables correction.
 	 *
@@ -568,6 +511,34 @@ public:
 	virtual void read_CorrectionEnabled(Tango::Attribute &attr);
 	virtual void write_CorrectionEnabled(Tango::WAttribute &attr);
 	virtual bool is_CorrectionEnabled_allowed(Tango::AttReqType type);
+
+
+
+	/**
+	 *	AxesFlags attribute related methods.
+	 *	Description: Represents bit-encoded axis flags
+ *	             
+ *	             Least significant byte, bits 0..7 represent communication error status for motors 1 to 8 respectively
+ *	             More significant byte, bits 8..15 represent encoder error status for motors 1 to 8 respectively
+ *	             More significant byte, bits 15..23 represent drive error status for motors 1 to 8 respectively
+	 *
+	 *	Data type:	Tango::DevULong
+	 *	Attr type:	Scalar 
+	 */
+	virtual void read_AxesFlags(Tango::Attribute &attr);
+	virtual bool is_AxesFlags_allowed(Tango::AttReqType type);
+
+
+
+	/**
+	 *	CycleTime attribute related methods.
+	 *	Description: Time between poller cycles, in milliseconds
+	 *
+	 *	Data type:	Tango::DevDouble
+	 *	Attr type:	Scalar 
+	 */
+	virtual void read_CycleTime(Tango::Attribute &attr);
+	virtual bool is_CycleTime_allowed(Tango::AttReqType type);
 
 
 
@@ -594,12 +565,6 @@ public:
 	virtual bool is_ToggleStopAll_allowed(const CORBA::Any &any);
 
 	/**
-	 *	Command DisableLimits related methods.
-	 */
-	void disable_limits(Tango::DevBoolean argin);
-	virtual bool is_DisableLimits_allowed(const CORBA::Any &any);
-
-	/**
 	 *	Command StopPhase related methods.
 	 */
 	void stop_phase();
@@ -623,10 +588,72 @@ public:
 	void load_correction_data(Tango::DevString argin);
 	virtual bool is_LoadCorrectionData_allowed(const CORBA::Any &any);
 
+	/**
+	 *	Command ResetDrive related methods.
+	 */
+	void reset_drive(Tango::DevUShort argin);
+	virtual bool is_ResetDrive_allowed(const CORBA::Any &any);
+
 
 
 	/*----- PROTECTED REGION ID(Undulator::Additional Method prototypes) ENABLED START -----*/
-protected:
+public:
+
+	/**
+	 *  Mutator method that updates the reported ID positions. Thread-safe.
+	 *
+	 *  @param newPos
+	 */
+	void update_position(const IDPosition &newPos);
+
+	/**
+	 * Mutator method that updates the reported ID status flags. Thread-safe.
+	 */
+	void update_status(const IDStatus &newStatus);
+
+
+	/**
+	 * Updates the poller cycle time attribute - CycleTime
+	 *
+	 * @param newTime new value for the attribute
+	 */
+	void update_cycle_time(double newTime);
+
+	/**
+	 * Getter method to read StopAll status
+	 *
+	 * @returns StopAll status
+	 */
+	bool get_stop_all() const { return idStatus.stopAll; }
+
+	/**
+	 * Getter method to read Interlock status
+	 *
+	 * @returns Interlock status
+	 */
+	bool get_interlock() const { return idStatus.interlock; }
+
+
+	/**
+	 * Getter method to read the axes flags
+	 *
+	 * @returns the axis flags
+	 */
+	unsigned int get_axis_flags() const { return idStatus.axesFlags; }
+
+	/**
+	 * Getter method to read Gap moving status
+	 *
+	 * @returns whether gap is moving
+	 */
+	 bool get_gap_moving() const { return idStatus.gapMoving; }
+
+	/**
+	 * Getter method to read Gap moving status
+	 *
+	 * @returns whether phase is moving
+	 */
+	 bool get_phase_moving() const { return idStatus.phaseMoving; }
 
 
 private:
@@ -636,7 +663,7 @@ private:
 	 *
 	 * @param destinations Destinations vector to fill.
 	 */
-	void calculate_motor_destinations(vector<double> &destinations);
+	void calculate_phase_motor_destinations(vector<double> &destinations);
 
 
 	/**
@@ -657,18 +684,9 @@ private:
 	 * @param ratio Ratio to use for conversion.
 	 * @return Converted user units in counts.
 	 */
-    double convert_to_counts(double number, double ratio);
-
-
-    /**
-     * Calculates software limits for gap and sets them on DMC.
-     */
-    void set_soft_limits_gap();
-
-    /**
-     * Calculates software limits for phase and sets them on DMC.
-     */
-    void set_soft_limits_phase();
+    double convert_to_counts(double number, double ratio) {
+    	 return number / ratio;
+    }
 
     /**
      * Converts counts to micrometers using given ratio.
@@ -677,7 +695,9 @@ private:
      * @param ratio Ratio to use for conversion.
      * @return Converted value.
      */
-    double convert_to_micrometers(double value, double ratio);
+    double convert_to_micrometers(double value, double ratio) {
+    	return value * ratio;
+    }
 
     /**
      * Creates command to start desired gap movement.
@@ -690,17 +710,6 @@ private:
      * and starts phase movement on DMC.
      */
     void start_phase();
-
-    /**
-     * Switches to manual coil correction.
-     */
-    void start_coils_manual();
-
-    /**
-     * Switches to automatic coil correction.
-     */
-    void start_coils_automatic();
-
 
 	/*----- PROTECTED REGION END -----*/	//	Undulator::Additional Method prototypes
 

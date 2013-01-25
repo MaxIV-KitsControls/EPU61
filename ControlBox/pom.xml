@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>fr.soleil</groupId>
+    <artifactId>super-pom-C-CPP-device</artifactId>
+    <version>RELEASE</version>
+  </parent>
+  <groupId>fr.soleil.device</groupId>
+  <artifactId>ControlBox-${aol}-${mode}</artifactId>
+  <version>2.5.4</version>
+  <packaging>nar</packaging>
+  <name>ControlBox</name>
+  <description>ControlBox device</description>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.freehep</groupId>
+        <artifactId>freehep-nar-plugin</artifactId>
+        <configuration>
+            <cpp>
+                <includePaths>
+                    <includePath>src</includePath>
+                    <includePath>src/galil_support</includePath>
+                </includePaths>
+            </cpp>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+    <dependencies>
+        <dependency>
+            <groupId>fr.soleil.lib</groupId>
+            <artifactId>YAT-${aol}-${library}-${mode}</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>fr.soleil.lib</groupId>
+            <artifactId>YAT4Tango-${aol}-${library}-${mode}</artifactId>
+        </dependency>
+    </dependencies>
+  <scm>
+    <connection>${scm.connection.cvs.soleil}:DeviceServer/Generic/Motorisation/ControlBoxV2</connection>
+    <developerConnection>${scm.developerConnection.cvs.soleil}:DeviceServer/Generic/Motorisation/ControlBoxV2</developerConnection>
+    <url>${scm.url.cvs.soleil}/DeviceServer/Generic/Motorisation/ControlBoxV2</url>
+  </scm>
+  <developers>
+    <developer>
+      <id>leclercq</id>
+      <name>leclercq</name>
+      <url>http://controle/</url>
+      <organization>Synchrotron Soleil</organization>
+      <organizationUrl>http://www.synchrotron-soleil.fr</organizationUrl>
+      <roles>
+        <role>manager</role>
+      </roles>
+      <timezone>1</timezone>
+    </developer>
+  </developers>
+</project>

@@ -1,0 +1,16 @@
+Undulator/doc_html
+Undulator/html
+Undulator/src/doc_html
+Undulator/src/html
+Undulator/bin
+Undulator/src/bin
+
+ControlBox/bin
+ControlBox/obj
+ControlBox/src/obj
+
+Yat/lib
+Yat/src/obj
+
+Yat4Tango/lib
+Yat4Tango/src/obj

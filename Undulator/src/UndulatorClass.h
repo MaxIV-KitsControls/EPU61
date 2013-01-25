@@ -240,20 +240,6 @@ public:
 		{return (static_cast<Undulator *>(dev))->is_TaperSpeed_allowed(ty);}
 };
 
-//	Attribute LimitsDisabled class definition
-class LimitsDisabledAttrib: public Tango::Attr
-{
-public:
-	LimitsDisabledAttrib():Attr("LimitsDisabled",
-	                   Tango::DEV_BOOLEAN, Tango::READ) {};
-	~LimitsDisabledAttrib() {};
-	
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<Undulator *>(dev))->read_LimitsDisabled(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<Undulator *>(dev))->is_LimitsDisabled_allowed(ty);}
-};
-
 //	Attribute StopAll class definition
 class StopAllAttrib: public Tango::Attr
 {
@@ -374,70 +360,6 @@ public:
 		{return (static_cast<Undulator *>(dev))->is_Interlock_allowed(ty);}
 };
 
-//	Attribute Coil1 class definition
-class Coil1Attrib: public Tango::Attr
-{
-public:
-	Coil1Attrib():Attr("Coil1",
-	                   Tango::DEV_DOUBLE, Tango::READ_WRITE) {};
-	~Coil1Attrib() {};
-	
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<Undulator *>(dev))->read_Coil1(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<Undulator *>(dev))->write_Coil1(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<Undulator *>(dev))->is_Coil1_allowed(ty);}
-};
-
-//	Attribute Coil2 class definition
-class Coil2Attrib: public Tango::Attr
-{
-public:
-	Coil2Attrib():Attr("Coil2",
-	                   Tango::DEV_DOUBLE, Tango::READ_WRITE) {};
-	~Coil2Attrib() {};
-	
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<Undulator *>(dev))->read_Coil2(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<Undulator *>(dev))->write_Coil2(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<Undulator *>(dev))->is_Coil2_allowed(ty);}
-};
-
-//	Attribute Coil3 class definition
-class Coil3Attrib: public Tango::Attr
-{
-public:
-	Coil3Attrib():Attr("Coil3",
-	                   Tango::DEV_DOUBLE, Tango::READ_WRITE) {};
-	~Coil3Attrib() {};
-	
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<Undulator *>(dev))->read_Coil3(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<Undulator *>(dev))->write_Coil3(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<Undulator *>(dev))->is_Coil3_allowed(ty);}
-};
-
-//	Attribute Coil4 class definition
-class Coil4Attrib: public Tango::Attr
-{
-public:
-	Coil4Attrib():Attr("Coil4",
-	                   Tango::DEV_DOUBLE, Tango::READ_WRITE) {};
-	~Coil4Attrib() {};
-	
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<Undulator *>(dev))->read_Coil4(att);}
-	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<Undulator *>(dev))->write_Coil4(att);}
-	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<Undulator *>(dev))->is_Coil4_allowed(ty);}
-};
-
 //	Attribute CorrectionEnabled class definition
 class CorrectionEnabledAttrib: public Tango::Attr
 {
@@ -452,6 +374,34 @@ public:
 		{(static_cast<Undulator *>(dev))->write_CorrectionEnabled(att);}
 	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
 		{return (static_cast<Undulator *>(dev))->is_CorrectionEnabled_allowed(ty);}
+};
+
+//	Attribute AxesFlags class definition
+class AxesFlagsAttrib: public Tango::Attr
+{
+public:
+	AxesFlagsAttrib():Attr("AxesFlags",
+	                   Tango::DEV_ULONG, Tango::READ) {};
+	~AxesFlagsAttrib() {};
+	
+	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
+		{(static_cast<Undulator *>(dev))->read_AxesFlags(att);}
+	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
+		{return (static_cast<Undulator *>(dev))->is_AxesFlags_allowed(ty);}
+};
+
+//	Attribute CycleTime class definition
+class CycleTimeAttrib: public Tango::Attr
+{
+public:
+	CycleTimeAttrib():Attr("CycleTime",
+	                   Tango::DEV_DOUBLE, Tango::READ) {};
+	~CycleTimeAttrib() {};
+	
+	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
+		{(static_cast<Undulator *>(dev))->read_CycleTime(att);}
+	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
+		{return (static_cast<Undulator *>(dev))->is_CycleTime_allowed(ty);}
 };
 
 
@@ -505,29 +455,6 @@ public:
 	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
 	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
 	{return (static_cast<Undulator *>(dev))->is_ToggleStopAll_allowed(any);}
-};
-
-//	Command DisableLimits class definition
-class DisableLimitsClass : public Tango::Command
-{
-public:
-	DisableLimitsClass(const char   *name,
-	               Tango::CmdArgType in,
-				   Tango::CmdArgType out,
-				   const char        *in_desc,
-				   const char        *out_desc,
-				   Tango::DispLevel  level)
-	:Command(name,in,out,in_desc,out_desc, level)	{};
-
-	DisableLimitsClass(const char   *name,
-	               Tango::CmdArgType in,
-				   Tango::CmdArgType out)
-	:Command(name,in,out)	{};
-	~DisableLimitsClass() {};
-	
-	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
-	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
-	{return (static_cast<Undulator *>(dev))->is_DisableLimits_allowed(any);}
 };
 
 //	Command StopPhase class definition
@@ -620,6 +547,29 @@ public:
 	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
 	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
 	{return (static_cast<Undulator *>(dev))->is_LoadCorrectionData_allowed(any);}
+};
+
+//	Command ResetDrive class definition
+class ResetDriveClass : public Tango::Command
+{
+public:
+	ResetDriveClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
+
+	ResetDriveClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~ResetDriveClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<Undulator *>(dev))->is_ResetDrive_allowed(any);}
 };
 
 

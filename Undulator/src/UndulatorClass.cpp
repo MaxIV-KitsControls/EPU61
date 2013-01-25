@@ -194,26 +194,6 @@ CORBA::Any *ToggleStopAllClass::execute(Tango::DeviceImpl *device, const CORBA::
 }
 //--------------------------------------------------------
 /**
- * method : 		DisableLimitsClass::execute()
- * description : 	method to trigger the execution of the command.
- *
- * @param	device	The device on which the command must be executed
- * @param	in_any	The command input data
- *
- *	returns The command output data (packed in the Any object)
- */
-//--------------------------------------------------------
-CORBA::Any *DisableLimitsClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
-{
-	cout2 << "DisableLimitsClass::execute(): arrived" << endl;
-
-	Tango::DevBoolean	argin;
-	extract(in_any, argin);
-	((static_cast<Undulator *>(device))->disable_limits(argin));
-	return new CORBA::Any();
-}
-//--------------------------------------------------------
-/**
  * method : 		StopPhaseClass::execute()
  * description : 	method to trigger the execution of the command.
  *
@@ -288,6 +268,26 @@ CORBA::Any *LoadCorrectionDataClass::execute(Tango::DeviceImpl *device, const CO
 	Tango::DevString	argin;
 	extract(in_any, argin);
 	((static_cast<Undulator *>(device))->load_correction_data(argin));
+	return new CORBA::Any();
+}
+//--------------------------------------------------------
+/**
+ * method : 		ResetDriveClass::execute()
+ * description : 	method to trigger the execution of the command.
+ *
+ * @param	device	The device on which the command must be executed
+ * @param	in_any	The command input data
+ *
+ *	returns The command output data (packed in the Any object)
+ */
+//--------------------------------------------------------
+CORBA::Any *ResetDriveClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
+{
+	cout2 << "ResetDriveClass::execute(): arrived" << endl;
+
+	Tango::DevUShort	argin;
+	extract(in_any, argin);
+	((static_cast<Undulator *>(device))->reset_drive(argin));
 	return new CORBA::Any();
 }
 
@@ -490,6 +490,66 @@ void UndulatorClass::set_default_property()
 	}
 	else
 		add_wiz_dev_prop(prop_name, prop_desc);
+
+	prop_name = "PollerCycleDelay";
+	prop_desc = "Delay, in microseconds, between poller thread cycles";
+	prop_def  = "20000\n";
+	vect_data.clear();
+	vect_data.push_back("20000");
+	if (prop_def.length()>0)
+	{
+		Tango::DbDatum	data(prop_name);
+		data << vect_data ;
+		dev_def_prop.push_back(data);
+		add_wiz_dev_prop(prop_name, prop_desc,  prop_def);
+	}
+	else
+		add_wiz_dev_prop(prop_name, prop_desc);
+
+	prop_name = "StateProcMultiplier";
+	prop_desc = "State processing takes place each N-th poller thread cycle";
+	prop_def  = "50\n";
+	vect_data.clear();
+	vect_data.push_back("50");
+	if (prop_def.length()>0)
+	{
+		Tango::DbDatum	data(prop_name);
+		data << vect_data ;
+		dev_def_prop.push_back(data);
+		add_wiz_dev_prop(prop_name, prop_desc,  prop_def);
+	}
+	else
+		add_wiz_dev_prop(prop_name, prop_desc);
+
+	prop_name = "CoilProcMultiplier";
+	prop_desc = "Coil processing takes place every N-th poller cycle";
+	prop_def  = "1\n";
+	vect_data.clear();
+	vect_data.push_back("1");
+	if (prop_def.length()>0)
+	{
+		Tango::DbDatum	data(prop_name);
+		data << vect_data ;
+		dev_def_prop.push_back(data);
+		add_wiz_dev_prop(prop_name, prop_desc,  prop_def);
+	}
+	else
+		add_wiz_dev_prop(prop_name, prop_desc);
+
+	prop_name = "FlagsProcMultiplier";
+	prop_desc = "Flags processing happens every N-th poller thread cycle";
+	prop_def  = "25\n";
+	vect_data.clear();
+	vect_data.push_back("25");
+	if (prop_def.length()>0)
+	{
+		Tango::DbDatum	data(prop_name);
+		data << vect_data ;
+		dev_def_prop.push_back(data);
+		add_wiz_dev_prop(prop_name, prop_desc,  prop_def);
+	}
+	else
+		add_wiz_dev_prop(prop_name, prop_desc);
 }
 
 
@@ -519,9 +579,8 @@ void UndulatorClass::write_class_property()
 	//	Put Description
 	Tango::DbDatum	description("Description");
 	vector<string>	str_desc;
-	str_desc.push_back("Device server for controling movement of undulator axes. ");
-	str_desc.push_back("It features gap movement and phase movement in 4 modes.");
-	str_desc.push_back("In expert mode, user can configure the behaviour of axes and restrict certain actions.");
+	str_desc.push_back("Device server for control of  EPU61 insertion device with Galil DMC 4080 controllers.");
+	str_desc.push_back("");
 	description << str_desc;
 	data.push_back(description);
 		
@@ -727,7 +786,7 @@ void UndulatorClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	delta_t	not set for	Gap
 	//	delta_val	not set for	Gap
 	gap->set_default_properties(gap_prop);
-	gap->set_polling_period(2000);
+	gap->set_polling_period(500);
 	gap->set_disp_level(Tango::OPERATOR);
 	//	Not memorized
 
@@ -754,7 +813,7 @@ void UndulatorClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	delta_t	not set for	EngineeringLock
 	//	delta_val	not set for	EngineeringLock
 	engineeringlock->set_default_properties(engineeringlock_prop);
-	//	Not Polled
+	engineeringlock->set_polling_period(500);
 	engineeringlock->set_disp_level(Tango::EXPERT);
 	//	Not memorized
 
@@ -781,7 +840,7 @@ void UndulatorClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	delta_t	not set for	GapAcceleration
 	//	delta_val	not set for	GapAcceleration
 	gapacceleration->set_default_properties(gapacceleration_prop);
-	gapacceleration->set_polling_period(2000);
+	//	Not Polled
 	gapacceleration->set_disp_level(Tango::EXPERT);
 	gapacceleration->set_memorized();
 	gapacceleration->set_memorized_init(true);
@@ -808,7 +867,7 @@ void UndulatorClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	delta_t	not set for	GapSpeed
 	//	delta_val	not set for	GapSpeed
 	gapspeed->set_default_properties(gapspeed_prop);
-	gapspeed->set_polling_period(2000);
+	//	Not Polled
 	gapspeed->set_disp_level(Tango::EXPERT);
 	gapspeed->set_memorized();
 	gapspeed->set_memorized_init(true);
@@ -835,7 +894,7 @@ void UndulatorClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	delta_t	not set for	PhaseAcceleration
 	//	delta_val	not set for	PhaseAcceleration
 	phaseacceleration->set_default_properties(phaseacceleration_prop);
-	phaseacceleration->set_polling_period(2000);
+	//	Not Polled
 	phaseacceleration->set_disp_level(Tango::EXPERT);
 	phaseacceleration->set_memorized();
 	phaseacceleration->set_memorized_init(true);
@@ -862,7 +921,7 @@ void UndulatorClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	delta_t	not set for	PhaseMode
 	//	delta_val	not set for	PhaseMode
 	phasemode->set_default_properties(phasemode_prop);
-	phasemode->set_polling_period(2000);
+	phasemode->set_polling_period(500);
 	phasemode->set_disp_level(Tango::OPERATOR);
 	phasemode->set_memorized();
 	phasemode->set_memorized_init(true);
@@ -889,7 +948,7 @@ void UndulatorClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	delta_t	not set for	Phase
 	//	delta_val	not set for	Phase
 	phase->set_default_properties(phase_prop);
-	phase->set_polling_period(2000);
+	phase->set_polling_period(500);
 	phase->set_disp_level(Tango::OPERATOR);
 	//	Not memorized
 
@@ -916,7 +975,7 @@ void UndulatorClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	delta_t	not set for	PhaseSpeed
 	//	delta_val	not set for	PhaseSpeed
 	phasespeed->set_default_properties(phasespeed_prop);
-	phasespeed->set_polling_period(2000);
+	//	Not Polled
 	phasespeed->set_disp_level(Tango::EXPERT);
 	phasespeed->set_memorized();
 	phasespeed->set_memorized_init(true);
@@ -970,7 +1029,7 @@ void UndulatorClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	delta_t	not set for	Taper
 	//	delta_val	not set for	Taper
 	taper->set_default_properties(taper_prop);
-	taper->set_polling_period(2000);
+	taper->set_polling_period(500);
 	taper->set_disp_level(Tango::EXPERT);
 	taper->set_memorized();
 	taper->set_memorized_init(true);
@@ -997,7 +1056,7 @@ void UndulatorClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	delta_t	not set for	Offset
 	//	delta_val	not set for	Offset
 	offset->set_default_properties(offset_prop);
-	offset->set_polling_period(2000);
+	offset->set_polling_period(500);
 	offset->set_disp_level(Tango::EXPERT);
 	offset->set_memorized();
 	offset->set_memorized_init(true);
@@ -1024,7 +1083,7 @@ void UndulatorClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	delta_t	not set for	TaperSpeed
 	//	delta_val	not set for	TaperSpeed
 	taperspeed->set_default_properties(taperspeed_prop);
-	taperspeed->set_polling_period(1000);
+	//	Not Polled
 	taperspeed->set_disp_level(Tango::EXPERT);
 	taperspeed->set_memorized();
 	taperspeed->set_memorized_init(true);
@@ -1032,33 +1091,6 @@ void UndulatorClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	TaperSpeed does not fire archive event
 	//	TaperSpeed does not fire data_ready event
 	att_list.push_back(taperspeed);
-
-	//	Attribute : LimitsDisabled
-	LimitsDisabledAttrib	*limitsdisabled = new LimitsDisabledAttrib();
-	Tango::UserDefaultAttrProp	limitsdisabled_prop;
-	limitsdisabled_prop.set_description("Indicates that the software limits on the DMCs are disabled. \nUseful for commissioning and engineering movements.");
-	//	label	not set for	LimitsDisabled
-	//	unit	not set for	LimitsDisabled
-	//	standard_unit	not set for	LimitsDisabled
-	//	display_unit	not set for	LimitsDisabled
-	//	format	not set for	LimitsDisabled
-	//	max_value	not set for	LimitsDisabled
-	//	min_value	not set for	LimitsDisabled
-	//	max_alarm	not set for	LimitsDisabled
-	//	min_alarm	not set for	LimitsDisabled
-	//	max_warning	not set for	LimitsDisabled
-	//	min_warning	not set for	LimitsDisabled
-	//	delta_t	not set for	LimitsDisabled
-	//	delta_val	not set for	LimitsDisabled
-	limitsdisabled->set_default_properties(limitsdisabled_prop);
-	limitsdisabled->set_polling_period(2000);
-	limitsdisabled->set_disp_level(Tango::OPERATOR);
-	//	Not memorized
-
-	//	LimitsDisabled does not fire change event
-	//	LimitsDisabled does not fire archive event
-	//	LimitsDisabled does not fire data_ready event
-	att_list.push_back(limitsdisabled);
 
 	//	Attribute : StopAll
 	StopAllAttrib	*stopall = new StopAllAttrib();
@@ -1078,7 +1110,7 @@ void UndulatorClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	delta_t	not set for	StopAll
 	//	delta_val	not set for	StopAll
 	stopall->set_default_properties(stopall_prop);
-	stopall->set_polling_period(2000);
+	stopall->set_polling_period(500);
 	stopall->set_disp_level(Tango::OPERATOR);
 	//	Not memorized
 
@@ -1105,7 +1137,7 @@ void UndulatorClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	delta_t	not set for	GapMoving
 	//	delta_val	not set for	GapMoving
 	gapmoving->set_default_properties(gapmoving_prop);
-	gapmoving->set_polling_period(2000);
+	gapmoving->set_polling_period(500);
 	gapmoving->set_disp_level(Tango::OPERATOR);
 	//	Not memorized
 
@@ -1132,7 +1164,7 @@ void UndulatorClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	delta_t	not set for	PhaseMoving
 	//	delta_val	not set for	PhaseMoving
 	phasemoving->set_default_properties(phasemoving_prop);
-	phasemoving->set_polling_period(2000);
+	phasemoving->set_polling_period(500);
 	phasemoving->set_disp_level(Tango::OPERATOR);
 	//	Not memorized
 
@@ -1159,7 +1191,7 @@ void UndulatorClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	delta_t	not set for	EngineeringGapSpeed
 	//	delta_val	not set for	EngineeringGapSpeed
 	engineeringgapspeed->set_default_properties(engineeringgapspeed_prop);
-	engineeringgapspeed->set_polling_period(2000);
+	//	Not Polled
 	engineeringgapspeed->set_disp_level(Tango::EXPERT);
 	//	Not memorized
 
@@ -1186,7 +1218,7 @@ void UndulatorClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	delta_t	not set for	EngineeringPhaseSpeed
 	//	delta_val	not set for	EngineeringPhaseSpeed
 	engineeringphasespeed->set_default_properties(engineeringphasespeed_prop);
-	engineeringphasespeed->set_polling_period(2000);
+	//	Not Polled
 	engineeringphasespeed->set_disp_level(Tango::EXPERT);
 	//	Not memorized
 
@@ -1213,7 +1245,7 @@ void UndulatorClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	delta_t	not set for	EngineeringGapAcceleration
 	//	delta_val	not set for	EngineeringGapAcceleration
 	engineeringgapacceleration->set_default_properties(engineeringgapacceleration_prop);
-	engineeringgapacceleration->set_polling_period(2000);
+	//	Not Polled
 	engineeringgapacceleration->set_disp_level(Tango::EXPERT);
 	//	Not memorized
 
@@ -1240,7 +1272,7 @@ void UndulatorClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	delta_t	not set for	EngineeringPhaseAcceleration
 	//	delta_val	not set for	EngineeringPhaseAcceleration
 	engineeringphaseacceleration->set_default_properties(engineeringphaseacceleration_prop);
-	engineeringphaseacceleration->set_polling_period(2000);
+	//	Not Polled
 	engineeringphaseacceleration->set_disp_level(Tango::EXPERT);
 	//	Not memorized
 
@@ -1267,7 +1299,7 @@ void UndulatorClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	delta_t	not set for	Interlock
 	//	delta_val	not set for	Interlock
 	interlock->set_default_properties(interlock_prop);
-	interlock->set_polling_period(2000);
+	interlock->set_polling_period(500);
 	interlock->set_disp_level(Tango::OPERATOR);
 	//	Not memorized
 
@@ -1275,114 +1307,6 @@ void UndulatorClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	Interlock does not fire archive event
 	//	Interlock does not fire data_ready event
 	att_list.push_back(interlock);
-
-	//	Attribute : Coil1
-	Coil1Attrib	*coil1 = new Coil1Attrib();
-	Tango::UserDefaultAttrProp	coil1_prop;
-	coil1_prop.set_description("Coil1 Current Setpoint/Readback");
-	//	label	not set for	Coil1
-	coil1_prop.set_unit("A");
-	//	standard_unit	not set for	Coil1
-	//	display_unit	not set for	Coil1
-	//	format	not set for	Coil1
-	//	max_value	not set for	Coil1
-	//	min_value	not set for	Coil1
-	//	max_alarm	not set for	Coil1
-	//	min_alarm	not set for	Coil1
-	//	max_warning	not set for	Coil1
-	//	min_warning	not set for	Coil1
-	//	delta_t	not set for	Coil1
-	//	delta_val	not set for	Coil1
-	coil1->set_default_properties(coil1_prop);
-	//	Not Polled
-	coil1->set_disp_level(Tango::EXPERT);
-	//	Not memorized
-
-	//	Coil1 does not fire change event
-	//	Coil1 does not fire archive event
-	//	Coil1 does not fire data_ready event
-	att_list.push_back(coil1);
-
-	//	Attribute : Coil2
-	Coil2Attrib	*coil2 = new Coil2Attrib();
-	Tango::UserDefaultAttrProp	coil2_prop;
-	coil2_prop.set_description("Coil2 Current Setpoint/Readback");
-	//	label	not set for	Coil2
-	coil2_prop.set_unit("A");
-	//	standard_unit	not set for	Coil2
-	//	display_unit	not set for	Coil2
-	//	format	not set for	Coil2
-	//	max_value	not set for	Coil2
-	//	min_value	not set for	Coil2
-	//	max_alarm	not set for	Coil2
-	//	min_alarm	not set for	Coil2
-	//	max_warning	not set for	Coil2
-	//	min_warning	not set for	Coil2
-	//	delta_t	not set for	Coil2
-	//	delta_val	not set for	Coil2
-	coil2->set_default_properties(coil2_prop);
-	//	Not Polled
-	coil2->set_disp_level(Tango::EXPERT);
-	//	Not memorized
-
-	//	Coil2 does not fire change event
-	//	Coil2 does not fire archive event
-	//	Coil2 does not fire data_ready event
-	att_list.push_back(coil2);
-
-	//	Attribute : Coil3
-	Coil3Attrib	*coil3 = new Coil3Attrib();
-	Tango::UserDefaultAttrProp	coil3_prop;
-	coil3_prop.set_description("Coil3 Current Setpoint/Readback");
-	//	label	not set for	Coil3
-	coil3_prop.set_unit("A");
-	//	standard_unit	not set for	Coil3
-	//	display_unit	not set for	Coil3
-	//	format	not set for	Coil3
-	//	max_value	not set for	Coil3
-	//	min_value	not set for	Coil3
-	//	max_alarm	not set for	Coil3
-	//	min_alarm	not set for	Coil3
-	//	max_warning	not set for	Coil3
-	//	min_warning	not set for	Coil3
-	//	delta_t	not set for	Coil3
-	//	delta_val	not set for	Coil3
-	coil3->set_default_properties(coil3_prop);
-	//	Not Polled
-	coil3->set_disp_level(Tango::EXPERT);
-	//	Not memorized
-
-	//	Coil3 does not fire change event
-	//	Coil3 does not fire archive event
-	//	Coil3 does not fire data_ready event
-	att_list.push_back(coil3);
-
-	//	Attribute : Coil4
-	Coil4Attrib	*coil4 = new Coil4Attrib();
-	Tango::UserDefaultAttrProp	coil4_prop;
-	coil4_prop.set_description("Coil4 Current Setpoint/Readback");
-	//	label	not set for	Coil4
-	coil4_prop.set_unit("A");
-	//	standard_unit	not set for	Coil4
-	//	display_unit	not set for	Coil4
-	//	format	not set for	Coil4
-	//	max_value	not set for	Coil4
-	//	min_value	not set for	Coil4
-	//	max_alarm	not set for	Coil4
-	//	min_alarm	not set for	Coil4
-	//	max_warning	not set for	Coil4
-	//	min_warning	not set for	Coil4
-	//	delta_t	not set for	Coil4
-	//	delta_val	not set for	Coil4
-	coil4->set_default_properties(coil4_prop);
-	//	Not Polled
-	coil4->set_disp_level(Tango::EXPERT);
-	//	Not memorized
-
-	//	Coil4 does not fire change event
-	//	Coil4 does not fire archive event
-	//	Coil4 does not fire data_ready event
-	att_list.push_back(coil4);
 
 	//	Attribute : CorrectionEnabled
 	CorrectionEnabledAttrib	*correctionenabled = new CorrectionEnabledAttrib();
@@ -1402,7 +1326,7 @@ void UndulatorClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	delta_t	not set for	CorrectionEnabled
 	//	delta_val	not set for	CorrectionEnabled
 	correctionenabled->set_default_properties(correctionenabled_prop);
-	//	Not Polled
+	correctionenabled->set_polling_period(500);
 	correctionenabled->set_disp_level(Tango::EXPERT);
 	//	Not memorized
 
@@ -1410,6 +1334,60 @@ void UndulatorClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	CorrectionEnabled does not fire archive event
 	//	CorrectionEnabled does not fire data_ready event
 	att_list.push_back(correctionenabled);
+
+	//	Attribute : AxesFlags
+	AxesFlagsAttrib	*axesflags = new AxesFlagsAttrib();
+	Tango::UserDefaultAttrProp	axesflags_prop;
+	axesflags_prop.set_description("Represents bit-encoded axis flags\n\nLeast significant byte, bits 0..7 represent communication error status for motors 1 to 8 respectively\nMore significant byte, bits 8..15 represent encoder error status for motors 1 to 8 respectively\nMore significant byte, bits 15..23 represent drive error status for motors 1 to 8 respectively");
+	axesflags_prop.set_label("Represents bit-encoded axis flags");
+	//	unit	not set for	AxesFlags
+	//	standard_unit	not set for	AxesFlags
+	//	display_unit	not set for	AxesFlags
+	//	format	not set for	AxesFlags
+	//	max_value	not set for	AxesFlags
+	//	min_value	not set for	AxesFlags
+	//	max_alarm	not set for	AxesFlags
+	//	min_alarm	not set for	AxesFlags
+	//	max_warning	not set for	AxesFlags
+	//	min_warning	not set for	AxesFlags
+	//	delta_t	not set for	AxesFlags
+	//	delta_val	not set for	AxesFlags
+	axesflags->set_default_properties(axesflags_prop);
+	axesflags->set_polling_period(500);
+	axesflags->set_disp_level(Tango::EXPERT);
+	//	Not memorized
+
+	axesflags->set_change_event(true, true);
+	//	AxesFlags does not fire archive event
+	//	AxesFlags does not fire data_ready event
+	att_list.push_back(axesflags);
+
+	//	Attribute : CycleTime
+	CycleTimeAttrib	*cycletime = new CycleTimeAttrib();
+	Tango::UserDefaultAttrProp	cycletime_prop;
+	cycletime_prop.set_description("Time between poller cycles, in milliseconds");
+	cycletime_prop.set_label("Poller Cycle Time");
+	cycletime_prop.set_unit("ms");
+	//	standard_unit	not set for	CycleTime
+	//	display_unit	not set for	CycleTime
+	//	format	not set for	CycleTime
+	//	max_value	not set for	CycleTime
+	//	min_value	not set for	CycleTime
+	//	max_alarm	not set for	CycleTime
+	//	min_alarm	not set for	CycleTime
+	//	max_warning	not set for	CycleTime
+	//	min_warning	not set for	CycleTime
+	//	delta_t	not set for	CycleTime
+	//	delta_val	not set for	CycleTime
+	cycletime->set_default_properties(cycletime_prop);
+	//	Not Polled
+	cycletime->set_disp_level(Tango::EXPERT);
+	//	Not memorized
+
+	//	CycleTime does not fire change event
+	//	CycleTime does not fire archive event
+	//	CycleTime does not fire data_ready event
+	att_list.push_back(cycletime);
 
 
 	//	Create a list of static attributes
@@ -1451,13 +1429,6 @@ void UndulatorClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pToggleStopAllCmd);
-	DisableLimitsClass	*pDisableLimitsCmd =
-		new DisableLimitsClass("DisableLimits",
-			Tango::DEV_BOOLEAN, Tango::DEV_VOID,
-			"",
-			"",
-			Tango::EXPERT);
-	command_list.push_back(pDisableLimitsCmd);
 	StopPhaseClass	*pStopPhaseCmd =
 		new StopPhaseClass("StopPhase",
 			Tango::DEV_VOID, Tango::DEV_VOID,
@@ -1486,6 +1457,13 @@ void UndulatorClass::command_factory()
 			"",
 			Tango::EXPERT);
 	command_list.push_back(pLoadCorrectionDataCmd);
+	ResetDriveClass	*pResetDriveCmd =
+		new ResetDriveClass("ResetDrive",
+			Tango::DEV_USHORT, Tango::DEV_VOID,
+			"",
+			"",
+			Tango::EXPERT);
+	command_list.push_back(pResetDriveCmd);
 
 	/*----- PROTECTED REGION ID(Undulator::Class::command_factory_after) ENABLED START -----*/
 
