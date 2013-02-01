@@ -1,0 +1,67 @@
+#
+# Resource backup , created Fri Feb 01 23:41:43 CET 2013
+#
+
+#---------------------------------------------------------
+# SERVER PyAttributeProcessor/plc-epu61-0, PyAttributeProcessor device declaration
+#---------------------------------------------------------
+
+PyAttributeProcessor/plc-epu61-0/DEVICE/PyAttributeProcessor: "species/plc/safety"
+
+
+# --- species/plc/safety properties
+
+species/plc/safety->DynamicAttributes: "emergencyStop=bool(XATTR('srvv0-tangohost-0:10000/species/plc/epu61.opc/S_Estop'))",\ 
+                                       "tiltLowerGirder=bool(XATTR('srvv0-tangohost-0:10000/species/plc/epu61.opc/TiltSwitch_L_On'))",\ 
+                                       "tiltUpperGirder=bool(XATTR('srvv0-tangohost-0:10000/species/plc/epu61.opc/TiltSwitch_U_On'))",\ 
+                                       "z1BackwardKillSwitch=bool(XATTR('srvv0-tangohost-0:10000/species/plc/epu61.opc/R_Z1_LK'))",\ 
+                                       "z1ForwardKillSwitch=bool(XATTR('srvv0-tangohost-0:10000/species/plc/epu61.opc/R_Z1_UK'))",\ 
+                                       "z2BackwardKillSwitch=bool(XATTR('srvv0-tangohost-0:10000/species/plc/epu61.opc/R_Z2_LK'))",\ 
+                                       "z2ForwardKillSwitch=bool(XATTR('srvv0-tangohost-0:10000/species/plc/epu61.opc/R_Z2_UK'))",\ 
+                                       "z3BackwardKillSwitch=bool(XATTR('srvv0-tangohost-0:10000/species/plc/epu61.opc/R_Z3_LK'))",\ 
+                                       "z3ForwardKillSwitch=bool(XATTR('srvv0-tangohost-0:10000/species/plc/epu61.opc/R_Z3_UK'))",\ 
+                                       "z4BackwardKillSwitch=bool(XATTR('srvv0-tangohost-0:10000/species/plc/epu61.opc/R_Z4_LK'))",\ 
+                                       "z4ForwardKillSwitch=bool(XATTR('srvv0-tangohost-0:10000/species/plc/epu61.opc/R_Z4_UK'))",\ 
+                                       "x1BackwardKillSwitch=bool(XATTR('srvv0-tangohost-0:10000/species/plc/epu61.opc/R_X1_LK'))",\ 
+                                       "x1ForwardKillSwitch=bool(XATTR('srvv0-tangohost-0:10000/species/plc/epu61.opc/R_X1_UK'))",\ 
+                                       "x2BackwardKillSwitch=bool(XATTR('srvv0-tangohost-0:10000/species/plc/epu61.opc/R_X2_LK'))",\ 
+                                       "x2ForwardKillSwitch=bool(XATTR('srvv0-tangohost-0:10000/species/plc/epu61.opc/R_X2_UK'))",\ 
+                                       "x3BackwardKillSwitch=bool(XATTR('srvv0-tangohost-0:10000/species/plc/epu61.opc/R_X3_LK'))",\ 
+                                       "x3ForwardKillSwitch=bool(XATTR('srvv0-tangohost-0:10000/species/plc/epu61.opc/R_X3_UK'))",\ 
+                                       "x4BackwardKillSwitch=bool(XATTR('srvv0-tangohost-0:10000/species/plc/epu61.opc/R_X4_LK'))",\ 
+                                       "x4ForwardKillSwitch=bool(XATTR('srvv0-tangohost-0:10000/species/plc/epu61.opc/R_X4_UK'))",\ 
+                                       "interlockOverride=bool(XATTR('srvv0-tangohost-0:10000/species/plc/epu61.opc/R_KeyOverride'))"
+species/plc/safety->KeepAttributes: true
+species/plc/safety->KeepTime: 200
+species/plc/safety->_SubDevices: "srvv0-tangohost-0:10000/species/plc/epu61.opc"
+species/plc/safety->__SubDevices: "tango://srvv0-tangohost-0.maxlab.lu.se:10000/sys/access_control/1",\ 
+                                  "srvv0-tangohost-0:10000/species/plc/epu61.opc"
+
+# --- species/plc/safety attribute properties
+
+species/plc/safety/emergencyStop->event_period: 1000
+species/plc/safety/tiltLowerGirder->event_period: 1000
+species/plc/safety/tiltUpperGirder->event_period: 1000
+species/plc/safety/z1BackwardKillSwitch->event_period: 1000
+species/plc/safety/z1ForwardKillSwitch->event_period: 1000
+species/plc/safety/z2BackwardKillSwitch->event_period: 1000
+species/plc/safety/z2ForwardKillSwitch->event_period: 1000
+species/plc/safety/z3BackwardKillSwitch->event_period: 1000
+species/plc/safety/z3ForwardKillSwitch->event_period: 1000
+species/plc/safety/z4BackwardKillSwitch->event_period: 1000
+species/plc/safety/z4ForwardKillSwitch->event_period: 1000
+species/plc/safety/x1BackwardKillSwitch->event_period: 1000
+species/plc/safety/x1ForwardKillSwitch->event_period: 1000
+species/plc/safety/x2BackwardKillSwitch->event_period: 1000
+species/plc/safety/x2ForwardKillSwitch->event_period: 1000
+species/plc/safety/x3BackwardKillSwitch->event_period: 1000
+species/plc/safety/x3ForwardKillSwitch->event_period: 1000
+species/plc/safety/x4BackwardKillSwitch->event_period: 1000
+species/plc/safety/x4ForwardKillSwitch->event_period: 1000
+species/plc/safety/interlockOverride->event_period: 1000
+
+#---------------------------------------------------------
+# CLASS PyAttributeProcessor properties
+#---------------------------------------------------------
+
+

@@ -1,0 +1,54 @@
+#
+# Resource backup , created Fri Feb 01 23:41:54 CET 2013
+#
+
+#---------------------------------------------------------
+# SERVER ps/1, FakeCoilSupply device declaration
+#---------------------------------------------------------
+
+ps/1/DEVICE/FakeCoilSupply: "epu61/powersupply/ps"
+
+
+# --- epu61/powersupply/ps properties
+
+epu61/powersupply/ps->polled_attr: coil1,\ 
+                                   500,\ 
+                                   coil2,\ 
+                                   500,\ 
+                                   coil3,\ 
+                                   500,\ 
+                                   coil4,\ 
+                                   500
+
+# --- epu61/powersupply/ps attribute properties
+
+epu61/powersupply/ps/Coil2->abs_change: 0.01,\ 
+                                        0.01001
+epu61/powersupply/ps/Coil2->event_period: 1000
+epu61/powersupply/ps/Coil2->max_alarm: 10000
+epu61/powersupply/ps/Coil2->min_alarm: -10000
+epu61/powersupply/ps/Coil3->abs_change: 0.01,\ 
+                                        0.01001
+epu61/powersupply/ps/Coil3->event_period: 1000
+epu61/powersupply/ps/Coil3->max_alarm: 10000
+epu61/powersupply/ps/Coil3->min_alarm: -10000
+epu61/powersupply/ps/Coil1->abs_change: 0.01,\ 
+                                        0.01001
+epu61/powersupply/ps/Coil1->event_period: 1000
+epu61/powersupply/ps/Coil1->max_alarm: 10000
+epu61/powersupply/ps/Coil1->min_alarm: -10000
+epu61/powersupply/ps/Coil4->abs_change: 0.01,\ 
+                                        0.01001
+epu61/powersupply/ps/Coil4->event_period: 1000
+epu61/powersupply/ps/Coil4->max_alarm: 10000
+epu61/powersupply/ps/Coil4->min_alarm: -10000
+
+#---------------------------------------------------------
+# CLASS FakeCoilSupply properties
+#---------------------------------------------------------
+
+
+
+# --- dserver/ps/1 properties
+
+dserver/ps/1->polling_threads_pool_conf: "epu61/powersupply/ps"

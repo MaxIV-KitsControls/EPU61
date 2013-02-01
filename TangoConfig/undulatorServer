@@ -1,0 +1,174 @@
+#
+# Resource backup , created Fri Feb 01 23:41:27 CET 2013
+#
+
+#---------------------------------------------------------
+# SERVER Undulator/2, Undulator device declaration
+#---------------------------------------------------------
+
+Undulator/2/DEVICE/Undulator: "epu61/undulator/epu"
+
+
+# --- epu61/undulator/epu properties
+
+epu61/undulator/epu->ControlBoxGapProxy: "epu61/cb/gap"
+epu61/undulator/epu->ControlBoxPhaseProxy: "epu61/cb/phase"
+epu61/undulator/epu->DataFile: "/home/tango/cc.csv"
+epu61/undulator/epu->FlagsProcMultiplier: 5
+epu61/undulator/epu->GapAxes: "epu61/gap/z1",\ 
+                              "epu61/gap/z2",\ 
+                              "epu61/gap/z3",\ 
+                              "epu61/gap/z4"
+epu61/undulator/epu->GearedAxes: "epu61/gap/upper",\ 
+                                 "epu61/gap/lower"
+epu61/undulator/epu->non_auto_polled_attr: engineeringgapacceleration,\ 
+                                           engineeringgapspeed,\ 
+                                           engineeringphaseacceleration,\ 
+                                           engineeringphasespeed,\ 
+                                           gapacceleration,\ 
+                                           gapspeed,\ 
+                                           phaseacceleration,\ 
+                                           phasespeed,\ 
+                                           taperspeed
+epu61/undulator/epu->PhaseAxes: "epu61/phase/x1",\ 
+                                "epu61/phase/x2",\ 
+                                "epu61/phase/x3",\ 
+                                "epu61/phase/x4"
+epu61/undulator/epu->polled_attr: axesflags,\ 
+                                  1000,\ 
+                                  correctionenabled,\ 
+                                  1000,\ 
+                                  gapmoving,\ 
+                                  1000,\ 
+                                  interlock,\ 
+                                  1000,\ 
+                                  phasemoving,\ 
+                                  1000,\ 
+                                  stopall,\ 
+                                  1000,\ 
+                                  gap,\ 
+                                  500,\ 
+                                  phasemode,\ 
+                                  1000,\ 
+                                  phase,\ 
+                                  500,\ 
+                                  taper,\ 
+                                  1000,\ 
+                                  offset,\ 
+                                  500,\ 
+                                  engineeringlock,\ 
+                                  1000
+epu61/undulator/epu->PollerCycleDelay: 20000
+epu61/undulator/epu->PowerSupplyAttributeNames: Coil1,\ 
+                                                Coil2,\ 
+                                                Coil3,\ 
+                                                Coil4
+epu61/undulator/epu->PowerSupplyProxy: "epu61/powersupply/ps"
+epu61/undulator/epu->__SubDevices: "epu61/phase/x1",\ 
+                                   "epu61/gap/z1",\ 
+                                   "epu61/phase/x2",\ 
+                                   "epu61/gap/z2",\ 
+                                   "epu61/phase/x3",\ 
+                                   "epu61/gap/z3",\ 
+                                   "epu61/phase/x4",\ 
+                                   "epu61/gap/z4",\ 
+                                   "epu61/cb/gap",\ 
+                                   "epu61/cb/phase",\ 
+                                   "epu61/powersupply/ps"
+
+# --- epu61/undulator/epu attribute properties
+
+epu61/undulator/epu/Gap->abs_change: 5,\ 
+                                     5.01
+epu61/undulator/epu/Gap->description: "Read-back and set-point for current gap.  Writing to this attribute commences movement for the gap,  using the current operator center offset and taper."
+epu61/undulator/epu/Gap->event_period: 1000
+epu61/undulator/epu/Gap->max_value: 198000.0
+epu61/undulator/epu/Gap->min_value: 16000.0
+epu61/undulator/epu/Gap->unit: um
+epu61/undulator/epu/EngineeringLock->abs_change: 1,\ 
+                                                 0.99
+epu61/undulator/epu/EngineeringLock->description: "Setting this attribute to TRUE disables operator composite movements. ",\ 
+                                                  "Engineering movements to be done directly on the ControlBox axis devices."
+epu61/undulator/epu/EngineeringLock->event_period: 1000
+epu61/undulator/epu/GapAcceleration->__value: 800
+epu61/undulator/epu/GapSpeed->__value: 2000
+epu61/undulator/epu/PhaseAcceleration->__value: 1500
+epu61/undulator/epu/PhaseMode->abs_change: 1,\ 
+                                           0.99
+epu61/undulator/epu/PhaseMode->description: "Read-back and set-point for desired phase mode.  Will be used next time Phase is written."
+epu61/undulator/epu/PhaseMode->event_period: 1000
+epu61/undulator/epu/PhaseMode->format: %d
+epu61/undulator/epu/PhaseMode->__value: 1
+epu61/undulator/epu/Phase->abs_change: 5,\ 
+                                       5.01
+epu61/undulator/epu/Phase->description: "Read-back and set-point for phase offset.",\ 
+                                        "When this attribute is written new phase movement commences ",\ 
+                                        "using phase mode specified in PhaseMode attribute."
+epu61/undulator/epu/Phase->event_period: 1000
+epu61/undulator/epu/Phase->max_value: 31500.0
+epu61/undulator/epu/Phase->min_value: -31500.0
+epu61/undulator/epu/Phase->unit: um
+epu61/undulator/epu/PhaseSpeed->__value: 5000
+epu61/undulator/epu/TaperAcceleration->__value: 300
+epu61/undulator/epu/Taper->abs_change: 5,\ 
+                                       5.01
+epu61/undulator/epu/Taper->description: "Read-back and set-point value for the current taper. ",\ 
+                                        "Will be applied next time the GapSetpoint attribute is modified."
+epu61/undulator/epu/Taper->event_period: 1000
+epu61/undulator/epu/Taper->unit: um
+epu61/undulator/epu/Taper->__value: 0
+epu61/undulator/epu/Offset->abs_change: 5,\ 
+                                        5.01
+epu61/undulator/epu/Offset->description: "Read-back and set-point value for the current vertical offset. ",\ 
+                                         "Will be applied next time the Gap attribute is modified."
+epu61/undulator/epu/Offset->event_period: 1000
+epu61/undulator/epu/Offset->unit: um
+epu61/undulator/epu/Offset->__value: 0
+epu61/undulator/epu/TaperSpeed->__value: 300
+epu61/undulator/epu/StopAll->abs_change: 1,\ 
+                                         0.99
+epu61/undulator/epu/StopAll->description: "Indicates that the undulator is in StopAll state inhibiting all motion."
+epu61/undulator/epu/StopAll->event_period: 1000
+epu61/undulator/epu/GapMoving->abs_change: 1,\ 
+                                           0.99
+epu61/undulator/epu/GapMoving->description: "Indicates that gap movement is in progress. ",\ 
+                                            "Used to distinguish whether gap, phase or both are moving."
+epu61/undulator/epu/GapMoving->event_period: 1000
+epu61/undulator/epu/PhaseMoving->abs_change: 1,\ 
+                                             0.99
+epu61/undulator/epu/PhaseMoving->description: "Indicates that phase movement is in progress. ",\ 
+                                              "Used to distinguish whether gap, phase or both are moving."
+epu61/undulator/epu/PhaseMoving->event_period: 1000
+epu61/undulator/epu/Interlock->abs_change: 1,\ 
+                                           0.99
+epu61/undulator/epu/Interlock->description: "Indicates that interlock is in effect."
+epu61/undulator/epu/Interlock->event_period: 1000
+epu61/undulator/epu/CorrectionEnabled->abs_change: 1,\ 
+                                                   0.99
+epu61/undulator/epu/CorrectionEnabled->description: "Enables correction."
+epu61/undulator/epu/CorrectionEnabled->event_period: 1000
+epu61/undulator/epu/AxesFlags->abs_change: 1,\ 
+                                           0.99
+epu61/undulator/epu/AxesFlags->description: "Represents bit-encoded axis flags",\ 
+                                            "",\ 
+                                            "Least significant byte, bits 0..7 represent communication error status for motors 1 to 8 respectively",\ 
+                                            "More significant byte, bits 8..15 represent encoder error status for motors 1 to 8 respectively",\ 
+                                            "More significant byte, bits 15..23 represent drive error status for motors 1 to 8 respectively"
+epu61/undulator/epu/AxesFlags->event_period: 1000
+epu61/undulator/epu/AxesFlags->format: %d
+epu61/undulator/epu/AxesFlags->label: "Represents bit-encoded axis flags"
+
+#---------------------------------------------------------
+# CLASS Undulator properties
+#---------------------------------------------------------
+
+CLASS/Undulator->Description: "Device server for control of  EPU61 insertion device with Galil DMC 4080 controllers.",\ 
+                              ""
+CLASS/Undulator->doc_url: "http://www.esrf.eu/computing/cs/tango/tango_doc/ds_doc/"
+CLASS/Undulator->InheritedFrom: Device_Impl
+CLASS/Undulator->ProjectTitle: ""
+
+
+# --- dserver/Undulator/2 properties
+
+dserver/Undulator/2->polling_threads_pool_conf: "epu61/undulator/epu"

@@ -1,0 +1,316 @@
+#
+# Resource backup , created Fri Feb 01 23:40:56 CET 2013
+#
+
+#---------------------------------------------------------
+# SERVER ControlBox/gap, ControlBox device declaration
+#---------------------------------------------------------
+
+ControlBox/gap/DEVICE/ControlBox: "epu61/cb/gap"
+
+
+# --- epu61/cb/gap properties
+
+epu61/cb/gap->DataRecordPollingPeriod: 400
+epu61/cb/gap->IPAddress: 10.10.10.11
+epu61/cb/gap->Port: 5000
+epu61/cb/gap->TCPTimeOut: 1000
+
+#---------------------------------------------------------
+# CLASS ControlBox properties
+#---------------------------------------------------------
+
+CLASS/ControlBox->cvs_location: "/usr/local/CVS/DeviceServer/Generic/Motorisation/ControlBoxV2/src/"
+CLASS/ControlBox->cvs_tag: release_2_5_4
+CLASS/ControlBox->Description: "controle au bas niveau la communication avec la carte d'axes Galil DMC2182",\ 
+                               "le controle d'axe proprement dit est r???alis??? par la classe GalilAxis"
+CLASS/ControlBox->doc_url: "http://www.esrf.fr/computing/cs/tango/tango_doc/ds_doc/"
+CLASS/ControlBox->ProjectTitle: GalilV2
+
+#---------------------------------------------------------
+# SERVER ControlBox/gap, GalilAxis device declaration
+#---------------------------------------------------------
+
+ControlBox/gap/DEVICE/GalilAxis: "epu61/gap/z1",\ 
+                                 "epu61/gap/z2",\ 
+                                 "epu61/gap/z3",\ 
+                                 "epu61/gap/z4"
+
+
+# --- epu61/gap/z1 properties
+
+epu61/gap/z1->AllowRemoteCbox: false
+epu61/gap/z1->AxisEncoderType: 1
+epu61/gap/z1->AxisInitPosition: 0
+epu61/gap/z1->AxisInitType: DP
+epu61/gap/z1->AxisInitVelocity: 0
+epu61/gap/z1->AxisNumber: A
+epu61/gap/z1->AxisPositionRatio: 0.025431315104
+epu61/gap/z1->EnableMaintenanceMode: false
+epu61/gap/z1->polled_attr: position,\ 
+                           1000,\ 
+                           backwardlimitswitch,\ 
+                           1000,\ 
+                           forwardlimitswitch,\ 
+                           1000
+
+# --- epu61/gap/z1 attribute properties
+
+epu61/gap/z1/acceleration->__value: 250
+epu61/gap/z1/backlash->__value: 0
+epu61/gap/z1/backwardLimitSwitch->abs_change: 1,\ 
+                                              1.01
+epu61/gap/z1/backwardLimitSwitch->description: "Backward limit switch state"
+epu61/gap/z1/backwardLimitSwitch->event_period: 1000
+epu61/gap/z1/backwardLimitSwitch->label: "Backward Limit Switch"
+epu61/gap/z1/deceleration->__value: 250
+epu61/gap/z1/forwardLimitSwitch->abs_change: 1,\ 
+                                             1.01
+epu61/gap/z1/forwardLimitSwitch->description: "Forward limit switch state"
+epu61/gap/z1/forwardLimitSwitch->event_period: 1000
+epu61/gap/z1/forwardLimitSwitch->label: "Forward Limit Switch"
+epu61/gap/z1/offset->__value: -8386.3
+epu61/gap/z1/position->abs_change: 5,\ 
+                                   5.01
+epu61/gap/z1/position->description: "read : position of Axis in UserUnit (UU)",\ 
+                                    "write : setpoint, absolute position to reach"
+epu61/gap/z1/position->display_unit: UU
+epu61/gap/z1/position->event_period: 1000
+epu61/gap/z1/position->format: %8.2f
+epu61/gap/z1/position->label: "Current position "
+epu61/gap/z1/position->standard_unit: UU
+epu61/gap/z1/position->unit: UU
+epu61/gap/z1/velocity->__value: 500
+
+# --- epu61/gap/z2 properties
+
+epu61/gap/z2->AllowRemoteCbox: false
+epu61/gap/z2->AxisEncoderType: 1
+epu61/gap/z2->AxisInitPosition: 0
+epu61/gap/z2->AxisInitType: DP
+epu61/gap/z2->AxisInitVelocity: 0
+epu61/gap/z2->AxisNumber: B
+epu61/gap/z2->AxisPositionRatio: 0.025431315104
+epu61/gap/z2->EnableMaintenanceMode: false
+epu61/gap/z2->polled_attr: position,\ 
+                           1000,\ 
+                           backwardlimitswitch,\ 
+                           1000,\ 
+                           forwardlimitswitch,\ 
+                           1000
+
+# --- epu61/gap/z2 attribute properties
+
+epu61/gap/z2/acceleration->__value: 250
+epu61/gap/z2/backwardLimitSwitch->abs_change: 1,\ 
+                                              1.01
+epu61/gap/z2/backwardLimitSwitch->description: "Backward limit switch state"
+epu61/gap/z2/backwardLimitSwitch->event_period: 1000
+epu61/gap/z2/backwardLimitSwitch->label: "Backward Limit Switch"
+epu61/gap/z2/deceleration->__value: 250
+epu61/gap/z2/forwardLimitSwitch->abs_change: 1,\ 
+                                             1.01
+epu61/gap/z2/forwardLimitSwitch->description: "Forward limit switch state"
+epu61/gap/z2/forwardLimitSwitch->event_period: 1000
+epu61/gap/z2/forwardLimitSwitch->label: "Forward Limit Switch"
+epu61/gap/z2/offset->__value: -10236.37
+epu61/gap/z2/position->abs_change: 5,\ 
+                                   5.01
+epu61/gap/z2/position->description: "read : position of Axis in UserUnit (UU)",\ 
+                                    "write : setpoint, absolute position to reach"
+epu61/gap/z2/position->display_unit: UU
+epu61/gap/z2/position->event_period: 1000
+epu61/gap/z2/position->format: %8.2f
+epu61/gap/z2/position->label: "Current position "
+epu61/gap/z2/position->standard_unit: UU
+epu61/gap/z2/position->unit: UU
+epu61/gap/z2/velocity->__value: 500
+
+# --- epu61/gap/z3 properties
+
+epu61/gap/z3->AllowRemoteCbox: false
+epu61/gap/z3->AxisEncoderType: 1
+epu61/gap/z3->AxisInitPosition: 0
+epu61/gap/z3->AxisInitType: DP
+epu61/gap/z3->AxisInitVelocity: 0
+epu61/gap/z3->AxisNumber: C
+epu61/gap/z3->AxisPositionRatio: 0.025431315104
+epu61/gap/z3->EnableMaintenanceMode: false
+epu61/gap/z3->polled_attr: position,\ 
+                           1000,\ 
+                           backwardlimitswitch,\ 
+                           1000,\ 
+                           forwardlimitswitch,\ 
+                           1000
+
+# --- epu61/gap/z3 attribute properties
+
+epu61/gap/z3/acceleration->__value: 250
+epu61/gap/z3/backwardLimitSwitch->abs_change: 1,\ 
+                                              1.01
+epu61/gap/z3/backwardLimitSwitch->description: "Backward limit switch state"
+epu61/gap/z3/backwardLimitSwitch->event_period: 1000
+epu61/gap/z3/backwardLimitSwitch->label: "Backward Limit Switch"
+epu61/gap/z3/deceleration->__value: 250
+epu61/gap/z3/forwardLimitSwitch->abs_change: 1,\ 
+                                             1.01
+epu61/gap/z3/forwardLimitSwitch->description: "Forward limit switch state"
+epu61/gap/z3/forwardLimitSwitch->event_period: 1000
+epu61/gap/z3/forwardLimitSwitch->label: "Forward Limit Switch"
+epu61/gap/z3/offset->__value: 853.195
+epu61/gap/z3/position->abs_change: 5,\ 
+                                   5.01
+epu61/gap/z3/position->description: "read : position of Axis in UserUnit (UU)",\ 
+                                    "write : setpoint, absolute position to reach"
+epu61/gap/z3/position->display_unit: UU
+epu61/gap/z3/position->event_period: 1000
+epu61/gap/z3/position->format: %8.2f
+epu61/gap/z3/position->label: "Current position "
+epu61/gap/z3/position->standard_unit: UU
+epu61/gap/z3/position->unit: UU
+epu61/gap/z3/velocity->__value: 500
+
+# --- epu61/gap/z4 properties
+
+epu61/gap/z4->AllowRemoteCbox: false
+epu61/gap/z4->AxisEncoderType: 1
+epu61/gap/z4->AxisInitPosition: 0
+epu61/gap/z4->AxisInitType: DP
+epu61/gap/z4->AxisInitVelocity: 0
+epu61/gap/z4->AxisNumber: D
+epu61/gap/z4->AxisPositionRatio: 0.025431315104
+epu61/gap/z4->EnableMaintenanceMode: false
+epu61/gap/z4->polled_attr: position,\ 
+                           1000,\ 
+                           backwardlimitswitch,\ 
+                           1000,\ 
+                           forwardlimitswitch,\ 
+                           1000
+
+# --- epu61/gap/z4 attribute properties
+
+epu61/gap/z4/acceleration->__value: 250
+epu61/gap/z4/backwardLimitSwitch->abs_change: 1,\ 
+                                              1.01
+epu61/gap/z4/backwardLimitSwitch->description: "Backward limit switch state"
+epu61/gap/z4/backwardLimitSwitch->event_period: 1000
+epu61/gap/z4/backwardLimitSwitch->label: "Backward Limit Switch"
+epu61/gap/z4/deceleration->__value: 250
+epu61/gap/z4/forwardLimitSwitch->abs_change: 1,\ 
+                                             1.01
+epu61/gap/z4/forwardLimitSwitch->description: "Forward limit switch state"
+epu61/gap/z4/forwardLimitSwitch->event_period: 1000
+epu61/gap/z4/forwardLimitSwitch->label: "Forward Limit Switch"
+epu61/gap/z4/offset->__value: 5160.83
+epu61/gap/z4/position->abs_change: 5,\ 
+                                   5.01
+epu61/gap/z4/position->description: "read : position of Axis in UserUnit (UU)",\ 
+                                    "write : setpoint, absolute position to reach"
+epu61/gap/z4/position->display_unit: UU
+epu61/gap/z4/position->event_period: 1000
+epu61/gap/z4/position->format: %8.2f
+epu61/gap/z4/position->label: "Current position "
+epu61/gap/z4/position->standard_unit: UU
+epu61/gap/z4/position->unit: UU
+epu61/gap/z4/velocity->__value: 500
+
+#---------------------------------------------------------
+# CLASS GalilAxis properties
+#---------------------------------------------------------
+
+CLASS/GalilAxis->cvs_location: "/usr/local/CVS/DeviceServer/Generic/Motorisation/ControlBoxV2/src/"
+CLASS/GalilAxis->cvs_tag: release_2_5_4
+CLASS/GalilAxis->Description: "  "
+CLASS/GalilAxis->doc_url: "http://www.esrf.fr/computing/cs/tango/tango_doc/ds_doc/"
+CLASS/GalilAxis->InheritedFrom: Device_4Impl
+CLASS/GalilAxis->ProjectTitle: Axis
+
+#---------------------------------------------------------
+# SERVER ControlBox/gap, GalilGearedAxes device declaration
+#---------------------------------------------------------
+
+ControlBox/gap/DEVICE/GalilGearedAxes: "epu61/gap/lower",\ 
+                                       "epu61/gap/upper"
+
+
+# --- epu61/gap/lower properties
+
+epu61/gap/lower->MasterAxis: C
+epu61/gap/lower->polled_attr: isgeared,\ 
+                              500,\ 
+                              masterposition,\ 
+                              500,\ 
+                              slaveposition,\ 
+                              500
+epu61/gap/lower->Ratio: 1
+epu61/gap/lower->SlaveAxis: D
+
+# --- epu61/gap/lower attribute properties
+
+epu61/gap/lower/masterPosition->abs_change: 5,\ 
+                                            5.01
+epu61/gap/lower/masterPosition->description: "position of the master axis"
+epu61/gap/lower/masterPosition->event_period: 1000
+epu61/gap/lower/masterPosition->format: %8.3f
+epu61/gap/lower/masterPosition->label: "Master Position"
+epu61/gap/lower/slavePosition->abs_change: 5,\ 
+                                           5.01
+epu61/gap/lower/slavePosition->description: "position of the slave axis"
+epu61/gap/lower/slavePosition->event_period: 1000
+epu61/gap/lower/slavePosition->format: %8.3f
+epu61/gap/lower/slavePosition->label: "Slave Position"
+epu61/gap/lower/isGeared->abs_change: 1,\ 
+                                      1.01
+epu61/gap/lower/isGeared->event_period: 1000
+
+# --- epu61/gap/upper properties
+
+epu61/gap/upper->MasterAxis: A
+epu61/gap/upper->polled_attr: isgeared,\ 
+                              500,\ 
+                              masterposition,\ 
+                              500,\ 
+                              slaveposition,\ 
+                              500
+epu61/gap/upper->Ratio: 1
+epu61/gap/upper->SlaveAxis: B
+
+# --- epu61/gap/upper attribute properties
+
+epu61/gap/upper/masterPosition->abs_change: 5,\ 
+                                            5.01
+epu61/gap/upper/masterPosition->description: "position of the master axis"
+epu61/gap/upper/masterPosition->event_period: 1000
+epu61/gap/upper/masterPosition->format: %8.3f
+epu61/gap/upper/masterPosition->label: "Master Position"
+epu61/gap/upper/slavePosition->abs_change: 5,\ 
+                                           5.01
+epu61/gap/upper/slavePosition->description: "position of the slave axis"
+epu61/gap/upper/slavePosition->event_period: 1000
+epu61/gap/upper/slavePosition->format: %8.3f
+epu61/gap/upper/slavePosition->label: "Slave Position"
+epu61/gap/upper/isGeared->abs_change: 1,\ 
+                                      1.01
+epu61/gap/upper/isGeared->event_period: 1000
+
+#---------------------------------------------------------
+# CLASS GalilGearedAxes properties
+#---------------------------------------------------------
+
+CLASS/GalilGearedAxes->cvs_location: "/usr/local/CVS/DeviceServer/Generic/Motorisation/ControlBoxV2/src/"
+CLASS/GalilGearedAxes->cvs_tag: release_2_5_4
+CLASS/GalilGearedAxes->Description: "handles 2 motors in geared mode",\ 
+                                    "slave motor follows the master with a  ratio fixed by property Ratio"
+CLASS/GalilGearedAxes->doc_url: "http://www.esrf.fr/computing/cs/tango/tango_doc/ds_doc/"
+CLASS/GalilGearedAxes->InheritedFrom: Device_4Impl
+CLASS/GalilGearedAxes->ProjectTitle: GalilGearedAxes
+
+
+# --- dserver/ControlBox/gap properties
+
+dserver/ControlBox/gap->polling_threads_pool_conf: "epu61/gap/lower",\ 
+                                                   "epu61/gap/upper",\ 
+                                                   "epu61/gap/z1",\ 
+                                                   "epu61/gap/z3",\ 
+                                                   "epu61/gap/z2",\ 
+                                                   "epu61/gap/z4"

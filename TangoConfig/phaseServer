@@ -1,0 +1,233 @@
+#
+# Resource backup , created Fri Feb 01 23:41:05 CET 2013
+#
+
+#---------------------------------------------------------
+# SERVER ControlBox/phase, ControlBox device declaration
+#---------------------------------------------------------
+
+ControlBox/phase/DEVICE/ControlBox: "epu61/cb/phase"
+
+
+# --- epu61/cb/phase properties
+
+epu61/cb/phase->DataRecordPollingPeriod: 400
+epu61/cb/phase->IPAddress: 11.11.11.12
+epu61/cb/phase->Port: 5000
+epu61/cb/phase->TCPTimeOut: 1000
+
+#---------------------------------------------------------
+# CLASS ControlBox properties
+#---------------------------------------------------------
+
+CLASS/ControlBox->cvs_location: "/usr/local/CVS/DeviceServer/Generic/Motorisation/ControlBoxV2/src/"
+CLASS/ControlBox->cvs_tag: release_2_5_4
+CLASS/ControlBox->Description: "controle au bas niveau la communication avec la carte d'axes Galil DMC2182",\ 
+                               "le controle d'axe proprement dit est r???alis??? par la classe GalilAxis"
+CLASS/ControlBox->doc_url: "http://www.esrf.fr/computing/cs/tango/tango_doc/ds_doc/"
+CLASS/ControlBox->ProjectTitle: GalilV2
+
+#---------------------------------------------------------
+# SERVER ControlBox/phase, GalilAxis device declaration
+#---------------------------------------------------------
+
+ControlBox/phase/DEVICE/GalilAxis: "epu61/phase/x1",\ 
+                                   "epu61/phase/x2",\ 
+                                   "epu61/phase/x3",\ 
+                                   "epu61/phase/x4"
+
+
+# --- epu61/phase/x1 properties
+
+epu61/phase/x1->AllowRemoteCbox: false
+epu61/phase/x1->AxisEncoderType: 2
+epu61/phase/x1->AxisInitPosition: 0
+epu61/phase/x1->AxisInitType: DP
+epu61/phase/x1->AxisInitVelocity: 0
+epu61/phase/x1->AxisNumber: A
+epu61/phase/x1->AxisPositionRatio: 0.005
+epu61/phase/x1->EnableMaintenanceMode: false
+epu61/phase/x1->polled_attr: backwardlimitswitch,\ 
+                             1000,\ 
+                             forwardlimitswitch,\ 
+                             1000,\ 
+                             position,\ 
+                             1000
+
+# --- epu61/phase/x1 attribute properties
+
+epu61/phase/x1/acceleration->__value: 250
+epu61/phase/x1/backwardLimitSwitch->abs_change: 1,\ 
+                                                1.01
+epu61/phase/x1/backwardLimitSwitch->description: "Backward limit switch state"
+epu61/phase/x1/backwardLimitSwitch->event_period: 1000
+epu61/phase/x1/backwardLimitSwitch->label: "Backward Limit Switch"
+epu61/phase/x1/deceleration->__value: 250
+epu61/phase/x1/forwardLimitSwitch->abs_change: 1,\ 
+                                               1.01
+epu61/phase/x1/forwardLimitSwitch->description: "Forward limit switch state"
+epu61/phase/x1/forwardLimitSwitch->event_period: 1000
+epu61/phase/x1/forwardLimitSwitch->label: "Forward Limit Switch"
+epu61/phase/x1/offset->__value: -39080.55
+epu61/phase/x1/position->abs_change: 5,\ 
+                                     5.01
+epu61/phase/x1/position->description: "read : position of Axis in UserUnit (UU)",\ 
+                                      "write : setpoint, absolute position to reach"
+epu61/phase/x1/position->display_unit: UU
+epu61/phase/x1/position->event_period: 1000
+epu61/phase/x1/position->format: %8.2f
+epu61/phase/x1/position->label: "Current position "
+epu61/phase/x1/position->standard_unit: UU
+epu61/phase/x1/position->unit: UU
+epu61/phase/x1/velocity->__value: 2000
+
+# --- epu61/phase/x2 properties
+
+epu61/phase/x2->AllowRemoteCbox: false
+epu61/phase/x2->AxisEncoderType: 2
+epu61/phase/x2->AxisInitPosition: 0
+epu61/phase/x2->AxisInitType: DP
+epu61/phase/x2->AxisInitVelocity: 0
+epu61/phase/x2->AxisNumber: B
+epu61/phase/x2->AxisPositionRatio: 0.005
+epu61/phase/x2->EnableMaintenanceMode: false
+epu61/phase/x2->polled_attr: backwardlimitswitch,\ 
+                             1000,\ 
+                             forwardlimitswitch,\ 
+                             1000,\ 
+                             position,\ 
+                             1000
+
+# --- epu61/phase/x2 attribute properties
+
+epu61/phase/x2/acceleration->__value: 250
+epu61/phase/x2/backwardLimitSwitch->abs_change: 1,\ 
+                                                1.01
+epu61/phase/x2/backwardLimitSwitch->description: "Backward limit switch state"
+epu61/phase/x2/backwardLimitSwitch->event_period: 1000
+epu61/phase/x2/backwardLimitSwitch->label: "Backward Limit Switch"
+epu61/phase/x2/deceleration->__value: 250
+epu61/phase/x2/forwardLimitSwitch->abs_change: 1,\ 
+                                               1.01
+epu61/phase/x2/forwardLimitSwitch->description: "Forward limit switch state"
+epu61/phase/x2/forwardLimitSwitch->event_period: 1000
+epu61/phase/x2/forwardLimitSwitch->label: "Forward Limit Switch"
+epu61/phase/x2/offset->__value: -40199.565
+epu61/phase/x2/position->abs_change: 5,\ 
+                                     5.01
+epu61/phase/x2/position->description: "read : position of Axis in UserUnit (UU)",\ 
+                                      "write : setpoint, absolute position to reach"
+epu61/phase/x2/position->display_unit: UU
+epu61/phase/x2/position->event_period: 1000
+epu61/phase/x2/position->format: %8.2f
+epu61/phase/x2/position->label: "Current position "
+epu61/phase/x2/position->standard_unit: UU
+epu61/phase/x2/position->unit: UU
+epu61/phase/x2/velocity->__value: 2000
+
+# --- epu61/phase/x3 properties
+
+epu61/phase/x3->AllowRemoteCbox: false
+epu61/phase/x3->AxisEncoderType: 2
+epu61/phase/x3->AxisInitPosition: 0
+epu61/phase/x3->AxisInitType: DP
+epu61/phase/x3->AxisInitVelocity: 0
+epu61/phase/x3->AxisNumber: C
+epu61/phase/x3->AxisPositionRatio: 0.005
+epu61/phase/x3->EnableMaintenanceMode: false
+epu61/phase/x3->polled_attr: backwardlimitswitch,\ 
+                             500,\ 
+                             forwardlimitswitch,\ 
+                             500,\ 
+                             position,\ 
+                             500
+
+# --- epu61/phase/x3 attribute properties
+
+epu61/phase/x3/acceleration->__value: 250
+epu61/phase/x3/backwardLimitSwitch->abs_change: 1,\ 
+                                                1.01
+epu61/phase/x3/backwardLimitSwitch->description: "Backward limit switch state"
+epu61/phase/x3/backwardLimitSwitch->event_period: 1000
+epu61/phase/x3/backwardLimitSwitch->label: "Backward Limit Switch"
+epu61/phase/x3/deceleration->__value: 250
+epu61/phase/x3/forwardLimitSwitch->abs_change: 1,\ 
+                                               1.01
+epu61/phase/x3/forwardLimitSwitch->description: "Forward limit switch state"
+epu61/phase/x3/forwardLimitSwitch->event_period: 1000
+epu61/phase/x3/forwardLimitSwitch->label: "Forward Limit Switch"
+epu61/phase/x3/offset->__value: -40381.55
+epu61/phase/x3/position->abs_change: 5,\ 
+                                     5.01
+epu61/phase/x3/position->description: "read : position of Axis in UserUnit (UU)",\ 
+                                      "write : setpoint, absolute position to reach"
+epu61/phase/x3/position->display_unit: UU
+epu61/phase/x3/position->event_period: 1000
+epu61/phase/x3/position->format: %8.2f
+epu61/phase/x3/position->label: "Current position "
+epu61/phase/x3/position->standard_unit: UU
+epu61/phase/x3/position->unit: UU
+epu61/phase/x3/velocity->__value: 2000
+
+# --- epu61/phase/x4 properties
+
+epu61/phase/x4->AllowRemoteCbox: false
+epu61/phase/x4->AxisEncoderType: 2
+epu61/phase/x4->AxisInitPosition: 0
+epu61/phase/x4->AxisInitType: DP
+epu61/phase/x4->AxisInitVelocity: 0
+epu61/phase/x4->AxisNumber: D
+epu61/phase/x4->AxisPositionRatio: 0.005
+epu61/phase/x4->EnableMaintenanceMode: false
+epu61/phase/x4->polled_attr: backwardlimitswitch,\ 
+                             1000,\ 
+                             forwardlimitswitch,\ 
+                             1000,\ 
+                             position,\ 
+                             1000
+
+# --- epu61/phase/x4 attribute properties
+
+epu61/phase/x4/acceleration->__value: 250
+epu61/phase/x4/backwardLimitSwitch->abs_change: 1,\ 
+                                                1.01
+epu61/phase/x4/backwardLimitSwitch->description: "Backward limit switch state"
+epu61/phase/x4/backwardLimitSwitch->event_period: 1000
+epu61/phase/x4/backwardLimitSwitch->label: "Backward Limit Switch"
+epu61/phase/x4/deceleration->__value: 250
+epu61/phase/x4/forwardLimitSwitch->abs_change: 1,\ 
+                                               1.01
+epu61/phase/x4/forwardLimitSwitch->description: "Forward limit switch state"
+epu61/phase/x4/forwardLimitSwitch->event_period: 1000
+epu61/phase/x4/forwardLimitSwitch->label: "Forward Limit Switch"
+epu61/phase/x4/offset->__value: -38817.395
+epu61/phase/x4/position->abs_change: 5,\ 
+                                     5.01
+epu61/phase/x4/position->description: "read : position of Axis in UserUnit (UU)",\ 
+                                      "write : setpoint, absolute position to reach"
+epu61/phase/x4/position->display_unit: UU
+epu61/phase/x4/position->event_period: 1000
+epu61/phase/x4/position->format: %8.2f
+epu61/phase/x4/position->label: "Current position "
+epu61/phase/x4/position->standard_unit: UU
+epu61/phase/x4/position->unit: UU
+epu61/phase/x4/velocity->__value: 2000
+
+#---------------------------------------------------------
+# CLASS GalilAxis properties
+#---------------------------------------------------------
+
+CLASS/GalilAxis->cvs_location: "/usr/local/CVS/DeviceServer/Generic/Motorisation/ControlBoxV2/src/"
+CLASS/GalilAxis->cvs_tag: release_2_5_4
+CLASS/GalilAxis->Description: "  "
+CLASS/GalilAxis->doc_url: "http://www.esrf.fr/computing/cs/tango/tango_doc/ds_doc/"
+CLASS/GalilAxis->InheritedFrom: Device_4Impl
+CLASS/GalilAxis->ProjectTitle: Axis
+
+
+# --- dserver/ControlBox/phase properties
+
+dserver/ControlBox/phase->polling_threads_pool_conf: "epu61/phase/x1",\ 
+                                                     "epu61/phase/x2",\ 
+                                                     "epu61/phase/x3",\ 
+                                                     "epu61/phase/x4"
